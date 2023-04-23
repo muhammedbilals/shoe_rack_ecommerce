@@ -81,11 +81,29 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              ProductCardWidget(),
+              ProductCardWidget(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              ProductCardWidget(),
+              ProductCardWidget(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              ProductCardWidget(),
+              ProductCardWidget(),
+            ],
+          ),
         ]),
       ),
     );
   }
 }
-
-
