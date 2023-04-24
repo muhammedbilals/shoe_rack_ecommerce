@@ -39,6 +39,7 @@ class CartPage extends StatelessWidget {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
+                      
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
