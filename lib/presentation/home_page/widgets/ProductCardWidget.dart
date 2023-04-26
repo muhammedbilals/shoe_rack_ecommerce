@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 
 class ProductCardWidget extends StatelessWidget {
@@ -68,10 +69,13 @@ class ProductCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8.0, top: 5),
                 child: Row(
                   children: [
-                    const Text('4.5'),
+                    const Text(
+                      '4.5',
+                      style: TextStyle(fontSize: 17),
+                    ),
                     const Icon(
-                      Icons.star_border,
-                      size: 17,
+                      CustomIcon.stariconfluttter,
+                      size: 14,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -80,6 +84,11 @@ class ProductCardWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Container(
+                        width: size.width * 0.2,
+                        height: size.width * 0.05,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: colorgray),
                         child: const Padding(
                           padding: EdgeInsets.all(2.0),
                           child: Text(
@@ -87,11 +96,6 @@ class ProductCardWidget extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        width: size.width * 0.2,
-                        height: size.width * 0.05,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: colorgray),
                       ),
                     )
                   ],

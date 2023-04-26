@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
 class AppBarWidget extends StatelessWidget {
   final String title;
-  const AppBarWidget({super.key,required this.title});
+  const AppBarWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +13,14 @@ class AppBarWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
+            icon: const Icon(
+              CustomIcon.lefticonfluttter,
+              size: 30,
+            ),
             onPressed: () {},
           ),
           const Spacer(),
-           Center(
+          Center(
             child: Text(
               title,
               style: const TextStyle(fontSize: 20),
@@ -24,7 +28,10 @@ class AppBarWidget extends StatelessWidget {
           ),
           const Spacer(),
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(
+              CustomIcon.search_2iconfluttter,
+              size: 20,
+            ),
             onPressed: () {},
           ),
         ],

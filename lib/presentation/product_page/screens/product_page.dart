@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({super.key});
@@ -62,8 +63,8 @@ class ProductPage extends StatelessWidget {
                         style: TextStyle(fontSize: 20),
                       ),
                       const Icon(
-                        Icons.star_border,
-                        size: 22,
+                        CustomIcon.stariconfluttter,
+                        size: 17,
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -133,7 +134,7 @@ class ProductPage extends StatelessWidget {
                             ))),
                         onPressed: () {},
                         child: Icon(
-                          Icons.favorite_border_outlined,
+                          CustomIcon.hearticonfluttter,
                           size: 25,
                           color: colorblack,
                         ),
@@ -155,7 +156,7 @@ class ProductPage extends StatelessWidget {
                             ))),
                         onPressed: () {},
                         icon: Icon(
-                          Icons.badge,
+                          CustomIcon.bagiconfluttter,
                           size: 25,
                           color: colorwhite,
                         ),

@@ -54,13 +54,20 @@ class HomePage extends StatelessWidget {
                   children: const [
                     Padding(
                       padding: EdgeInsets.all(9.0),
-                      child: Icon(Icons.search),
+                      child: Icon(
+                        CustomIcon.search_2iconfluttter,
+                        size: 20,
+                      ),
                     ),
                     SizedBox(
+                      height: 40,
                       width: 300,
-                      child: TextField(
-                        decoration:
-                            InputDecoration.collapsed(hintText: 'Search'),
+                      child: Center(
+                        child: TextField(
+                          decoration: InputDecoration.collapsed(
+                              hintText: 'Search',
+                              hintStyle: TextStyle(fontSize: 18)),
+                        ),
                       ),
                     )
                   ],

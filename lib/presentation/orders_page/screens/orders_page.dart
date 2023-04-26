@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/orders_page/widgets/cartdetailsActive.dart';
 import 'package:shoe_rack_ecommerce/presentation/orders_page/widgets/cartdetailsCompleted.dart';
@@ -23,7 +24,10 @@ class OrdersPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back_ios),
+                        icon: const Icon(
+                          CustomIcon.lefticonfluttter,
+                          size: 30,
+                        ),
                         onPressed: () {},
                       ),
                       const Spacer(),
@@ -35,7 +39,10 @@ class OrdersPage extends StatelessWidget {
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: const Icon(Icons.search),
+                        icon: const Icon(
+                          CustomIcon.search_2iconfluttter,
+                          size: 20,
+                        ),
                         onPressed: () {},
                       ),
                     ],

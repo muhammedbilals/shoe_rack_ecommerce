@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget.dart';
 
 import '../../common_widget/AppBarWidget.dart';
@@ -67,7 +68,7 @@ class CartPage extends StatelessWidget {
                               ))),
                           onPressed: () {},
                           icon: Icon(
-                            Icons.check_box_outlined,
+                            CustomIcon.ticksquareiconfluttter,
                             size: 25,
                             color: colorwhite,
                           ),

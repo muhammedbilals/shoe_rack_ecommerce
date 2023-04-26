@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
 ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
 
 class BottomNavigationBarWidget extends StatelessWidget {
   BottomNavigationBarWidget({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,15 @@ class BottomNavigationBarWidget extends StatelessWidget {
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.black.withOpacity(0.3),
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_basket_outlined), label: "Cart"),
+                  icon: Icon(CustomIcon.home2iconfluttter), label: 'Home'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.emoji_emotions), label: "Orders"),
+                  icon: Icon(CustomIcon.bagiconfluttter), label: "Cart"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.search), label: "Profile"),
+                  icon: Icon(CustomIcon.buy_2iconfluttter), label: "Orders"),
+              BottomNavigationBarItem(
+                  icon: Icon(CustomIcon.profile_1iconfluttter),
+                  label: "Profile"),
             ]);
       },
     );

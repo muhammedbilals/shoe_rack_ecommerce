@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
 class OrderDetailsCompleted extends StatelessWidget {
   const OrderDetailsCompleted({
@@ -49,7 +50,7 @@ class OrderDetailsCompleted extends StatelessWidget {
                             ),
                           ),
                           Flex(direction: Axis.horizontal),
-                          const Icon(Icons.delete_outline)
+                          const Icon(CustomIcon.delete_4iconfluttter)
                         ],
                       ),
                     ),
