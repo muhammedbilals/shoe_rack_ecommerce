@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: IconButton(
-                  icon: Icon(Icons.favorite_border_outlined),
+                  icon: Icon(CustomIcon.hearticonfluttter),
                   onPressed: () {},
                 ),
               )

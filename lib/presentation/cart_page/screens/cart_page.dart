@@ -27,6 +27,7 @@ class CartPage extends StatelessWidget {
             ],
           ),
           Positioned(
+            left: 0,
             bottom: 0,
             child: Container(
               color: colorwhite,

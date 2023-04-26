@@ -53,6 +53,8 @@ class OrdersPage extends StatelessWidget {
             ),
           ),
           body: const TabBarView(
+              // physics: NeverScrollableScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               children: [OrderDetailsActive(), OrderDetailsCompleted()]),
         ),
       ),
