@@ -26,18 +26,21 @@ class ProductCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                child: const Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Icon(Icons.favorite_border_outlined),
-                    )),
-                width: size.width * 0.45,
-                height: size.width * 0.45,
-                decoration: BoxDecoration(
+                  width: size.width * 0.45,
+                  height: size.width * 0.45,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.amber),
-              ),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset('asset/images/nikeimg.png'))
+                  // const Align(
+                  //     alignment: Alignment.topRight,
+                  //     child: Padding(
+                  //       padding: EdgeInsets.all(10.0),
+                  //       child: Icon(Icons.favorite_border_outlined),
+                  //     )),
+                  ),
               const Padding(
                 padding: EdgeInsets.only(
                   left: 8.0,

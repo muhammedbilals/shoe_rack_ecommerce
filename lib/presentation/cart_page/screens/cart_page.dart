@@ -121,19 +121,25 @@ class CartDetailsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 12.0, top: 10, bottom: 8),
-                      child: Text(
-                        'Puma',
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.start,
+                SizedBox(
+                  width: size.width * 0.6,
+                  child: Row(
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.only(left: 12.0, top: 10, bottom: 8),
+                        child: Text(
+                          'Puma',
+                          style: TextStyle(fontSize: 20),
+                          textAlign: TextAlign.start,
+                        ),
                       ),
-                    ),
-                    const Icon(Icons.delete_outline)
-                  ],
+                      Flex(direction: Axis.horizontal),
+                      const Icon(Icons.delete_outline)
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0, bottom: 8, top: 5),

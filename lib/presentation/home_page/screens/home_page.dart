@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
 
@@ -42,6 +43,9 @@ class HomePage extends StatelessWidget {
                     // border: Border(
                     //   bottom: BorderSide(width: 3, color: colorgreen),
                     // ),
+                    // boxShadow: [
+                    //   BoxShadow(blurRadius: 25),
+                    // ],
                     color: colorgray,
                     borderRadius: BorderRadius.circular(20)),
                 child: Row(
@@ -69,7 +73,7 @@ class HomePage extends StatelessWidget {
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(20)),
                 child: Image.asset(
-                  'asset/images/Group 21.png',
+                  'asset/images/Group23pumalogo.png',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -77,21 +81,21 @@ class HomePage extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                BrandTileWidget(),
-                BrandTileWidget(),
-                BrandTileWidget(),
-                BrandTileWidget(),
+              children: [
+                BrandTileWidget(image: logoimg[0]),
+                BrandTileWidget(image: logoimg[1]),
+                BrandTileWidget(image: logoimg[2]),
+                BrandTileWidget(image: logoimg[3]),
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                BrandTileWidget(),
-                BrandTileWidget(),
-                BrandTileWidget(),
-                BrandTileWidget(),
+              children: [
+                BrandTileWidget(image: logoimg[4]),
+                BrandTileWidget(image: logoimg[5]),
+                BrandTileWidget(image: logoimg[6]),
+                BrandTileWidget(image: logoimg[7]),
               ],
             ),
             Padding(
@@ -151,7 +155,9 @@ class HomePage extends StatelessWidget {
 }
 
 class BrandTileWidget extends StatelessWidget {
+  final String image;
   const BrandTileWidget({
+    required this.image,
     super.key,
   });
 
@@ -162,6 +168,12 @@ class BrandTileWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.cover,
+                )),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: colorgray,
