@@ -20,9 +20,10 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0, top: 5),
                 child: SizedBox(
-                    width: 150,
-                    height: 50,
-                    child: Image.asset('asset/images/shoeracklogovert.png')),
+                  width: 170,
+                  height: 50,
+                  child: Image.asset('asset/images/shoeracklogovert.png'),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -168,12 +169,6 @@ class BrandTileWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
-                )),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: colorgray,
@@ -181,8 +176,15 @@ class BrandTileWidget extends StatelessWidget {
             ),
             height: 70,
             width: 70,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          Text(
+          const Text(
             'Puma',
             style: TextStyle(fontSize: 18),
           )
