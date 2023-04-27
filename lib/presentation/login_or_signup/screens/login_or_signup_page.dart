@@ -5,7 +5,8 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/widgets/mainbutton.dart';
-import 'package:shoe_rack_ecommerce/presentation/sign_in_page/screens/sign_in_screen.dart';
+import 'package:shoe_rack_ecommerce/presentation/login_page/screens/login_screen.dart';
+import 'package:shoe_rack_ecommerce/presentation/sign_in_page/screens/sign_up_screen.dart';
 
 class LoginOrSignUp extends StatelessWidget {
   const LoginOrSignUp({super.key});
@@ -72,6 +73,7 @@ class LoginOrSignUp extends StatelessWidget {
             iconurl:
                 'https://icons.veryicon.com/png/o/internet--web/three-body-project-icon/password-22.png',
             color: colorgreen,
+            widget: LoginPage(),
           ),
           sbox,
           sbox,
@@ -91,7 +93,7 @@ class LoginOrSignUp extends StatelessWidget {
                       ));
                 },
                 child: const Text(
-                  "Sign In",
+                  "Sign Up",
                 ),
               ),
             ],
@@ -113,4 +115,3 @@ class LoginOrSignUp extends StatelessWidget {
     ));
   }
 }
-

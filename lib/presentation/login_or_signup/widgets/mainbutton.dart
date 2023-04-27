@@ -7,18 +7,27 @@ class MainButton extends StatelessWidget {
   final Color color;
   final bool networkOrAsset = true;
   final Color? fontcolor;
+  final Widget? widget;
 
   const MainButton(
       {super.key,
       required this.text,
       this.fontcolor,
       required this.iconurl,
+      this.widget,
       required this.color});
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return InkWell(
+      onTap: widget!=null? () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => widget!,
+            ));
+      }:null,
       hoverColor: colorgray,
       child: Container(
         width: size.width * 0.9,
