@@ -31,6 +31,9 @@ class CustomIcon {
   static const IconData bagiconfluttter = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData card_1iconfluttter = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData buy_2iconfluttter = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sms_2icon = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData password_2icon = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData callicon = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData delete_3iconfluttter = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData delete_4iconfluttter = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData discount_shape_1iconfluttter = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -53,6 +56,7 @@ class CustomIcon {
   static const IconData refresh_2iconfluttter = IconData(0xe828, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData search_2iconfluttter = IconData(0xe82a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData showiconfluttter = IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData edit_1icon = IconData(0xe831, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData addiconfluttter = IconData(0xe832, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData walleticonfluttter = IconData(0xe833, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData websiteiconfluttter = IconData(0xe834, fontFamily: _kFontFam, fontPackage: _kFontPkg);
