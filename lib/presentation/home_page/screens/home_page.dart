@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
 
 class HomePage extends StatelessWidget {
@@ -27,10 +28,16 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: IconButton(
-                  icon: Icon(CustomIcon.hearticonfluttter),
-                  onPressed: () {},
+                  icon: const Icon(CustomIcon.hearticonfluttter),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WishListScreen(),
+                        ));
+                  },
                 ),
               )
             ],
@@ -66,7 +73,7 @@ class HomePage extends StatelessWidget {
                         child: TextField(
                           decoration: InputDecoration.collapsed(
                               hintText: 'Search',
-                              hintStyle: TextStyle(fontSize: 18)),
+                              hintStyle: TextStyle(fontSize: 19)),
                         ),
                       ),
                     )

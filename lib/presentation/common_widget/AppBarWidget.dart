@@ -17,7 +17,9 @@ class AppBarWidget extends StatelessWidget {
               CustomIcon.lefticonfluttter,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           const Spacer(),
           Center(

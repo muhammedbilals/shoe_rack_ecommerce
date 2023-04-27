@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
 class ProductPage extends StatelessWidget {

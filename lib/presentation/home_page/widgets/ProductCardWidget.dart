@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoe_rack_ecommerce/core/colors.dart';
+import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 
