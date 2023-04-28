@@ -16,7 +16,7 @@ class OrderDetailsCompleted extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Container(
             width: size.width * 0.95,
-            height: size.width * 0.35,
+            height: size.width * 0.4,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20), color: colorgray),
             child: Row(
@@ -35,80 +35,106 @@ class OrderDetailsCompleted extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: size.width * 0.6,
+                      width: size.width * 0.64,
                       child: Row(
                         // crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Padding(
                             padding:
-                                EdgeInsets.only(left: 12.0, top: 10, bottom: 8),
+                                EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
                             child: Text(
                               'Puma',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
                               textAlign: TextAlign.start,
                             ),
                           ),
                           Flex(direction: Axis.horizontal),
-                          const Icon(CustomIcon.delete_4iconfluttter)
+                          IconButton(
+                            icon: const Icon(CustomIcon.delete_4iconfluttter),
+                            onPressed: () {},
+                          ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 12.0, bottom: 8, top: 5),
-                      child: Text(
-                        'Men Black Solid Adivat Running Shoes',
-                        style: TextStyle(
-                            // overflow: TextOverflow.clip,
-                            fontSize: 15,
-                            color: colorblack.withOpacity(0.5)),
-                        textAlign: TextAlign.start,
+                    SizedBox(
+                      width: size.width * 0.6,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 12.0, bottom: 0, top: 0),
+                        child: Text(
+                          'Men Black Solid Adivat Running Shoes',
+                          style: TextStyle(
+                              // overflow: TextOverflow.clip,
+                              fontSize: 15,
+                              color: colorblack.withOpacity(0.5)),
+                          textAlign: TextAlign.start,
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 12.0, top: 4),
+                      padding: const EdgeInsets.only(left: 12.0, top: 5),
                       child: Row(
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             'White',
                             style: TextStyle(fontSize: 15),
                           ),
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(left: 8.0),
                             child: Text(
                               '|',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 18),
                             ),
                           ),
-                          const Center(
+                          Center(
                             child: Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.only(left: 8.0),
                               child: Text(
                                 'Size : 42',
                                 textAlign: TextAlign.center,
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 25.0),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: colorgreen),
-                                width: size.width * 0.25,
-                                height: size.width * 0.09,
-                                child: const Center(child: Text('Completed'))),
-                          )
                         ],
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Padding(
+                            padding:
+                                EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
+                            child: Text(
+                              '₹7,500',
+                              style: TextStyle(fontSize: 25),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: size.width * 0.16),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: colorgreen),
+                              width: size.width * 0.25,
+                              height: size.width * 0.09,
+                              child: const Center(child: Text('Successfull')),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ],
             ),
           ),
-        ),
+        )
       ],
     );
   }

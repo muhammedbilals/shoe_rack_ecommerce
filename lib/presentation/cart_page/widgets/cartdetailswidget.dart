@@ -16,7 +16,7 @@ class CartDetailsWidget extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       child: Container(
         width: size.width * 0.9,
-        height: size.width * 0.39,
+        height: size.width * 0.4,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20), color: colorgray),
         child: Row(
@@ -40,7 +40,7 @@ class CartDetailsWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
                         child: Text(
                           'Puma',
@@ -52,7 +52,7 @@ class CartDetailsWidget extends StatelessWidget {
                       ),
                       Flex(direction: Axis.horizontal),
                       IconButton(
-                        icon: Icon(CustomIcon.delete_4iconfluttter),
+                        icon: const Icon(CustomIcon.delete_4iconfluttter),
                         onPressed: () {},
                       ),
                     ],
@@ -74,21 +74,21 @@ class CartDetailsWidget extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
+                  padding: const EdgeInsets.only(left: 12.0, top: 5),
                   child: Row(
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         'White',
                         style: TextStyle(fontSize: 15),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
                           '|',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
-                      const Center(
+                      Center(
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: Text(
@@ -125,15 +125,19 @@ class CartDetailsWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               IconButton(
-                                icon: const Icon(CustomIcon.minusiconfluttter),
+                                icon: const Icon(
+                                  CustomIcon.minusiconfluttter,
+                                  size: 15,
+                                ),
                                 onPressed: () {},
                               ),
                               const Text('1'),
-                              Container(
-                                child: IconButton(
-                                  icon: const Icon(CustomIcon.addiconfluttter),
-                                  onPressed: () {},
+                              IconButton(
+                                icon: const Icon(
+                                  CustomIcon.addiconfluttter,
+                                  size: 15,
                                 ),
+                                onPressed: () {},
                               ),
                             ],
                           ),
