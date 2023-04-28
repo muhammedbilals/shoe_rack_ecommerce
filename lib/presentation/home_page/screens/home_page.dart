@@ -44,6 +44,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(children: [
             Padding(
               padding: const EdgeInsets.all(8.0),

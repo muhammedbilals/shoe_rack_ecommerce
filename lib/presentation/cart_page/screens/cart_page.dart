@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
+import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget.dart';
@@ -19,14 +20,22 @@ class CartPage extends StatelessWidget {
             preferredSize: Size.fromHeight(70),
             child: AppBarWidget(title: 'My Cart')),
         body: Stack(children: [
-          ListView(
-            children: [
-              CartDetailsWidget( ),
-              CartDetailsWidget( ),
-              CartDetailsWidget( ),
-              CartDetailsWidget( ),
-              CartDetailsWidget( ),
-            ],
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                CartDetailsWidget(),
+                sbox,
+                CartDetailsWidget(),
+                sbox,
+                sbox,
+                CartDetailsWidget(),
+                sbox,
+                CartDetailsWidget(),
+                sbox,
+                CartDetailsWidget(),
+              ],
+            ),
           ),
           Positioned(
             left: 0,
