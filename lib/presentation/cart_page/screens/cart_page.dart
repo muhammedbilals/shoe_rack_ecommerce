@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget.dart';
 
 import '../../common_widget/AppBarWidget.dart';
@@ -20,11 +21,11 @@ class CartPage extends StatelessWidget {
         body: Stack(children: [
           ListView(
             children: [
-              CartDetailsWidget(size: size),
-              CartDetailsWidget(size: size),
-              CartDetailsWidget(size: size),
-              CartDetailsWidget(size: size),
-              CartDetailsWidget(size: size),
+              CartDetailsWidget( ),
+              CartDetailsWidget( ),
+              CartDetailsWidget( ),
+              CartDetailsWidget( ),
+              CartDetailsWidget( ),
             ],
           ),
           Positioned(
@@ -66,7 +67,13 @@ class CartPage extends StatelessWidget {
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ))),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CheckoutScreen(),
+                                ));
+                          },
                           icon: Icon(
                             CustomIcon.ticksquareiconfluttter,
                             size: 25,
