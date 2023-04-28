@@ -35,9 +35,13 @@ class CheckoutScreen extends StatelessWidget {
                 ),
               ),
               sbox,
+              sbox,
+
               // ShippingAddressWidget--------------------
               const ShippingAddressWidget(),
               sbox,
+              sbox,
+
               const Padding(
                 padding: EdgeInsets.only(left: 22.0),
                 child: Text(
@@ -45,6 +49,7 @@ class CheckoutScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
+              sbox,
               sbox,
               // products in the cart----------
               const CartDetailsWidget(),

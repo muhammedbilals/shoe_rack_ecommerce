@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/shipping_address_page.dart';
 
 class ShippingAddressWidget extends StatelessWidget {
   const ShippingAddressWidget({
@@ -51,7 +52,13 @@ class ShippingAddressWidget extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12.0),
               child: IconButton(
                 icon: const Icon(CustomIcon.edit_squareiconfluttter),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShippingAdressPage(),
+                      ));
+                },
               ),
             )
           ],

@@ -1,14 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/payments_screen.dart';
 
 class ContinueToPaymentButtonWidget extends StatelessWidget {
   const ContinueToPaymentButtonWidget({
     super.key,
-
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +18,17 @@ class ContinueToPaymentButtonWidget extends StatelessWidget {
         height: 60,
         child: ElevatedButton.icon(
           style: ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll<Color>(colorgreen),
-              shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+              backgroundColor: MaterialStatePropertyAll<Color>(colorgreen),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ))),
           onPressed: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => CheckoutScreen(),
-            //     ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PaymentsScreen(),
+                ));
           },
           icon: Icon(
             CustomIcon.walleticonfluttter,

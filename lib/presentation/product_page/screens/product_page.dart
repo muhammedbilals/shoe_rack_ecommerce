@@ -4,8 +4,12 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
-
+  ProductPage({super.key});
+  final img = [
+    'asset/images/Puma.png',
+    'asset/images/puma22.png',
+    'asset/images/puma33.png'
+  ];
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -17,20 +21,26 @@ class ProductPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CarouselSlider(
-                  options: CarouselOptions(
-                      height: MediaQuery.of(context).size.width),
-                  items: [1, 2, 3, 4, 5].map((i) {
+                  options:
+                      CarouselOptions(aspectRatio: 1 / 1, viewportFraction: 1),
+                  items: img.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration:
-                                const BoxDecoration(color: Colors.amber),
-                            child: Text(
-                              'text $i',
-                              style: const TextStyle(fontSize: 16.0),
-                            ));
+                        return CarouselSlider.builder(
+                          options: CarouselOptions(
+                              viewportFraction: 1, aspectRatio: 1 / 1),
+                          itemCount: img.length,
+                          itemBuilder: (context, index, realIndex) {
+                            return SizedBox(
+                              width: size.width,
+                              height: size.width,
+                              child: Image.asset(
+                                img[index],
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        );
                       },
                     );
                   }).toList(),
