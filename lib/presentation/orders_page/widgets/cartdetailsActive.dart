@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/orders_page/screens/track_order_page.dart';
 
 class OrderDetailsActive extends StatelessWidget {
   const OrderDetailsActive({
@@ -119,14 +120,24 @@ class OrderDetailsActive extends StatelessWidget {
                             onTap: () {},
                             child: Padding(
                               padding: EdgeInsets.only(left: size.width * 0.16),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: colorgreen),
-                                  width: size.width * 0.25,
-                                  height: size.width * 0.09,
-                                  child:
-                                      const Center(child: Text('Track Order'))),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            TrackOrderScreen(),
+                                      ));
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: colorgreen),
+                                    width: size.width * 0.25,
+                                    height: size.width * 0.09,
+                                    child: const Center(
+                                        child: Text('Track Order'))),
+                              ),
                             ),
                           )
                         ],
