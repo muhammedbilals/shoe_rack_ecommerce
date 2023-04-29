@@ -23,62 +23,62 @@ class ShippingAdressPage extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  sbox,
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        'Choose a Payment Method',
-                        style: TextStyle(fontSize: 20),
+            ListView(
+              physics: BouncingScrollPhysics(),
+              // mainAxisSize: MainAxisSize.max,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                sbox,
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 25.0),
+                    child: Text(
+                      'Choose a Payment Method',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+                sbox,
+                sbox,
+                const AdressRadioButtonWidget(),
+              ],
+            ),
+            Positioned(
+              bottom: 10,
+              left: 0,
+              right: 0,
+              child: Container(
+                child: Center(
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    height: 60,
+                    child: ElevatedButton.icon(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll<Color>(colorgreen),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ))),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        CustomIcon.ticksquareiconfluttter,
+                        size: 25,
+                        color: colorwhite,
+                      ),
+                      label: Text(
+                        'Confirm',
+                        style: TextStyle(fontSize: 22, color: colorwhite),
                       ),
                     ),
                   ),
-                  sbox,
-                  sbox,
-                  const AdressRadioButtonWidget(),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Center(
-                      child: SizedBox(
-                        width: size.width * 0.9,
-                        height: 60,
-                        child: ElevatedButton.icon(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll<Color>(colorgreen),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                              ))),
-                          onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => PaymentsScreen(),
-                            //     ));
-                          },
-                          icon: Icon(
-                            CustomIcon.ticksquareiconfluttter,
-                            size: 25,
-                            color: colorwhite,
-                          ),
-                          label: Text(
-                            'Confirm',
-                            style: TextStyle(fontSize: 22, color: colorwhite),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),

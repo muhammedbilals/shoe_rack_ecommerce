@@ -3,6 +3,7 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/amountwidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/continuetopaymentbuttonWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/shippingadresswidget.dart';
@@ -52,19 +53,19 @@ class CheckoutScreen extends StatelessWidget {
               sbox,
               sbox,
               // products in the cart----------
-              const CartDetailsWidget(),
+              const CartDetailsWidgetCheckoutPage(),
               sbox,
               sbox,
 
-              const CartDetailsWidget(),
+              const CartDetailsWidgetCheckoutPage(),
               sbox,
               sbox,
 
-              const CartDetailsWidget(),
+              const CartDetailsWidgetCheckoutPage(),
               sbox,
               sbox,
 
-              const CartDetailsWidget(),
+              const CartDetailsWidgetCheckoutPage(),
               sbox,
 
               const Padding(
