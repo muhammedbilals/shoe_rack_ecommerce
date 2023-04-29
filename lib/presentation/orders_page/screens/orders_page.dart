@@ -10,6 +10,8 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return DefaultTabController(
       length: 2,
       child: SafeArea(
@@ -38,24 +40,21 @@ class OrdersPage extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        icon: const Icon(
-                          CustomIcon.search_2iconfluttter,
-                          size: 20,
-                        ),
-                        onPressed: () {},
-                      ),
+                      SizedBox(
+                        width: size.width * 0.1,
+                      )
                     ],
                   ),
                 ),
                 const TabBar(
-                    indicatorColor: Colors.green,
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.grey,
-                    tabs: [
-                      Tab(height: 40, text: 'Active'),
-                      Tab(height: 40, text: 'Completed'),
-                    ]),
+                  indicatorColor: Colors.green,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  tabs: [
+                    Tab(height: 40, text: 'Active'),
+                    Tab(height: 40, text: 'Completed'),
+                  ],
+                ),
               ],
             ),
           ),

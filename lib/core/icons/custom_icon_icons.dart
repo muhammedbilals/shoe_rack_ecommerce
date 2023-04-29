@@ -38,11 +38,15 @@ class CustomIcon {
   static const IconData delete_4iconfluttter = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData discount_shape_1iconfluttter = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData document_align_left_5iconfluttter = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData buy_2flutter = IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData downloadiconfluttter = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData edit_squareiconfluttter = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData home_1flutter = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData filter_4iconfluttter = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData gift_1iconfluttter = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData profile_1flutter = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hideiconfluttter = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bag_1flutter = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData locationiconfluttter = IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData lock_2iconfluttter = IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData logouticonfluttter = IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
