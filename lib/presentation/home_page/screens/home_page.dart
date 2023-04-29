@@ -46,6 +46,7 @@ class HomePage extends StatelessWidget {
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(children: [
+            // searchBar----------------------
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

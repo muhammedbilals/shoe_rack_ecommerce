@@ -23,7 +23,7 @@ class CheckoutScreen extends StatelessWidget {
           child: AppBarWidget(title: 'Checkout'),
         ),
         body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -76,9 +76,9 @@ class CheckoutScreen extends StatelessWidget {
                 ),
               ),
               sbox,
-              AmountWidget(),
+              const AmountWidget(),
               sbox,
-              ContinueToPaymentButtonWidget(),
+              const ContinueToPaymentButtonWidget(),
               sbox
             ],
           ),

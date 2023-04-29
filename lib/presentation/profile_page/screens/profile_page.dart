@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -23,6 +25,15 @@ class ProfilePage extends StatelessWidget {
     'Privacy Policy',
     'Terms & Conditions',
     'Log Out',
+  ];
+  final List<Widget> widget = [
+    EditProfile(),
+    AddressScreen(),
+    EditProfile(),
+    EditProfile(),
+    EditProfile(),
+    EditProfile(),
+    EditProfile(),
   ];
 
   @override
@@ -82,6 +93,13 @@ class ProfilePage extends StatelessWidget {
                           color: colorblack,
                         )
                       : null,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => widget[index],
+                        ));
+                  },
                 );
               },
             )

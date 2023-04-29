@@ -80,12 +80,12 @@ class CartDetailsWidget extends StatelessWidget {
                                             style: TextStyle(fontSize: 22),
                                           ),
                                         ),
-                                        Divider(
+                                        const Divider(
                                           endIndent: 30,
                                           indent: 30,
                                         ),
                                         sbox,
-                                        CartDetailsWidgetBottomSheet(),
+                                        const CartDetailsWidgetBottomSheet(),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Row(

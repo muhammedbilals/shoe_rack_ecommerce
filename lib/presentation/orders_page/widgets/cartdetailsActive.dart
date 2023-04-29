@@ -37,27 +37,15 @@ class OrderDetailsActive extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: size.width * 0.64,
-                      child: Row(
-                        // crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Padding(
-                            padding:
-                                EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
-                            child: Text(
-                              'Puma',
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                              textAlign: TextAlign.start,
-                            ),
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
+                        child: Text(
+                          'Puma',
+                          style: TextStyle(
+                            fontSize: 15,
                           ),
-                          Flex(direction: Axis.horizontal),
-                          IconButton(
-                            icon: const Icon(CustomIcon.delete_4iconfluttter),
-                            onPressed: () {},
-                          ),
-                        ],
+                          textAlign: TextAlign.start,
+                        ),
                       ),
                     ),
                     SizedBox(

@@ -90,7 +90,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
                   children: [
                     sbox,
                     const Text(
-                      'Home',
+                      'Office',
                       style: TextStyle(fontSize: 19),
                     ),
                     Text(
@@ -136,7 +136,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
                   children: [
                     sbox,
                     const Text(
-                      'Home',
+                      'Apartment',
                       style: TextStyle(fontSize: 19),
                     ),
                     Text(
