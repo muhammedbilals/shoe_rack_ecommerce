@@ -9,7 +9,7 @@ class ProductPage extends StatelessWidget {
     'asset/images/Puma.png',
     'asset/images/puma22.png',
     'asset/images/puma33.png'
-  ];
+  ];  
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
