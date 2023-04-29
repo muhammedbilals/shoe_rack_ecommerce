@@ -5,6 +5,7 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/edit_screen_textfield.dart';
 
 class EditProfile extends StatelessWidget {
@@ -45,42 +46,14 @@ class EditProfile extends StatelessWidget {
               ],
             ),
             Positioned(
-              bottom: 10,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: SizedBox(
-                  width: size.width * 0.9,
-                  height: 60,
-                  child: ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(colorgreen),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        ))),
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => PaymentsScreen(),
-                      //     ));
-                    },
-                    icon: Icon(
-                      CustomIcon.walleticonfluttter,
-                      size: 25,
-                      color: colorwhite,
-                    ),
-                    label: Text(
-                      'Update',
-                      style: TextStyle(fontSize: 22, color: colorwhite),
-                    ),
-                  ),
-                ),
-              ),
-            )
+                bottom: 10,
+                left: 0,
+                right: 0,
+                child: CustomButton(
+                  text: 'Update',
+                  icon: CustomIcon.tickcircleiconfluttter,
+               
+                ))
           ],
         ),
       ),

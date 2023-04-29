@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/payments_screen.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/amountwidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_checkout_page.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/continuetopaymentbuttonWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/shippingadresswidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -78,7 +77,11 @@ class CheckoutScreen extends StatelessWidget {
               sbox,
               const AmountWidget(),
               sbox,
-              const ContinueToPaymentButtonWidget(),
+              const CustomButton(
+                text: 'Continue to Payment',
+                icon: CustomIcon.walleticonfluttter,
+                widget: PaymentsScreen(),
+              ),
               sbox
             ],
           ),

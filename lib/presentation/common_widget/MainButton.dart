@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 
 class CustomButton extends StatelessWidget {
@@ -8,10 +6,14 @@ class CustomButton extends StatelessWidget {
   final String text;
   final Color? color;
   final Color? buttonandtextcolor;
+  final num? width;
+  final Widget? widget;
 
   const CustomButton(
       {super.key,
       this.icon,
+      this.width,
+      this.widget,
       required this.text,
       this.color,
       this.buttonandtextcolor});
@@ -21,7 +23,7 @@ class CustomButton extends StatelessWidget {
 
     return Center(
       child: SizedBox(
-        width: size.width * 0.9,
+        width: width == null ? size.width * 0.9 : size.width * width!,
         height: 60,
         child: ElevatedButton.icon(
           style: ButtonStyle(
@@ -32,7 +34,13 @@ class CustomButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.0),
               ))),
           onPressed: () {
-            Navigator.pop(context);
+            widget != null
+                ? Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => widget!,
+                    ))
+                : Navigator.pop(context);
           },
           icon: Icon(
             icon,
@@ -41,7 +49,11 @@ class CustomButton extends StatelessWidget {
           ),
           label: Text(
             text,
-            style: TextStyle(fontSize: 22, color: buttonandtextcolor != null ? buttonandtextcolor : colorwhite),
+            style: TextStyle(
+                fontSize: 22,
+                color: buttonandtextcolor != null
+                    ? buttonandtextcolor
+                    : colorwhite),
           ),
         ),
       ),
