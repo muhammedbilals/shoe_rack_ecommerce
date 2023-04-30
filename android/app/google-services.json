@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "785396972421",
+    "project_id": "shoe-rack-78949",
+    "storage_bucket": "shoe-rack-78949.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785396972421:android:561c99257367b2bc10e2ec",
+        "android_client_info": {
+          "package_name": "com.ecom.shoe_rack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785396972421-52c6623d8mc3tkukljmr3gd6aq6k6kpf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecom.shoe_rack",
+            "certificate_hash": "350f7428ebeb870c3a1085f60fc1c2c919140e70"
+          }
+        },
+        {
+          "client_id": "785396972421-8uaoh5ledoohrq428v4sfqirsei7di1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB77dtOW2uqIWX0QAmZ_Yu2xHCtD1Fuks8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785396972421-8uaoh5ledoohrq428v4sfqirsei7di1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
