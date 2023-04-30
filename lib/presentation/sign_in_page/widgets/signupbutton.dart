@@ -7,17 +7,20 @@ class SignUpButton extends StatelessWidget {
       required this.size,
       required this.color,
       required this.text,
+      this.ontap,
       this.widget});
 
   final Size size;
   final Color color;
   final Widget? widget;
   final String text;
+  final Future? ontap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        ontap;
         Navigator.push(
             context,
             MaterialPageRoute(

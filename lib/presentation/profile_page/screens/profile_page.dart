@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/edit_profile.dart';
 
@@ -38,6 +40,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return SafeArea(
       child: Scaffold(
         appBar: const PreferredSize(
@@ -61,7 +64,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Text(
-              '+91 9497705305',
+              user!.email ?? 'Phone Number',
               style:
                   TextStyle(fontSize: 20, color: colorblack.withOpacity(0.5)),
             ),
@@ -75,32 +78,40 @@ class ProfilePage extends StatelessWidget {
               itemCount: icons.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: index != 6
-                      ? Icon(
-                          icons[index],
-                          color: colorblack,
-                        )
-                      : Icon(icons[index], color: Colors.red),
-                  title: index != 6
-                      ? Text(title[index])
-                      : Text(
-                          title[index],
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                  trailing: index != 6
-                      ? Icon(
-                          CustomIcon.righticonfluttter,
-                          color: colorblack,
-                        )
-                      : null,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => widget[index],
-                        ));
-                  },
-                );
+                    leading: index != 6
+                        ? Icon(
+                            icons[index],
+                            color: colorblack,
+                          )
+                        : Icon(icons[index], color: Colors.red),
+                    title: index != 6
+                        ? Text(title[index])
+                        : Text(
+                            title[index],
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                    trailing: index != 6
+                        ? Icon(
+                            CustomIcon.righticonfluttter,
+                            color: colorblack,
+                          )
+                        : null,
+                    onTap: index != 6
+                        ? () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => widget[index],
+                                ));
+                          }
+                        : () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginOrSignUp(),
+                                ));
+                          });
               },
             )
           ],

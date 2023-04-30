@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
@@ -13,6 +16,25 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    Future signIn() async {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: 
+        (context) => const Center(child: CircularProgressIndicator()),
+        
+      );
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
+      } on FirebaseAuthException catch (e) {
+        print(e);
+      }
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -30,22 +52,54 @@ class LoginPage extends StatelessWidget {
               ),
               sbox,
               sbox,
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
-              TextFieldSignUp(icon: CustomIcon.sms_2icon, title: 'Email'),
+              TextFieldSignUp(
+                  controller: emailController,
+                  icon: CustomIcon.sms_2icon,
+                  title: 'Email'),
               sbox,
               TextFieldSignUp(
+                  controller: passwordController,
                   icon: CustomIcon.password_2icon,
                   title: 'Password',
                   trailing: CustomIcon.hideiconfluttter),
               sbox,
               sbox,
-              SignUpButton(
-                size: size,
-                color: colorgreen,
-                text: 'Log In',
-                widget: MainPage(),
+              // SignUpButton(
+              //   // ontap: signIn(),
+              //   size: size,
+              //   color: colorgreen,
+              //   text: 'Log In',
+              //   widget: MainPage(),
+              // ),
+              InkWell(
+                onTap: () {
+                  signIn();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainPage(),
+                      ));
+                },
+                child: Container(
+                  width: size.width * 0.9,
+                  height: size.width * 0.13,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: colorgreen),
+                      borderRadius: BorderRadius.circular(20),
+                      color: colorgreen),
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'Log In',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
               ),
               sbox,
               Center(
@@ -82,7 +136,7 @@ class LoginPage extends StatelessWidget {
                     child: Image.network(
                         'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Container(
@@ -102,10 +156,11 @@ class LoginPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
+                      // print(emailController.text.trim());
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),
+                            builder: (context) => const SignUpScreen(),
                           ));
                     },
                     child: const Text(

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shoe_rack_ecommerce/presentation/main_pages/sudo_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
             GoogleFonts.quicksand(fontWeight: FontWeight.w600).fontFamily,
         primarySwatch: Colors.blue,
       ),
-      home: LoginOrSignUp(),
+      home: SudoPage(),
     );
   }
 }

@@ -6,13 +6,21 @@ class TextFieldSignUp extends StatelessWidget {
   final IconData icon;
   final String title;
   final IconData? trailing;
-   bool? isNumberPad = false;
+  bool? isNumberPad = false;
+  final TextEditingController? controller;
 
-   TextFieldSignUp(
-      {super.key, required this.icon, required this.title, this.trailing,this.isNumberPad});
+  TextFieldSignUp(
+      {super.key,
+      required this.icon,
+      this.controller,
+      required this.title,
+      this.trailing,
+      this.isNumberPad});
 
   @override
   Widget build(BuildContext context) {
+    // final myController = TextEditingController();
+    // print(myController.text);
     final Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -36,8 +44,8 @@ class TextFieldSignUp extends StatelessWidget {
             width: 280,
             child: Center(
               child: TextField(
-                
-                keyboardType:isNumberPad ==true? TextInputType.number:null,
+                controller: controller,
+                keyboardType: isNumberPad == true ? TextInputType.number : null,
                 cursorColor: colorgreen,
                 // cursorHeight: 20,
                 decoration: InputDecoration.collapsed(
