@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_bottomsheet.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
@@ -61,14 +60,15 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(80), color: colorgray),
               ),
             ),
-            const Center(
+             Center(
               child: Text(
-                'Muhammed Bilal S',
+                user!.displayName??
+                'Name',
                 style: TextStyle(fontSize: 25),
               ),
             ),
             Text(
-              user!.email ?? 'Phone Number',
+              user.email ?? 'Email',
               style:
                   TextStyle(fontSize: 20, color: colorblack.withOpacity(0.5)),
             ),

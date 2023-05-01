@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: utils.messengerKey,
       navigatorKey: navigatorKey,
       title: 'ShoeRack',
       debugShowCheckedModeBanner: false,

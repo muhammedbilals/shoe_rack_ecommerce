@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/main.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
@@ -54,6 +55,7 @@ class LoginPage extends StatelessWidget {
             password: passwordController.text.trim());
       } on FirebaseAuthException catch (e) {
         print(e);
+        utils.showSnackbar(e.message);
       }
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
 
@@ -203,7 +205,7 @@ class LoginPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
+                              builder: (context) => SignUpScreen(),
                             ));
                       },
                       child: const Text(
