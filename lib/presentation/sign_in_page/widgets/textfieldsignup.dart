@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
@@ -5,12 +6,18 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 class TextFieldSignUp extends StatelessWidget {
   final IconData icon;
   final String title;
+  final Key? formKey;
+  final  String? Function(String?)? validator;
+  final int? selection;
   final IconData? trailing;
   bool? isNumberPad = false;
   final TextEditingController? controller;
 
   TextFieldSignUp(
       {super.key,
+      this.selection,
+      this.validator,
+      this.formKey,
       required this.icon,
       this.controller,
       required this.title,
@@ -43,7 +50,10 @@ class TextFieldSignUp extends StatelessWidget {
             height: 40,
             width: 280,
             child: Center(
-              child: TextField(
+              child: TextFormField(
+                focusNode: FocusNode(canRequestFocus: true),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: validator,
                 controller: controller,
                 keyboardType: isNumberPad == true ? TextInputType.number : null,
                 cursorColor: colorgreen,

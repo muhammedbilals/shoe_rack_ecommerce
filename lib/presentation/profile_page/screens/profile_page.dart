@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
+import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_bottomsheet.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
@@ -40,6 +42,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     final user = FirebaseAuth.instance.currentUser;
     return SafeArea(
       child: Scaffold(
@@ -105,12 +109,127 @@ class ProfilePage extends StatelessWidget {
                                 ));
                           }
                         : () {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginOrSignUp(),
-                                ));
+                            showModalBottomSheet<void>(
+                              // transitionAnimationController: AnimationController(vsync: TickerProvider),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      color: colorwhite,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  height: 200,
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      // mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        sbox,
+                                        const Padding(
+                                          padding: EdgeInsets.all(12.0),
+                                          child: Text(
+                                            'Log Out',
+                                            style: TextStyle(fontSize: 22),
+                                          ),
+                                        ),
+                                        const Divider(
+                                          endIndent: 30,
+                                          indent: 30,
+                                        ),
+                                        sbox,
+                                        const Text(
+                                          'Are you sure?',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        sbox,
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: size.width * 0.43,
+                                                  height: 50,
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStatePropertyAll<
+                                                                    Color>(
+                                                                colorgray),
+                                                        shape: MaterialStateProperty.all<
+                                                                RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      18.0),
+                                                        ))),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(
+                                                      'Cancel',
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: colorblack),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: size.width * 0.43,
+                                                  height: 50,
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStatePropertyAll<
+                                                                    Color>(
+                                                                colorgreen),
+                                                        shape: MaterialStateProperty.all<
+                                                                RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      18.0),
+                                                        ))),
+                                                    onPressed: () {
+                                                      FirebaseAuth.instance
+                                                          .signOut();
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                LoginOrSignUp(),
+                                                          ));
+                                                    },
+                                                    child: Text(
+                                                      'Confirm',
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: colorwhite),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           });
               },
             )

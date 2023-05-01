@@ -1,9 +1,10 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
-import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/signupbutton.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfieldsignup.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -12,6 +13,29 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    Future<bool> signUp() async {
+      if (EmailValidator.validate(emailController.text) &&
+          passwordController.text.trim().length >= 8) {
+        showDialog(
+          context: context,
+          builder: (context) => Center(child: CircularProgressIndicator()),
+        );
+        try {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim());
+        } on FirebaseAuthException catch (e) {
+          print(e);
+        }
+       
+      } else {
+        return false;
+      }
+      return true;
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -36,15 +60,51 @@ class SignUpScreen extends StatelessWidget {
                   title: 'Phone Number',
                   isNumberPad: true),
               sbox,
-              TextFieldSignUp(icon: CustomIcon.sms_2icon, title: 'Email'),
+              TextFieldSignUp(
+                  selection: 1,
+                  controller: emailController,
+                  icon: CustomIcon.sms_2icon,
+                  title: 'Email'),
               sbox,
               TextFieldSignUp(
+                // validator: ,
+                  controller: passwordController,
                   icon: CustomIcon.password_2icon,
                   title: 'Password',
                   trailing: CustomIcon.hideiconfluttter),
               sbox,
               sbox,
-              SignUpButton(size: size, color: colorgreen, text: 'SignUp',widget: MainPage()),
+              // SignUpButton(size: size, color: colorgreen, text: 'SignUp',widget: MainPage()),
+              InkWell(
+                onTap: () {
+
+                if( signUp()==true){
+                    Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainPage(),
+            ));
+                }
+                 
+                },
+                child: Container(
+                  width: size.width * 0.9,
+                  height: size.width * 0.13,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: colorgreen),
+                      borderRadius: BorderRadius.circular(20),
+                      color: colorgreen),
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'SignUp',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               sbox,
               Center(
                 child: SizedBox(
@@ -80,7 +140,7 @@ class SignUpScreen extends StatelessWidget {
                     child: Image.network(
                         'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Container(
