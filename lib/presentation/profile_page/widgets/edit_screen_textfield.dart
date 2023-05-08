@@ -6,18 +6,20 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 class EditScreenTextField extends StatelessWidget {
   final IconData? icon;
   final String hinttext;
+  final TextEditingController? controller;
 
-  const EditScreenTextField({super.key, this.icon, required this.hinttext});
+  const EditScreenTextField(
+      {super.key, this.icon, required this.hinttext, this.controller});
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Container(
         height: 50,
-        width: size.width * 0.6,
+        width: size.width * 0.7,
         decoration: BoxDecoration(
             // border: Border(
             //   bottom: BorderSide(width: 3, color: colorgreen),
@@ -43,6 +45,7 @@ class EditScreenTextField extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: TextField(
+                    controller: controller,
                     decoration: InputDecoration.collapsed(
                         hintText: '$hinttext',
                         hintStyle: TextStyle(fontSize: 19)),

@@ -77,7 +77,7 @@ class CheckoutScreen extends StatelessWidget {
               sbox,
               const AmountWidget(),
               sbox,
-              const CustomButton(
+               CustomButton(
                 text: 'Continue to Payment',
                 icon: CustomIcon.walleticonfluttter,
                 widget: PaymentsScreen(),

@@ -99,7 +99,7 @@ class CartPage extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.only(left: 8.0),
                       child: CustomButton(
                         text: 'Checkout',

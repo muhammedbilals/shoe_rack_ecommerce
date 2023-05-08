@@ -51,7 +51,7 @@ class AddressScreen extends StatelessWidget {
                 )
               ],
             ),
-            const Positioned(
+             Positioned(
               bottom: 10,
               left: 0,
               right: 0,
