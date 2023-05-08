@@ -13,12 +13,18 @@ import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfields
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final formKey = GlobalKey<FormState>();
-
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+  //     @override
+  // void dispose() {
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   super.dispose();
+  // }
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
+
 
     String? passwordValidator(String? password) {
       if (password!.isEmpty) {

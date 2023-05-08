@@ -3,6 +3,7 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_bottomsheet.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/product_delete_bottomsheet.dart';
 
 class CartDetailsWidget extends StatelessWidget {
   const CartDetailsWidget({
@@ -57,114 +58,7 @@ class CartDetailsWidget extends StatelessWidget {
                         IconButton(
                           icon: const Icon(CustomIcon.delete_4iconfluttter),
                           onPressed: () {
-                            showModalBottomSheet<void>(
-                              // transitionAnimationController: AnimationController(vsync: TickerProvider),
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: colorwhite,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  height: 340,
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      // mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        sbox,
-                                        const Padding(
-                                          padding: EdgeInsets.all(12.0),
-                                          child: Text(
-                                            'Remove From Cart?',
-                                            style: TextStyle(fontSize: 22),
-                                          ),
-                                        ),
-                                        const Divider(
-                                          endIndent: 30,
-                                          indent: 30,
-                                        ),
-                                        sbox,
-                                        const CartDetailsWidgetBottomSheet(),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: SizedBox(
-                                                  width: size.width * 0.43,
-                                                  height: 50,
-                                                  child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll<
-                                                                    Color>(
-                                                                colorgray),
-                                                        shape: MaterialStateProperty.all<
-                                                                RoundedRectangleBorder>(
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      18.0),
-                                                        ))),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: colorblack),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: SizedBox(
-                                                  width: size.width * 0.43,
-                                                  height: 50,
-                                                  child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll<
-                                                                    Color>(
-                                                                colorgreen),
-                                                        shape: MaterialStateProperty.all<
-                                                                RoundedRectangleBorder>(
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      18.0),
-                                                        ))),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      'Confirm',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: colorwhite),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
+                            productDeleteBottomsheet(context, size);
                           },
                         ),
                       ],
@@ -226,36 +120,34 @@ class CartDetailsWidget extends StatelessWidget {
                             textAlign: TextAlign.start,
                           ),
                         ),
-                        Placeholder(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: size.width * 0.13, right: 10),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: colorgreen),
-                              width: size.width * 0.28,
-                              height: size.width * 0.09,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(
-                                      CustomIcon.minusiconfluttter,
-                                      size: 14,
-                                    ),
-                                    onPressed: () {},
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.12, right: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: colorgreen),
+                            width: size.width * 0.29,
+                            height: size.width * 0.09,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    CustomIcon.minusiconfluttter,
+                                    size: 14,
                                   ),
-                                  const Text('1'),
-                                  IconButton(
-                                    icon: const Icon(
-                                      CustomIcon.addiconfluttter,
-                                      size: 14,
-                                    ),
-                                    onPressed: () {},
+                                  onPressed: () {},
+                                ),
+                                const Text('1'),
+                                IconButton(
+                                  icon: const Icon(
+                                    CustomIcon.addiconfluttter,
+                                    size: 14,
                                   ),
-                                ],
-                              ),
+                                  onPressed: () {},
+                                ),
+                              ],
                             ),
                           ),
                         )
@@ -270,4 +162,6 @@ class CartDetailsWidget extends StatelessWidget {
       ),
     );
   }
+
+
 }

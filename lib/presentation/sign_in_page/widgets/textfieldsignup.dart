@@ -32,9 +32,10 @@ class TextFieldSignUp extends StatefulWidget {
   State<TextFieldSignUp> createState() => _TextFieldSignUpState();
 }
 
-ValueNotifier<bool> visibileNotifier = ValueNotifier(false);
+
 
 class _TextFieldSignUpState extends State<TextFieldSignUp> {
+late ValueNotifier<bool> visibileNotifier = ValueNotifier(widget.passwordVisible);
   @override
   Widget build(BuildContext context) {
     // final myController = TextEditingController();

@@ -25,14 +25,14 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
       children: <Widget>[
         Container(
           width: size.width * 0.9,
-          height: size.width * 0.2,
+          height: size.width * 0.25,
           decoration: BoxDecoration(
               color: colorgray, borderRadius: BorderRadius.circular(20)),
           child: Center(
             child: ListTile(
               leading: Container(
                 width: size.width * 0.15,
-                height: size.width * 0.2,
+                height: size.width * 0.25,
                 decoration:
                     BoxDecoration(color: colorgreen, shape: BoxShape.circle),
                 child: const Icon(CustomIcon.locationiconfluttter),
@@ -71,7 +71,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
         sbox,
         Container(
           width: size.width * 0.9,
-          height: size.width * 0.2,
+          height: size.width * 0.25,
           decoration: BoxDecoration(
               color: colorgray, borderRadius: BorderRadius.circular(20)),
           child: Center(
@@ -117,7 +117,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
         sbox,
         Container(
           width: size.width * 0.9,
-          height: size.width * 0.2,
+          height: size.width * 0.25,
           decoration: BoxDecoration(
               color: colorgray, borderRadius: BorderRadius.circular(20)),
           child: Center(

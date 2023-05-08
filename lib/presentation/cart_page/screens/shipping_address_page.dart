@@ -49,7 +49,7 @@ class ShippingAdressPage extends StatelessWidget {
                 child: Center(
                   child: SizedBox(
                     width: size.width * 0.9,
-                    height: 60,
+                    height: size.width * 0.15,
                     child: ElevatedButton.icon(
                       style: ButtonStyle(
                           backgroundColor:

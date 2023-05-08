@@ -10,11 +10,11 @@ class CartDetailsWidgetBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: Center(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Container(
-          width: size.width * 0.9,
+          width: size.width * 0.95,
           height: size.width * 0.4,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20), color: colorgray),
@@ -23,7 +23,7 @@ class CartDetailsWidgetBottomSheet extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: 90,
+                  width: 80,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.asset('asset/images/nikeimg.png')),

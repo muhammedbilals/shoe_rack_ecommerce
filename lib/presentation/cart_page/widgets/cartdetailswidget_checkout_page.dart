@@ -10,11 +10,11 @@ class CartDetailsWidgetCheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: Center(
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
         child: Container(
-          width: size.width * 0.9,
+          width: size.width * 0.95,
           height: size.width * 0.4,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20), color: colorgray),
@@ -23,7 +23,7 @@ class CartDetailsWidgetCheckoutPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: 90,
+                  width: 80,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.asset('asset/images/nikeimg.png')),
@@ -34,7 +34,7 @@ class CartDetailsWidgetCheckoutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: size.width * 0.64,
+                    width: size.width * 0.63,
                     child: const Padding(
                       padding: EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
                       child: Text(
@@ -95,7 +95,7 @@ class CartDetailsWidgetCheckoutPage extends StatelessWidget {
                       children: [
                         const Padding(
                           padding:
-                              EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
+                              EdgeInsets.only(left: 10.0, top: 0, bottom: 0),
                           child: Text(
                             '₹7,500',
                             style: TextStyle(fontSize: 25),

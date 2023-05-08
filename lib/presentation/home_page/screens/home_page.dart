@@ -182,7 +182,7 @@ class BrandTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(
         children: [
           Container(
@@ -191,8 +191,8 @@ class BrandTileWidget extends StatelessWidget {
               color: colorgray,
               // color: Colors.amber,
             ),
-            height: 70,
-            width: 70,
+            height: 60,
+            width: 60,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
               child: Image.asset(

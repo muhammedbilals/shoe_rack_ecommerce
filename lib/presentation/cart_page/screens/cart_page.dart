@@ -35,6 +35,9 @@ class CartPage extends StatelessWidget {
                 const CartDetailsWidget(),
                 sbox,
                 const CartDetailsWidget(),
+                SizedBox(
+                  height: 100,
+                )
               ],
             ),
           ),

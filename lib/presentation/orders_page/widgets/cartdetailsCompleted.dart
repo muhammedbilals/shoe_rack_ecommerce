@@ -13,10 +13,10 @@ class OrderDetailsCompleted extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(15.0),
           child: Container(
             width: size.width * 0.98,
-            height: size.width * 0.4,
+            height: size.width * 0.45,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20), color: colorgray),
             child: Row(
@@ -24,7 +24,7 @@ class OrderDetailsCompleted extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 100,
+                    width: 80,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset('asset/images/nikeimg.png')),

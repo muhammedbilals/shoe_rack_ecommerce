@@ -13,13 +13,13 @@ import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfields
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
   final formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final nameController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
 
     Future<void> signUp() async {
       final isValid = formKey.currentState!.validate();
@@ -84,6 +84,7 @@ class SignUpScreen extends StatelessWidget {
                 sbox,
                 TextFieldSignUp(
                     // validator: ,
+                    passwordVisible: true,
                     controller: passwordController,
                     icon: CustomIcon.password_2icon,
                     title: 'Password',
