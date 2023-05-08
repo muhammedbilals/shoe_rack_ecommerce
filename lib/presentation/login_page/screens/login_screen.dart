@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +6,7 @@ import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/main.dart';
-import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
-import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
+import 'package:shoe_rack_ecommerce/presentation/login_page/screens/forgot_password.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/screens/sign_up_screen.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfieldsignup.dart';
 
@@ -80,10 +77,15 @@ class LoginPage extends StatelessWidget {
                 ),
                 sbox,
                 sbox,
-                const SizedBox(
-                  height: 100,
-                ),
+                sbox,
+
+                sbox,
+
+                // const SizedBox(
+                //   height: 100,
+                // ),
                 TextFieldSignUp(
+                  // passwordVisible: false,
                     validator: emailaddressValidator,
                     formKey: formKey,
                     selection: 1,
@@ -92,12 +94,14 @@ class LoginPage extends StatelessWidget {
                     title: 'Email'),
                 sbox,
                 TextFieldSignUp(
+                  passwordVisible: true,
+                  isNumberPad: true,
                     validator: passwordValidator,
                     // formKey: formKey,
                     controller: passwordController,
                     icon: CustomIcon.password_2icon,
                     title: 'Password',
-                    trailing: CustomIcon.hideiconfluttter),
+                    trailing1: CustomIcon.hideiconfluttter,trailing2: CustomIcon.showiconfluttter),
                 sbox,
                 sbox,
                 // SignUpButton(
@@ -147,6 +151,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 sbox,
+
                 Center(
                   child: SizedBox(
                     width: size.width * 0.9,
@@ -157,13 +162,13 @@ class LoginPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: size.width * 0.3,
+                            width: size.width * 0.25,
                             height: 1,
                             color: colorgreen,
                           ),
                           const Text('or Continue with'),
                           Container(
-                            width: size.width * 0.3,
+                            width: size.width * 0.25,
                             height: 1,
                             color: colorgreen,
                           )
@@ -191,6 +196,21 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                sbox,
+                sbox,
+
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPassword(),
+                          ));
+                    },
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    )),
                 sbox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

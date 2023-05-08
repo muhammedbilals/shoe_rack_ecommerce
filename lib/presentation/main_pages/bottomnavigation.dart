@@ -5,7 +5,7 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 ValueNotifier<int> indexChangeNotifier = ValueNotifier(0);
 
 class BottomNavigationBarWidget extends StatelessWidget {
-  BottomNavigationBarWidget({super.key});
+  const BottomNavigationBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

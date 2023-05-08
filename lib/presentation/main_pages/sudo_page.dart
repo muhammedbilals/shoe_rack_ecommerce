@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/home_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/login_page/verify_email.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 
 class SudoPage extends StatelessWidget {
@@ -16,13 +17,13 @@ class SudoPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-           return SnackBar(content: Text('something went wrong'));
+           return const SnackBar(content: Text('something went wrong'));
           } else if (snapshot.hasData) {
-            return MainPage();
+            return  VerifyEmailPage();
           } else {
-            return LoginOrSignUp();
+            return const LoginOrSignUp();
           }
         },
       ),

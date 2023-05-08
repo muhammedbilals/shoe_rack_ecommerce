@@ -17,8 +17,8 @@ class CartDetailsWidget extends StatelessWidget {
       padding: const EdgeInsets.all(0.0),
       child: Center(
         child: Container(
-          width: size.width * 0.9,
-          height: size.width * 0.4,
+          width: size.width * 0.95,
+          height: size.width * 0.45,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20), color: colorgray),
           child: Row(
@@ -226,33 +226,36 @@ class CartDetailsWidget extends StatelessWidget {
                             textAlign: TextAlign.start,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: size.width * 0.16),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: colorgreen),
-                            width: size.width * 0.25,
-                            height: size.width * 0.09,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    CustomIcon.minusiconfluttter,
-                                    size: 15,
+                        Placeholder(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.13, right: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: colorgreen),
+                              width: size.width * 0.28,
+                              height: size.width * 0.09,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(
+                                      CustomIcon.minusiconfluttter,
+                                      size: 14,
+                                    ),
+                                    onPressed: () {},
                                   ),
-                                  onPressed: () {},
-                                ),
-                                const Text('1'),
-                                IconButton(
-                                  icon: const Icon(
-                                    CustomIcon.addiconfluttter,
-                                    size: 15,
+                                  const Text('1'),
+                                  IconButton(
+                                    icon: const Icon(
+                                      CustomIcon.addiconfluttter,
+                                      size: 14,
+                                    ),
+                                    onPressed: () {},
                                   ),
-                                  onPressed: () {},
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         )

@@ -13,127 +13,132 @@ class OrderDetailsActive extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            width: size.width * 0.95,
-            height: size.width * 0.4,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), color: colorgray),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 100,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset('asset/images/nikeimg.png')),
+        Placeholder(
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              width: size.width * 0.98,
+              height: size.width * 0.4,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), color: colorgray),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 100,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset('asset/images/nikeimg.png')),
+                    ),
                   ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.64,
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
-                        child: Text(
-                          'Puma',
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.6,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 12.0, bottom: 0, top: 0),
-                        child: Text(
-                          'Men Black Solid Adivat Running Shoes',
-                          style: TextStyle(
-                              // overflow: TextOverflow.clip,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.64,
+                        child: const Padding(
+                          padding:
+                              EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
+                          child: Text(
+                            'Puma',
+                            style: TextStyle(
                               fontSize: 15,
-                              color: colorblack.withOpacity(0.5)),
-                          textAlign: TextAlign.start,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, top: 5),
-                      child: Row(
-                        children: const [
-                          Text(
-                            'White',
-                            style: TextStyle(fontSize: 15),
+                      SizedBox(
+                        width: size.width * 0.6,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12.0, bottom: 0, top: 0),
+                          child: Text(
+                            'Men Black Solid Adivat Running Shoes',
+                            style: TextStyle(
+                                // overflow: TextOverflow.clip,
+                                fontSize: 15,
+                                color: colorblack.withOpacity(0.5)),
+                            textAlign: TextAlign.start,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              '|',
-                              style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0, top: 5),
+                        child: Row(
+                          children: const [
+                            Text(
+                              'White',
+                              style: TextStyle(fontSize: 15),
                             ),
-                          ),
-                          Center(
-                            child: Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                'Size : 42',
-                                textAlign: TextAlign.center,
+                                '|',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const Padding(
-                            padding:
-                                EdgeInsets.only(left: 12.0, top: 0, bottom: 0),
-                            child: Text(
-                              '₹7,500',
-                              style: TextStyle(fontSize: 25),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.only(left: size.width * 0.16),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            TrackOrderScreen(),
-                                      ));
-                                },
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: colorgreen),
-                                    width: size.width * 0.25,
-                                    height: size.width * 0.09,
-                                    child: const Center(
-                                        child: Text('Track Order'))),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  'Size : 42',
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  left: 12.0, top: 0, bottom: 0),
+                              child: Text(
+                                '₹7,500',
+                                style: TextStyle(fontSize: 25),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: size.width * 0.16),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrackOrderScreen(),
+                                        ));
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: colorgreen),
+                                      width: size.width * 0.26,
+                                      height: size.width * 0.09,
+                                      child: const Center(
+                                          child: Text('Track Order'))),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         )

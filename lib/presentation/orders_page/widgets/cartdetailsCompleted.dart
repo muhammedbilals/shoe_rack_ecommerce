@@ -13,9 +13,9 @@ class OrderDetailsCompleted extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(5.0),
           child: Container(
-            width: size.width * 0.95,
+            width: size.width * 0.98,
             height: size.width * 0.4,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20), color: colorgray),

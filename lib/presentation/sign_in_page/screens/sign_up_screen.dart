@@ -6,6 +6,7 @@ import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/main.dart';
+import 'package:shoe_rack_ecommerce/presentation/login_page/screens/login_screen.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfieldsignup.dart';
 
@@ -86,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
                     controller: passwordController,
                     icon: CustomIcon.password_2icon,
                     title: 'Password',
-                    trailing: CustomIcon.hideiconfluttter),
+                    trailing1: CustomIcon.hideiconfluttter,trailing2: CustomIcon.hideiconfluttter),
                 sbox,
                 sbox,
                 // SignUpButton(size: size, color: colorgreen, text: 'SignUp',widget: MainPage()),
@@ -171,11 +172,11 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => SignUpScreen(),
-                        //     ));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ));
                       },
                       child: const Text(
                         "Sign In",

@@ -18,7 +18,7 @@ class MainPage extends StatelessWidget {
           return pages[value];
         },
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(),
+      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 }
