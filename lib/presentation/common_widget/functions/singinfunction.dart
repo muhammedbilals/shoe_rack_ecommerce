@@ -20,4 +20,6 @@ Future<void> googleSignIn() async {
   await FirebaseAuth.instance.signInWithCredential(credential);
   print("user signed iN ${credential.idToken}");
   navigatorKey.currentState!.popUntil((route) => route.isFirst);
+
+  //there might be platform execption thrown when cancelling the flow ,it fixes itself when running in production
 }
