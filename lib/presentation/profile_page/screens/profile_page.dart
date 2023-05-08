@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
@@ -53,24 +54,28 @@ class ProfilePage extends StatelessWidget {
         body: Column(
           children: [
             Center(
-              child: Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(80), color: colorgray),
-              ),
-            ),
-             Center(
+                child: user!.photoURL == null
+                    ? Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80),
+                            color: colorgray),
+                      )
+                    : CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(user.photoURL!),
+                      )),
+            Center(
               child: Text(
-                user!.displayName??
-                'Name',
+                user.displayName ?? 'Name',
                 style: TextStyle(fontSize: 25),
               ),
             ),
             Text(
               user.email ?? 'Email',
               style:
-                  TextStyle(fontSize: 20, color: colorblack.withOpacity(0.5)),
+                  TextStyle(fontSize: 15, color: colorblack.withOpacity(0.5)),
             ),
             const Divider(
               indent: 20,
@@ -202,7 +207,10 @@ class ProfilePage extends StatelessWidget {
                                                                   .circular(
                                                                       18.0),
                                                         ))),
-                                                    onPressed: () {
+                                                    onPressed: () async {
+                                                      final googleSignIn =
+                                                          GoogleSignIn();
+                                                      googleSignIn.disconnect();
                                                       FirebaseAuth.instance
                                                           .signOut();
                                                       Navigator.push(

@@ -6,6 +6,7 @@ import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/main.dart';
+import 'package:shoe_rack_ecommerce/presentation/common_widget/functions/singinfunction.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_page/screens/login_screen.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfieldsignup.dart';
@@ -13,13 +14,12 @@ import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfields
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
   final formKey = GlobalKey<FormState>();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
 
     Future<void> signUp() async {
       final isValid = formKey.currentState!.validate();
@@ -88,7 +88,8 @@ class SignUpScreen extends StatelessWidget {
                     controller: passwordController,
                     icon: CustomIcon.password_2icon,
                     title: 'Password',
-                    trailing1: CustomIcon.hideiconfluttter,trailing2: CustomIcon.hideiconfluttter),
+                    trailing1: CustomIcon.hideiconfluttter,
+                    trailing2: CustomIcon.hideiconfluttter),
                 sbox,
                 sbox,
                 // SignUpButton(size: size, color: colorgreen, text: 'SignUp',widget: MainPage()),
@@ -149,10 +150,15 @@ class SignUpScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 40,
-                      child: Image.network(
-                          'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png'),
+                    GestureDetector(
+                      onTap: () {
+                        googleSignIn();
+                      },
+                      child: SizedBox(
+                        width: 40,
+                        child: Image.network(
+                            'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png'),
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
@@ -164,6 +170,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                sbox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

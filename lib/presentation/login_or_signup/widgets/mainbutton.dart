@@ -8,10 +8,12 @@ class MainButton extends StatelessWidget {
   final bool networkOrAsset = true;
   final Color? fontcolor;
   final Widget? widget;
+  Future<void>? funtion;
 
-  const MainButton(
+  MainButton(
       {super.key,
       required this.text,
+      this.funtion,
       this.fontcolor,
       required this.iconurl,
       this.widget,
@@ -21,13 +23,16 @@ class MainButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: widget!=null? () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => widget!,
-            ));
-      }:null,
+      onTap: widget != null
+          ? () {
+              funtion;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => widget!,
+                  ));
+            }
+          : null,
       hoverColor: colorgray,
       child: Container(
         width: size.width * 0.9,

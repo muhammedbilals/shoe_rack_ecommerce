@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/common_widget/functions/singinfunction.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/widgets/mainbutton.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_page/screens/login_screen.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/screens/sign_up_screen.dart';
@@ -29,11 +31,39 @@ class LoginOrSignUp extends StatelessWidget {
           SizedBox(
             height: 200,
           ),
-          MainButton(
-              text: 'Continue with Google',
-              iconurl:
-                  'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png',
-              color: colorwhite),
+          // MainButton(
+          //     text: 'Continue with Google',
+          //     iconurl:
+          //         'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png',
+          //     color: colorwhite),
+          InkWell(
+            onTap: () {
+              googleSignIn();
+            },
+            hoverColor: colorgray,
+            child: Container(
+              width: size.width * 0.9,
+              height: size.width * 0.13,
+              decoration: BoxDecoration(
+                  border: Border.all(color: colorgreen),
+                  borderRadius: BorderRadius.circular(20),
+                  color: colorwhite),
+              child: Row(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.network('https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png')),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      'Contionue with Google',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
           sbox,
           MainButton(
               text: 'Continue with Facebook',
