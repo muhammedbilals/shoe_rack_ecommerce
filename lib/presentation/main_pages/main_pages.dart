@@ -8,7 +8,7 @@ import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/profile_pa
 class MainPage extends StatelessWidget {
   MainPage({super.key});
 
-  final pages = [const HomePage(), const CartPage(), const OrdersPage(),  ProfilePage()];
+  final pages = [ HomePage(), const CartPage(), const OrdersPage(),  ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

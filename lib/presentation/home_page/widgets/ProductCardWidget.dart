@@ -23,6 +23,7 @@ class ProductCardWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
           width: size.width * 0.44,
+          height: size.width * 0.9,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

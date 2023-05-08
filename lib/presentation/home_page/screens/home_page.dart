@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
+import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
@@ -7,8 +9,9 @@ import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_p
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
+  HomePage({super.key});
+  final Stream<QuerySnapshot> _usersStream =
+      FirebaseFirestore.instance.collection('product').snapshots();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -44,7 +47,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(children: [
             // searchBar----------------------
             Padding(
@@ -144,27 +147,154 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                ProductCardWidget(),
-                ProductCardWidget(),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                ProductCardWidget(),
-                ProductCardWidget(),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                ProductCardWidget(),
-                ProductCardWidget(),
-              ],
-            ),
+            sbox,
+            StreamBuilder<QuerySnapshot>(
+                stream: _usersStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+                  return GridView.count(
+                    padding: EdgeInsets.only(left: 15),
+                    clipBehavior: Clip.none,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 1,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 1 / 1.45,
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return SizedBox(
+                        width: size.width * 0.6,
+                        height: size.width * 0.6,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                width: size.width * 0.45,
+                                height: size.width * 0.45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      data['imgurl'],
+                                      fit: BoxFit.cover,
+                                    ))
+                                // const Align(
+                                //     alignment: Alignment.topRight,
+                                //     child: Padding(
+                                //       padding: EdgeInsets.all(10.0),
+                                //       child: Icon(Icons.favorite_border_outlined),
+                                //     )),
+                                ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                                top: 8.0,
+                              ),
+                              child: Text(
+                                data['name'],
+                                style: const TextStyle(fontSize: 20),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                data['subtitle'],
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    // overflow: TextOverflow.clip,
+                                    fontSize: 14,
+                                    color: colorblack.withOpacity(0.5)),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(
+                            //       left: 8.0, top: 5),
+                            //   child: Row(
+                            //     children: [
+                            //       const Text(
+                            //         '4.5',
+                            //         style: TextStyle(fontSize: 17),
+                            //       ),
+                            //       const Icon(
+                            //         CustomIcon.stariconfluttter,
+                            //         size: 14,
+                            //       ),
+                            //       const Padding(
+                            //         padding: EdgeInsets.symmetric(
+                            //             horizontal: 8.0),
+                            //         child: Text('|'),
+                            //       ),
+                            //       Padding(
+                            //         padding:
+                            //             const EdgeInsets.only(left: 8.0),
+                            //         child: Container(
+                            //           width: size.width * 0.2,
+                            //           height: size.width * 0.05,
+                            //           decoration: BoxDecoration(
+                            //               borderRadius:
+                            //                   BorderRadius.circular(20),
+                            //               color: colorgray),
+                            //           child: const Padding(
+                            //             padding: EdgeInsets.all(2.0),
+                            //             child: Text(
+                            //               '4300 SOLD',
+                            //               textAlign: TextAlign.center,
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Rs. ${data['price']}',
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: const [
+            //     (),
+            //     ProductCardWidget(),
+            //   ],
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: const [
+            //     (),
+            //     ProductCardWidget(),
+            //   ],
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: const [
+            //     ProductCardWidget(),
+            //     ProductCardWidget(),
+            //   ],
+            // ),
           ]),
         ),
       ),
