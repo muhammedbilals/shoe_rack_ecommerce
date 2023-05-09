@@ -13,11 +13,11 @@ class ProductCardWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProductPage(),
-            ));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => ProductPage(),
+        //     ));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
