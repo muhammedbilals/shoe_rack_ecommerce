@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
@@ -6,7 +7,7 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
-import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -40,7 +41,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const WishListScreen(),
+                          builder: (context) => WishListScreen(),
                         ));
                   },
                 ),
@@ -162,7 +163,7 @@ class HomePage extends StatelessWidget {
                     return const Text("Loading");
                   }
                   return GridView.count(
-                    padding: EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.only(left: 15),
                     clipBehavior: Clip.none,
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -176,7 +177,12 @@ class HomePage extends StatelessWidget {
                           document.data()! as Map<String, dynamic>;
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(id: data['id']),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductPage(id: data['id']),
+                              ));
                           valueNotifier.value = data['id'];
                           print('value notifirer value ${data['id']}');
                         },
@@ -186,25 +192,30 @@ class HomePage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                  width: size.width * 0.45,
-                                  height: size.width * 0.45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        data['imgurl'],
-                                        fit: BoxFit.cover,
-                                      ))
-                                  // const Align(
-                                  //     alignment: Alignment.topRight,
-                                  //     child: Padding(
-                                  //       padding: EdgeInsets.all(10.0),
-                                  //       child: Icon(Icons.favorite_border_outlined),
-                                  //     )),
-                                  ),
+                              Stack(children: [
+                                Container(
+                                    width: size.width * 0.45,
+                                    height: size.width * 0.45,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          data['imgurl'],
+                                          fit: BoxFit.cover,
+                                        ))
+                                    // const Align(
+                                    //     alignment: Alignment.topRight,
+                                    //     child: Padding(
+                                    //       padding: EdgeInsets.all(10.0),
+                                    //       child: Icon(Icons.favorite_border_outlined),
+                                    //     )),
+                                    ),
+                                FavouriteButton(
+                                  productId: data['id'],
+                                )
+                              ]),
                               Padding(
                                 padding: const EdgeInsets.only(
                                   left: 8.0,
@@ -308,6 +319,90 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class FavouriteButton extends StatefulWidget {
+  const FavouriteButton({
+    super.key,
+    required this.productId,
+  });
+  final String productId;
+
+  @override
+  State<FavouriteButton> createState() => _FavouriteButtonState();
+}
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+final User? user = auth.currentUser;
+final userID = user!.email;
+final CollectionReference userCollection = FirebaseFirestore.instance
+    .collection('users')
+    .doc(userID)
+    .collection('wishlist');
+
+// DocumentReference usersRef = FirebaseFirestore.instance.collection('product').doc();
+
+class _FavouriteButtonState extends State<FavouriteButton> {
+  bool isliked = false;
+  checkIfAlreadyAdded() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc('$userID')
+        .collection('wishlist')
+        .where('prodcut', isEqualTo: widget.productId)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      setState(() {
+        isliked = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    checkIfAlreadyAdded();
+    super.initState();
+  }
+  
+@override
+void dispose() {
+  
+  super.dispose();
+}
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        top: 5,
+        right: 5,
+        child: IconButton(
+          icon: isliked
+              ? Icon(
+                  CustomIcon.hearticonfluttter,
+                  color: colorgreen,
+                )
+              : const Icon(CustomIcon.hearticonfluttter),
+          onPressed: () async {
+            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                .collection('users')
+                .doc('$userID')
+                .collection('wishlist')
+                .where('prodcut', isEqualTo: widget.productId)
+                .get();
+            if (querySnapshot.docs.isEmpty) {
+              await userCollection.doc().set({'prodcut': widget.productId});
+              debugPrint('produt added to $userID');
+            } else {
+              await userCollection.doc(querySnapshot.docs.first.id).delete();
+              debugPrint('produt deleteto $userID');
+            }
+
+            setState(() {
+              isliked = !isliked;
+            });
+          },
+        ));
   }
 }
 

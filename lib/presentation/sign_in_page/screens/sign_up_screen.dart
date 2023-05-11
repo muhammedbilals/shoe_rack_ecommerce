@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
@@ -37,6 +38,7 @@ class SignUpScreen extends StatelessWidget {
 
         User currentuser = FirebaseAuth.instance.currentUser!;
         currentuser.updateDisplayName(nameController.text);
+     
       } on FirebaseAuthException catch (e) {
         print(e);
         utils.showSnackbar(e.message);
