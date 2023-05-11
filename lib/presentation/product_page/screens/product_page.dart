@@ -1,26 +1,34 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/cart_page.dart';
 
 class ProductPage extends StatelessWidget {
-  ProductPage({
+  const ProductPage({
     super.key,
     required this.id,
-
-    //  required this.id
   });
-  // final String id;
+
   final String id;
 
-  // final img = [
-  //   'asset/images/Puma.png',
-  //   'asset/images/puma22.png',
-  //   'asset/images/puma33.png'
-  // ];
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('product').snapshots();
+  addToCart(String id) async {
+    int productCount=1;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    CollectionReference collectionReference = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart');
+
+    collectionReference.add({'productId': id, 'productCount': productCount});
+    log('added to cart');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +46,7 @@ class ProductPage extends StatelessWidget {
               child: SizedBox(
                 width: size.width * 0.2,
                 height: 60,
+                //add to wishlist button
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
@@ -56,6 +65,7 @@ class ProductPage extends StatelessWidget {
                 ),
               ),
             ),
+            //add to cart Button
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -69,7 +79,14 @@ class ProductPage extends StatelessWidget {
                           RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ))),
-                  onPressed: () {},
+                  onPressed: () {
+                    addToCart(id);
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => CartPage(),
+                    //     ));
+                  },
                   icon: Icon(
                     CustomIcon.bagiconfluttter,
                     size: 25,
@@ -93,7 +110,7 @@ class ProductPage extends StatelessWidget {
         // initialData: initialData,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           List<String> img = [];
-         
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -101,7 +118,7 @@ class ProductPage extends StatelessWidget {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
           }
-           img.add(snapshot.data['imgurl']);
+          img.add(snapshot.data['imgurl']);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
