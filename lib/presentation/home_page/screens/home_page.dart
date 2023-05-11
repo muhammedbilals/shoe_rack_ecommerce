@@ -350,7 +350,7 @@ class _FavouriteButtonState extends State<FavouriteButton> {
         .collection('users')
         .doc('$userID')
         .collection('wishlist')
-        .where('prodcut', isEqualTo: widget.productId)
+        .where('product', isEqualTo: widget.productId)
         .get();
     if (querySnapshot.docs.isNotEmpty) {
       setState(() {
@@ -388,10 +388,10 @@ void dispose() {
                 .collection('users')
                 .doc('$userID')
                 .collection('wishlist')
-                .where('prodcut', isEqualTo: widget.productId)
+                .where('product', isEqualTo: widget.productId)
                 .get();
             if (querySnapshot.docs.isEmpty) {
-              await userCollection.doc().set({'prodcut': widget.productId});
+              await userCollection.doc().set({'product': widget.productId});
               debugPrint('produt added to $userID');
             } else {
               await userCollection.doc(querySnapshot.docs.first.id).delete();
