@@ -69,7 +69,7 @@ class _WishListScreenState extends State<WishListScreen> {
               stream: FirebaseFirestore.instance
                   .collection('product')
                   .where('id', whereIn: ids)
-                  .snapshots(),
+                  .snapshots(),                                                                                                                                                                                                                 
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {

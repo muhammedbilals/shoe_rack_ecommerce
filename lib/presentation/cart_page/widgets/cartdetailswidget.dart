@@ -58,7 +58,7 @@ class CartDetailsWidget extends StatelessWidget {
                         IconButton(
                           icon: const Icon(CustomIcon.delete_4iconfluttter),
                           onPressed: () {
-                            productDeleteBottomsheet(context, size);
+                            productDeleteBottomsheet(context, size,null);
                           },
                         ),
                       ],
