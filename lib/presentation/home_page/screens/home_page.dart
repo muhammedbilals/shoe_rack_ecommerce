@@ -8,7 +8,9 @@ import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/WishlistButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/search_page/search_screen.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -53,39 +55,49 @@ class HomePage extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: Column(children: [
             // searchBar----------------------
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    // border: Border(
-                    //   bottom: BorderSide(width: 3, color: colorgreen),
-                    // ),
-                    // boxShadow: [
-                    //   BoxShadow(blurRadius: 25),
-                    // ],
-                    color: colorgray,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(9.0),
-                      child: Icon(
-                        CustomIcon.search_2iconfluttter,
-                        size: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: Center(
-                        child: TextField(
-                          decoration: InputDecoration.collapsed(
-                              hintText: 'Search',
-                              hintStyle: TextStyle(fontSize: 19)),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      
+                      builder: (context) => SearchScreen(),
+                    ));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      // border: Border(
+                      //   bottom: BorderSide(width: 3, color: colorgreen),
+                      // ),
+                      // boxShadow: [
+                      //   BoxShadow(blurRadius: 25),
+                      // ],
+                      color: colorgray,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(9.0),
+                        child: Icon(
+                          CustomIcon.search_2iconfluttter,
+                          size: 20,
                         ),
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 40,
+                        width: 300,
+                        // child: Center(
+                        //   child: TextField(
+                        //     decoration: InputDecoration.collapsed(
+                        //         hintText: 'Search',
+                        //         hintStyle: TextStyle(fontSize: 19)),
+                        //   ),
+                        // ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -214,7 +226,7 @@ class HomePage extends StatelessWidget {
                                     ),
                                 FavouriteButton(
                                   productId: data['id'],
-                                )
+                                ),
                               ]),
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -322,17 +334,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class FavouriteButton extends StatefulWidget {
-  const FavouriteButton({
-    super.key,
-    required this.productId,
-  });
-  final String productId;
-
-  @override
-  State<FavouriteButton> createState() => _FavouriteButtonState();
-}
-
 final FirebaseAuth auth = FirebaseAuth.instance;
 final User? user = auth.currentUser;
 final userID = user!.email;
@@ -342,69 +343,6 @@ final CollectionReference userCollection = FirebaseFirestore.instance
     .collection('wishlist');
 
 // DocumentReference usersRef = FirebaseFirestore.instance.collection('product').doc();
-
-class _FavouriteButtonState extends State<FavouriteButton> {
-  bool isliked = false;
-  checkIfAlreadyAdded() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc('$userID')
-        .collection('wishlist')
-        .where('product', isEqualTo: widget.productId)
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      setState(() {
-        isliked = true;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    checkIfAlreadyAdded();
-    super.initState();
-  }
-  
-@override
-void dispose() {
-  
-  super.dispose();
-}
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        top: 5,
-        right: 5,
-        child: IconButton(
-          icon: isliked
-              ? Icon(
-                  CustomIcon.hearticonfluttter,
-                  color: colorgreen,
-                )
-              : const Icon(CustomIcon.hearticonfluttter),
-          onPressed: () async {
-            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-                .collection('users')
-                .doc('$userID')
-                .collection('wishlist')
-                .where('product', isEqualTo: widget.productId)
-                .get();
-            if (querySnapshot.docs.isEmpty) {
-              await userCollection.doc().set({'product': widget.productId});
-              debugPrint('produt added to $userID');
-            } else {
-              await userCollection.doc(querySnapshot.docs.first.id).delete();
-              debugPrint('produt deleteto $userID');
-            }
-
-            setState(() {
-              isliked = !isliked;
-            });
-          },
-        ));
-  }
-}
 
 class BrandTileWidget extends StatelessWidget {
   final String image;

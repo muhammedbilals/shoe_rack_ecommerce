@@ -61,7 +61,7 @@ class _CartPageState extends State<CartPage> {
     final User? user = auth.currentUser;
     final userID = user!.email;
     if (ids.isEmpty) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     } else {
       log('data arrived');
       return SafeArea(
@@ -250,8 +250,11 @@ class _CartPageState extends State<CartPage> {
                                                                                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                                                                             borderRadius: BorderRadius.circular(18.0),
                                                                                           ))),
-                                                                                      onPressed: () {
-                                                                                        removeFromCart(data['id']);
+                                                                                      onPressed: () async{
+                                                                                        final FirebaseAuth auth = await FirebaseAuth.instance;
+                                                                                        final User? user = auth.currentUser;
+                                                                                        final userID = user!.email;
+                                                                                        removeFromCart(data['id'], userID!);
                                                                                         Navigator.pop(context);
                                                                                       },
                                                                                       child: Text(
@@ -320,7 +323,8 @@ class _CartPageState extends State<CartPage> {
                                                         Center(
                                                           child: Padding(
                                                             padding:
-                                                                EdgeInsets.only(
+                                                                const EdgeInsets
+                                                                        .only(
                                                                     left: 8.0),
                                                             child: Text(
                                                               'Size : ${data['size']}',
@@ -344,14 +348,17 @@ class _CartPageState extends State<CartPage> {
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   left: 12.0,
                                                                   top: 0,
                                                                   bottom: 0),
                                                           child: Text(
                                                             '₹${data['price']}',
-                                                            style: TextStyle(
-                                                                fontSize: 25),
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        25),
                                                             textAlign:
                                                                 TextAlign.start,
                                                           ),
@@ -419,7 +426,7 @@ class _CartPageState extends State<CartPage> {
                                 );
                               }).toList());
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 200,
                     )
                   ],
@@ -504,9 +511,9 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-  void removeFromCart(String docId) {
+  void removeFromCart(String docId, String id) {
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('product');
-    collectionReference.doc(docId).delete();
+        FirebaseFirestore.instance.collection('users');
+    collectionReference.doc(id).collection('cart').doc(docId).delete();
   }
 }

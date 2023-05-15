@@ -37,7 +37,7 @@ class _WishListScreenState extends State<WishListScreen> {
     ordersRef.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         // var orderData = doc.data();
-        ids.add(doc.get('prodcut'));
+        ids.add(doc.get('product'));
         log(doc.toString());
       });
       log(ids.toString());
@@ -54,12 +54,12 @@ class _WishListScreenState extends State<WishListScreen> {
     final Size size = MediaQuery.of(context).size;
     if (ids.isEmpty) {
       return Scaffold(
-        backgroundColor: colorwhite,
-        body: const Center(child: CircularProgressIndicator()));
+          backgroundColor: colorwhite,
+          body: const Center(child: CircularProgressIndicator()));
     }
     return SafeArea(
         child: Scaffold(
-          backgroundColor: colorwhite,
+      backgroundColor: colorwhite,
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
           child: AppBarWidget(title: 'My Wishlist')),
@@ -69,7 +69,7 @@ class _WishListScreenState extends State<WishListScreen> {
               stream: FirebaseFirestore.instance
                   .collection('product')
                   .where('id', whereIn: ids)
-                  .snapshots(),                                                                                                                                                                                                                 
+                  .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
@@ -109,31 +109,55 @@ class _WishListScreenState extends State<WishListScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Stack(children: [
-                              Container(
-                                  width: size.width * 0.45,
-                                  height: size.width * 0.45,
-                                  decoration: BoxDecoration(
-                                    color: colorgray,
-                                    borderRadius: BorderRadius.circular(20),
+                            Stack(
+                              children: [
+                                Container(
+                                    width: size.width * 0.45,
+                                    height: size.width * 0.45,
+                                    decoration: BoxDecoration(
+                                      color: colorgray,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          data['imgurl'],
+                                          fit: BoxFit.cover,
+                                        ))
+                                    // const Align(
+                                    //     alignment: Alignment.topRight,
+                                    //     child: Padding(
+                                    //       padding: EdgeInsets.all(10.0),
+                                    //       child: Icon(Icons.favorite_border_outlined),
+                                    //     )),
+                                    ),
+                                Positioned(
+                                  top: 5,
+                                  right: 5,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      CustomIcon.hearticonfluttter,
+                                      color: colorgreen,
+                                    ),
+                                    onPressed: () async {
+                                      QuerySnapshot querySnapshot =
+                                          await FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc('$userID')
+                                              .collection('wishlist')
+                                              .where('product', whereIn: ids)
+                                              .get();
+                                      log('asdfasdfadsfdfa${querySnapshot.docs.first.id}');
+                                      await userCollection
+                                          .doc(querySnapshot.docs.first.id)
+                                          .delete();
+                                      debugPrint('produt deleteted $userID');
+                                      setState(() {});
+                                    },
                                   ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        data['imgurl'],
-                                        fit: BoxFit.cover,
-                                      ))
-                                  // const Align(
-                                  //     alignment: Alignment.topRight,
-                                  //     child: Padding(
-                                  //       padding: EdgeInsets.all(10.0),
-                                  //       child: Icon(Icons.favorite_border_outlined),
-                                  //     )),
-                                  ),
-                              FavouriteRemoveButton(
-                                productId: data['id'],
-                              )
-                            ]),
+                                )
+                              ],
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(
                                 left: 8.0,
@@ -152,9 +176,10 @@ class _WishListScreenState extends State<WishListScreen> {
                                 data['subtitle'],
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    // overflow: TextOverflow.clip,
-                                    fontSize: 14,
-                                    color: colorblack.withOpacity(0.5)),
+                                  // overflow: TextOverflow.clip,
+                                  fontSize: 14,
+                                  color: colorblack.withOpacity(0.5),
+                                ),
                                 textAlign: TextAlign.start,
                               ),
                             ),
@@ -216,8 +241,8 @@ class _WishListScreenState extends State<WishListScreen> {
       ),
     ));
   }
-  
 }
+
 class FavouriteRemoveButton extends StatefulWidget {
   const FavouriteRemoveButton({
     super.key,
@@ -240,35 +265,27 @@ final CollectionReference userCollection = FirebaseFirestore.instance
 // DocumentReference usersRef = FirebaseFirestore.instance.collection('product').doc();
 
 class _FavouriteRemoveButtonState extends State<FavouriteRemoveButton> {
- 
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
         top: 5,
         right: 5,
         child: IconButton(
-          icon: 
-               Icon(
-                  CustomIcon.hearticonfluttter,
-                  color: colorgreen,
-                )
-             ,
+          icon: Icon(
+            CustomIcon.hearticonfluttter,
+            color: colorgreen,
+          ),
           onPressed: () async {
             QuerySnapshot querySnapshot = await FirebaseFirestore.instance
                 .collection('users')
                 .doc('$userID')
                 .collection('wishlist')
-                .where('prodcut', isEqualTo: widget.productId)
+                .where('product', isEqualTo: widget.productId)
                 .get();
-          
-              await userCollection.doc(querySnapshot.docs.first.id).delete();
-              debugPrint('produt deleteted $userID');
-           setState(() {
-             
-           });
+
+            await userCollection.doc(querySnapshot.docs.first.id).delete();
+            debugPrint('produt deleteted $userID');
+            setState(() {});
           },
         ));
   }
