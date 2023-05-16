@@ -14,8 +14,13 @@ class SearchScreen extends StatelessWidget {
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('product').snapshots();
   Stream getProducts() async* {
-    final QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('products').orderBy('name').startAt([controller.text]).endAt([controller.text + '\uf8ff']).get().then((value) => value );
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .orderBy('name')
+        .startAt([controller.text])
+        .endAt([controller.text + '\uf8ff'])
+        .get()
+        .then((value) => value);
     final List<DocumentSnapshot> docs = querySnapshot.docs.toList();
     yield docs;
   }
@@ -68,7 +73,7 @@ class SearchScreen extends StatelessWidget {
               ),
             ),
             StreamBuilder<QuerySnapshot>(
-                stream: _usersStream ,
+                stream: _usersStream,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -108,30 +113,33 @@ class SearchScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Stack(children: [
-                                Container(
-                                    width: size.width * 0.45,
-                                    height: size.width * 0.45,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          data['imgurl'],
-                                          fit: BoxFit.cover,
-                                        ))
-                                    // const Align(
-                                    //     alignment: Alignment.topRight,
-                                    //     child: Padding(
-                                    //       padding: EdgeInsets.all(10.0),
-                                    //       child: Icon(Icons.favorite_border_outlined),
-                                    //     )),
-                                    ),
-                                // FavouriteButton(
-                                //   productId: data['id'],
-                                // ),
-                              ]),
+                              Stack(
+                                children: [
+                                  Container(
+                                      width: size.width * 0.45,
+                                      height: size.width * 0.45,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            data['imgurl'],
+                                            fit: BoxFit.cover,
+                                          ))
+                                      // const Align(
+                                      //     alignment: Alignment.topRight,
+                                      //     child: Padding(
+                                      //       padding: EdgeInsets.all(10.0),
+                                      //       child: Icon(Icons.favorite_border_outlined),
+                                      //     )),
+                                      ),
+                                  // FavouriteButton(
+                                  //   productId: data['id'],
+                                  // ),
+                                ],
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(
                                   left: 8.0,

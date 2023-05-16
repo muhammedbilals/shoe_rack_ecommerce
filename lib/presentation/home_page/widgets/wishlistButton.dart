@@ -14,9 +14,9 @@ class FavouriteButton extends StatefulWidget {
   @override
   State<FavouriteButton> createState() => _FavouriteButtonState();
 }
-
-class _FavouriteButtonState extends State<FavouriteButton> {
   bool isliked = false;
+class _FavouriteButtonState extends State<FavouriteButton> {
+
   checkIfAlreadyAdded() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -41,6 +41,7 @@ class _FavouriteButtonState extends State<FavouriteButton> {
 
   @override
   void dispose() {
+    
     super.dispose();
   }
 
