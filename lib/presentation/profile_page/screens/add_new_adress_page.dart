@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
-import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/productsTextfield.dart';
 
 class AddNewAddressPage extends StatelessWidget {
@@ -16,14 +15,15 @@ class AddNewAddressPage extends StatelessWidget {
   final statecontroller = TextEditingController();
   final housenamecontroller = TextEditingController();
   final roadnamecontroller = TextEditingController();
-
+  List<String> nameList = <String>['Home', 'Work', 'Apartment'];
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    String dropdownNameValue = nameList.first;
 
     return SafeArea(
-      child: Stack(children: [
+      child: Stack(
+        children: [
         Scaffold(
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(70),
@@ -34,14 +34,57 @@ class AddNewAddressPage extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                
+                StatefulBuilder(
+                  builder: (context, setState) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        width: size.width * 0.9,
+                        height: size.width * 0.13,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: colorgreen),
+                            borderRadius: BorderRadius.circular(20),
+                            color: colorwhite),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: dropdownNameValue,
+                              icon: const Icon(Icons.arrow_downward_sharp),
+                              elevation: 8,
+                              style: const TextStyle(color: Colors.black),
+                              disabledHint: Container(
+                                height: 2,
+                                color: Colors.black,
+                              ),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  dropdownNameValue = value!;
+                                });
+                              },
+                              items: nameList.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 ProductsTextField(
                   title: 'Name',
                   controller: namecontroller,
                 ),
                 ProductsTextField(
                   isNumberPad: true,
-                  title: 'Phone Number',  
+                  title: 'Phone Number',
                   controller: phoneNumbercontroller,
                 ),
                 ProductsTextField(

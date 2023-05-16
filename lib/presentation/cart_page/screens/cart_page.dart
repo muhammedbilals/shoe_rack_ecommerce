@@ -6,9 +6,7 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/checkout_page.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_bottomsheet.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/product_delete_bottomsheet.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 
 import '../../common_widget/AppBarWidget.dart';
@@ -24,12 +22,12 @@ class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     getdocId();
+    getTotalPrice();
     super.initState();
   }
 
   List<String> ids = [];
-  int ProductCount = 0;
-
+  int totalPrice = 0;
   getdocId() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
@@ -82,6 +80,71 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
+  getTotalPrice() async {
+    // get product id from cart for calculation
+    List<Map<dynamic, dynamic>> list = [];
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    List<String> productId = [];
+    CollectionReference ordersRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart');
+
+    await ordersRef.get().then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        // var orderData = doc.data();
+        productId.add(doc.get('productId'));
+      }
+      log('${ids.toString()}from getprice');
+      setState(() {});
+    }).catchError((error) {
+      // Handle any potential error
+      log('Error getting subcollection documents: $error');
+    });
+
+    // GETTING PRICE FROM PRODUCT DATABASE WITH PRODUCT ID
+    var snapshot = await FirebaseFirestore.instance
+        .collection('product')
+        .where('id', whereIn: productId)
+        .get();
+    final templista = snapshot.docs;
+    list = templista.map((DocumentSnapshot documentSnapshot) {
+      return documentSnapshot.data() as Map<String, dynamic>;
+    }).toList();
+
+    for (int i = 0; i < list.length; i++) {
+      totalPrice = int.parse(list[i]['price']) + totalPrice;
+    }
+    //get product count from cart to do multiplication
+    // final document = FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(userID)
+    //     .collection('cart')
+    //     .doc()
+    //     .get();
+
+    // final productCount = FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(userID)
+    //     .collection('cart')
+    //     .doc('keAZuowBemJD4dLx86Qf')
+    //     .get()
+    //     .then((value) {
+    //   log('cart count ${value['productCount']}');
+    //   return value['productCount'];
+    // });
+
+    //updating value with new value
+    setState(() {
+      totalPrice = totalPrice * cartcount;
+    });
+    log(totalPrice.toString());
+  }
+
+  int cartcount = 1;
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -117,7 +180,6 @@ class _CartPageState extends State<CartPage> {
                               if (snapshot.hasError) {
                                 return const Text('Something went wrong');
                               }
-
                               return GridView.count(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
@@ -146,7 +208,7 @@ class _CartPageState extends State<CartPage> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: SizedBox(
-                                                    width: 90,
+                                                    width: 80,
                                                     child: ClipRRect(
                                                         borderRadius:
                                                             BorderRadius
@@ -369,14 +431,14 @@ class _CartPageState extends State<CartPage> {
                                                         ],
                                                       ),
                                                     ),
-                                                    StreamBuilder(
-                                                      stream: FirebaseFirestore
+                                                    FutureBuilder(
+                                                      future: FirebaseFirestore
                                                           .instance
                                                           .collection('users')
                                                           .doc(userID)
                                                           .collection('cart')
                                                           .doc(data['id'])
-                                                          .snapshots(),
+                                                          .get(),
                                                       builder:
                                                           (BuildContext context,
                                                               AsyncSnapshot
@@ -413,7 +475,7 @@ class _CartPageState extends State<CartPage> {
                                                               SizedBox(
                                                                 width:
                                                                     size.width *
-                                                                        0.21,
+                                                                        0.245,
                                                                 child: Padding(
                                                                   padding: const EdgeInsets
                                                                           .only(
@@ -422,14 +484,27 @@ class _CartPageState extends State<CartPage> {
                                                                       top: 0,
                                                                       bottom:
                                                                           0),
-                                                                  child: Text(
-                                                                    '₹${data['price']}',
-                                                                    style: const TextStyle(
-                                                                        fontSize:
-                                                                            25),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .start,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        '₹${data['price']}',
+                                                                        style: const TextStyle(
+                                                                            overflow:
+                                                                                TextOverflow.fade,
+                                                                            fontSize: 25),
+                                                                        textAlign:
+                                                                            TextAlign.start,
+                                                                      ),
+                                                                      Text(
+                                                                        '×${snapshot.data['productCount']}',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                colorblack.withOpacity(0.5),
+                                                                            fontSize: 15),
+                                                                        textAlign:
+                                                                            TextAlign.start,
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -449,7 +524,7 @@ class _CartPageState extends State<CartPage> {
                                                                           colorgreen),
                                                                   width:
                                                                       size.width *
-                                                                          0.29,
+                                                                          0.287,
                                                                   height:
                                                                       size.width *
                                                                           0.09,
@@ -471,11 +546,14 @@ class _CartPageState extends State<CartPage> {
                                                                           addOrRemoveFromcart(
                                                                               data['id'],
                                                                               false);
+                                                                          // setState(
+                                                                          //     () {
+                                                                          //   cartcount =
+                                                                          //       data['id'];
+                                                                          // });
                                                                         },
                                                                       ),
-                                                                      Text(snapshot
-                                                                          .data[
-                                                                              'productCount']
+                                                                      Text('${snapshot.data['productCount']}'
                                                                           .toString()),
                                                                       IconButton(
                                                                           icon:
@@ -518,6 +596,7 @@ class _CartPageState extends State<CartPage> {
         Positioned(
           left: 0,
           bottom: 0,
+          right: 0,
           child: Container(
             color: colorwhite,
             child: Padding(
@@ -525,27 +604,38 @@ class _CartPageState extends State<CartPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Total Price',
-                        style: TextStyle(
-                            fontSize: 15, color: colorblack.withOpacity(0.5)),
-                      ),
-                      const Text(
-                        '₹7,500',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
+                  SizedBox(
+                    width: size.width * 0.22,
+                    height: size.width * 0.14,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Price',
+                          style: TextStyle(
+                              fontSize: 15, color: colorblack.withOpacity(0.5)),
+                        ),
+                        totalPrice != 0
+                            ? Text(
+                                '₹${totalPrice}',
+                                style: TextStyle(fontSize: 28),
+                              )
+                            : Center(
+                                child: SizedBox(
+                                width: size.width * 0.05,
+                                height: size.width * 0.05,
+                                child: CircularProgressIndicator(),
+                              ))
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: CustomButton(
                       text: 'Checkout',
                       icon: CustomIcon.ticksquareiconfluttter,
-                      width: 0.72,
+                      width: 0.69,
                       widget: const CheckoutScreen(),
                     ),
                   )
@@ -557,6 +647,7 @@ class _CartPageState extends State<CartPage> {
       ]),
     );
   }
+
   // removes data from firestore
   void removeFromCart(String docId, String id) {
     CollectionReference collectionReference =

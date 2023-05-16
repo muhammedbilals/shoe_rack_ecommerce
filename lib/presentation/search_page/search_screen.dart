@@ -10,9 +10,8 @@ import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_pa
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
-  TextEditingController controller = TextEditingController();
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('product').snapshots();
+  static TextEditingController controller = TextEditingController();
+
   Stream getProducts() async* {
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('products')
@@ -25,6 +24,16 @@ class SearchScreen extends StatelessWidget {
     yield docs;
   }
 
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('product')
+      .where('name', isEqualTo: controller.text.toLowerCase().toString())
+      .snapshots();
+  final _firestore = FirebaseFirestore.instance;
+  String? searchKey;
+   Stream<QuerySnapshot> streamQuery = FirebaseFirestore.instance
+      .collection('product')
+      .where('name', isEqualTo: controller.text.toLowerCase().toString())
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -48,38 +57,52 @@ class SearchScreen extends StatelessWidget {
                     // ],
                     color: colorgray,
                     borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(9.0),
-                      child: Icon(
-                        CustomIcon.search_2iconfluttter,
-                        size: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: 300,
-                      // child: Center(
-                      //   child: TextField(
-                      //     decoration: InputDecoration.collapsed(
-                      //         hintText: 'Search',
-                      //         hintStyle: TextStyle(fontSize: 19)),
-                      //   ),
-                      // ),
-                    )
-                  ],
+                child: StatefulBuilder(
+                  builder: (context, setState) {
+                    return Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(9.0),
+                          child: Icon(
+                            CustomIcon.search_2iconfluttter,
+                            size: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                          width: 300,
+                          child: Center(
+                            child: TextField(
+                                decoration: InputDecoration.collapsed(
+                                    hintText: 'Search',
+                                    hintStyle: TextStyle(fontSize: 19)),
+                                onChanged: (value) {
+                                  setState(() {
+                                    searchKey = value;
+                                    streamQuery = _firestore
+                                        .collection('product')
+                                        .where('name',
+                                            isGreaterThanOrEqualTo: searchKey).where('name',isEqualTo: searchKey)
+                                        .where('name',
+                                            isLessThan: searchKey! + 'z')
+                                        .snapshots();
+                                  });
+                                }),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
             StreamBuilder<QuerySnapshot>(
-                stream: _usersStream,
+                stream: streamQuery,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Text('Something went wrong');
                   }
-
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Text("Loading");
                   }
