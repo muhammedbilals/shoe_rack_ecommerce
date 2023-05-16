@@ -25,12 +25,9 @@ class OrdersPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      IconButton(
-                        icon: const Icon(
-                          CustomIcon.lefticonfluttter,
-                          size: 30,
-                        ),
-                        onPressed: () {},
+                      SizedBox(
+                        height: size.width * 0.13,
+                        width: size.width * 0.1,
                       ),
                       const Spacer(),
                       const Center(
