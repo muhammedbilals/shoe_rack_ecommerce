@@ -16,12 +16,12 @@ class ShippingAdressPage extends StatelessWidget {
       child: Scaffold(
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: 'Payment Methods'),
+          child: AppBarWidget(title: 'Shipping Address'),
         ),
         body: Stack(
           children: [
             ListView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               // mainAxisSize: MainAxisSize.max,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -31,7 +31,7 @@ class ShippingAdressPage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(left: 25.0),
                     child: Text(
-                      'Choose a Payment Method',
+                      'Choose an Address',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

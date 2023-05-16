@@ -8,6 +8,7 @@ import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/WishlistButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/search_page/search_screen.dart';
@@ -309,14 +310,14 @@ class HomePage extends StatelessWidget {
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   children: const [
-            //     (),
+               
             //     ProductCardWidget(),
             //   ],
             // ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   children: const [
-            //     (),
+               
             //     ProductCardWidget(),
             //   ],
             // ),

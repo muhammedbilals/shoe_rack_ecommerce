@@ -14,6 +14,8 @@ class AdressRadioButtonWidget extends StatefulWidget {
 // enum SingingCharacter {  home, office ,apartment}
 enum SingingCharacter { lafayette, jefferson, apartment }
 
+List<String> singingCharacter = ['lafayette', 'jefferson', 'apartment' ];
+
 class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
   SingingCharacter? _character = SingingCharacter.lafayette;
 
@@ -160,59 +162,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
             ),
           ),
         ),
-        // ListTile(
-        //   title: const Text('Thomas Jefferson'),
-        //   trailing: Radio<SingingCharacter>(
-        //     value: SingingCharacter.jefferson,
-        //     groupValue: _character,
-        //     onChanged: (SingingCharacter? value) {
-        //       setState(() {
-        //         _character = value;
-        //       });
-        //     },
-        //   ),
-        // ),
       ],
     );
-    // return Column(
-    //   children: <Widget>[
-    //     ListTile(
-    //       title: const Text('Lafayette'),
-    //       trailing: Radio<SingingCharacter>(
-    //         value: SingingCharacter.lafayette,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //     ListTile(
-    //       title: const Text('Thomas Jefferson'),
-    //       trailing: Radio<SingingCharacter>(
-    //         value: SingingCharacter.jefferson,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //     ListTile(
-    //       title: const Text('Apartment'),
-    //       trailing: Radio<SingingCharacter>(
-    //         value: SingingCharacter.apartment,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }

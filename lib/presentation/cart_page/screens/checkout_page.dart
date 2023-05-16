@@ -52,20 +52,11 @@ class CheckoutScreen extends StatelessWidget {
               sbox,
               sbox,
               // products in the cart----------
-              const CartDetailsWidgetCheckoutPage(),
+               CartDetailsWidgetCheckoutPage(),
               sbox,
               sbox,
 
-              const CartDetailsWidgetCheckoutPage(),
-              sbox,
-              sbox,
-
-              const CartDetailsWidgetCheckoutPage(),
-              sbox,
-              sbox,
-
-              const CartDetailsWidgetCheckoutPage(),
-              sbox,
+            
 
               const Padding(
                 padding: EdgeInsets.only(left: 22.0),

@@ -98,420 +98,420 @@ class _CartPageState extends State<CartPage> {
                 child: AppBarWidget(title: 'My Cart')),
             body: ids.isNotEmpty
                 ? SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection('product')
-                                  .where('id', whereIn: ids)
-                                  .snapshots(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                }
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('product')
+                                .where('id', whereIn: ids)
+                                .snapshots(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
 
-                                if (snapshot.hasError) {
-                                  return const Text('Something went wrong');
-                                }
+                              if (snapshot.hasError) {
+                                return const Text('Something went wrong');
+                              }
 
-                                return GridView.count(
-                                    shrinkWrap: true,
-                                    // crossAxisSpacing: 1,
-                                    // mainAxisSpacing: 2,
-                                    crossAxisCount: 1,
-                                    childAspectRatio: 1 / 0.5,
-                                    children: snapshot.data!.docs
-                                        .map((DocumentSnapshot document) {
-                                      Map<String, dynamic> data = document
-                                          .data()! as Map<String, dynamic>;
-                                      return GestureDetector(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Center(
-                                            child: Container(
-                                              width: size.width * 0.95,
-                                              height: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: colorgray),
-                                              child: Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: SizedBox(
-                                                      width: 90,
-                                                      child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          child: Image.network(
-                                                              data['imgurl'])),
-                                                    ),
+                              return GridView.count(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  // crossAxisSpacing: 1,
+                                  // mainAxisSpacing: 2,
+                                  crossAxisCount: 1,
+                                  childAspectRatio: 1 / 0.5,
+                                  children: snapshot.data!.docs
+                                      .map((DocumentSnapshot document) {
+                                    Map<String, dynamic> data = document.data()!
+                                        as Map<String, dynamic>;
+                                    return GestureDetector(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(0.0),
+                                        child: Center(
+                                          child: Container(
+                                            width: size.width * 0.95,
+                                            height: size.width * 0.45,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: colorgray),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width: 90,
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        child: Image.network(
+                                                            data['imgurl'])),
                                                   ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width:
-                                                            size.width * 0.64,
-                                                        child: Row(
-                                                          // crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Padding(
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: size.width * 0.64,
+                                                      child: Row(
+                                                        // crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 12.0,
+                                                                    top: 0,
+                                                                    bottom: 0),
+                                                            child: Text(
+                                                              data['name'],
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 15,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                            ),
+                                                          ),
+                                                          Flex(
+                                                              direction: Axis
+                                                                  .horizontal),
+                                                          IconButton(
+                                                            icon: const Icon(
+                                                                CustomIcon
+                                                                    .delete_4iconfluttter),
+                                                            onPressed: () {
+                                                              showModalBottomSheet(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return Container(
+                                                                    decoration: BoxDecoration(
+                                                                        color:
+                                                                            colorwhite,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20)),
+                                                                    height: size
+                                                                            .height *
+                                                                        0.42,
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        // mainAxisSize: MainAxisSize.min,
+                                                                        children: <
+                                                                            Widget>[
+                                                                          sbox,
+                                                                          const Padding(
+                                                                            padding:
+                                                                                EdgeInsets.all(12.0),
+                                                                            child:
+                                                                                Text(
+                                                                              'Remove From Cart?',
+                                                                              style: TextStyle(fontSize: 22),
+                                                                            ),
+                                                                          ),
+                                                                          const Divider(
+                                                                            endIndent:
+                                                                                30,
+                                                                            indent:
+                                                                                30,
+                                                                          ),
+                                                                          sbox,
+                                                                          CartDetailsWidgetBottomSheet(
+                                                                              docId: data['id'],
+                                                                              count: 1),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8.0),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: SizedBox(
+                                                                                    width: size.width * 0.43,
+                                                                                    height: 50,
+                                                                                    child: ElevatedButton(
+                                                                                      style: ButtonStyle(
+                                                                                          backgroundColor: MaterialStatePropertyAll<Color>(colorgray),
+                                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                                            borderRadius: BorderRadius.circular(18.0),
+                                                                                          ))),
+                                                                                      onPressed: () {
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      child: Text(
+                                                                                        'Cancel',
+                                                                                        style: TextStyle(fontSize: 18, color: colorblack),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: SizedBox(
+                                                                                    width: size.width * 0.43,
+                                                                                    height: 50,
+                                                                                    child: ElevatedButton(
+                                                                                      style: ButtonStyle(
+                                                                                          backgroundColor: MaterialStatePropertyAll<Color>(colorgreen),
+                                                                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                                            borderRadius: BorderRadius.circular(18.0),
+                                                                                          ))),
+                                                                                      onPressed: () async {
+                                                                                        final FirebaseAuth auth = await FirebaseAuth.instance;
+                                                                                        final User? user = auth.currentUser;
+                                                                                        final userID = user!.email;
+                                                                                        removeFromCart(data['id'], userID!);
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      child: Text(
+                                                                                        'Confirm',
+                                                                                        style: TextStyle(fontSize: 18, color: colorwhite),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: size.width * 0.6,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 12.0,
+                                                                bottom: 0,
+                                                                top: 0),
+                                                        child: Text(
+                                                          data['subtitle'],
+                                                          style: TextStyle(
+                                                              // overflow: TextOverflow.clip,
+                                                              fontSize: 15,
+                                                              color: colorblack
+                                                                  .withOpacity(
+                                                                      0.5)),
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 12.0,
+                                                              top: 5),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            data['color'],
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        15),
+                                                          ),
+                                                          const Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 8.0),
+                                                            child: Text(
+                                                              '|',
+                                                              style: TextStyle(
+                                                                  fontSize: 18),
+                                                            ),
+                                                          ),
+                                                          Center(
+                                                            child: Padding(
                                                               padding:
                                                                   const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          8.0),
+                                                              child: Text(
+                                                                'Size : ${data['size']}',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    StreamBuilder(
+                                                      stream: FirebaseFirestore
+                                                          .instance
+                                                          .collection('users')
+                                                          .doc(userID)
+                                                          .collection('cart')
+                                                          .doc(data['id'])
+                                                          .snapshots(),
+                                                      builder:
+                                                          (BuildContext context,
+                                                              AsyncSnapshot
+                                                                  snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return const Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        }
+                                                        if (snapshot.hasError) {
+                                                          return const Text(
+                                                              'Something went wrong');
+                                                        }
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical:
+                                                                      10.0),
+                                                          child: Wrap(
+                                                            alignment:
+                                                                WrapAlignment
+                                                                    .spaceBetween,
+                                                            // crossAxisAlignment:
+                                                            //     CrossAxisAlignment
+                                                            //         .stretch,
+                                                            // mainAxisAlignment:
+                                                            //     MainAxisAlignment
+                                                            //         .spaceBetween,
+                                                            children: [
+                                                              SizedBox(
+                                                                width:
+                                                                    size.width *
+                                                                        0.21,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
                                                                           .only(
                                                                       left:
                                                                           12.0,
                                                                       top: 0,
                                                                       bottom:
                                                                           0),
-                                                              child: Text(
-                                                                data['name'],
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 15,
-                                                                ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                              ),
-                                                            ),
-                                                            Flex(
-                                                                direction: Axis
-                                                                    .horizontal),
-                                                            IconButton(
-                                                                icon: const Icon(
-                                                                    CustomIcon
-                                                                        .delete_4iconfluttter),
-                                                                onPressed: () {
-                                                                  showModalBottomSheet(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (context) {
-                                                                      return Container(
-                                                                        decoration: BoxDecoration(
-                                                                            color:
-                                                                                colorwhite,
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(20)),
-                                                                        height: size.height *
-                                                                            0.42,
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            // mainAxisSize: MainAxisSize.min,
-                                                                            children: <Widget>[
-                                                                              sbox,
-                                                                              const Padding(
-                                                                                padding: EdgeInsets.all(12.0),
-                                                                                child: Text(
-                                                                                  'Remove From Cart?',
-                                                                                  style: TextStyle(fontSize: 22),
-                                                                                ),
-                                                                              ),
-                                                                              const Divider(
-                                                                                endIndent: 30,
-                                                                                indent: 30,
-                                                                              ),
-                                                                              sbox,
-                                                                              CartDetailsWidgetBottomSheet(docId: data['id'], count: 1),
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.all(8.0),
-                                                                                child: Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                  children: [
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.all(8.0),
-                                                                                      child: SizedBox(
-                                                                                        width: size.width * 0.43,
-                                                                                        height: 50,
-                                                                                        child: ElevatedButton(
-                                                                                          style: ButtonStyle(
-                                                                                              backgroundColor: MaterialStatePropertyAll<Color>(colorgray),
-                                                                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                                                                                borderRadius: BorderRadius.circular(18.0),
-                                                                                              ))),
-                                                                                          onPressed: () {
-                                                                                            Navigator.pop(context);
-                                                                                          },
-                                                                                          child: Text(
-                                                                                            'Cancel',
-                                                                                            style: TextStyle(fontSize: 18, color: colorblack),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.all(8.0),
-                                                                                      child: SizedBox(
-                                                                                        width: size.width * 0.43,
-                                                                                        height: 50,
-                                                                                        child: ElevatedButton(
-                                                                                          style: ButtonStyle(
-                                                                                              backgroundColor: MaterialStatePropertyAll<Color>(colorgreen),
-                                                                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                                                                                borderRadius: BorderRadius.circular(18.0),
-                                                                                              ))),
-                                                                                          onPressed: () async {
-                                                                                            final FirebaseAuth auth = await FirebaseAuth.instance;
-                                                                                            final User? user = auth.currentUser;
-                                                                                            final userID = user!.email;
-                                                                                            removeFromCart(data['id'], userID!);
-                                                                                            Navigator.pop(context);
-                                                                                          },
-                                                                                          child: Text(
-                                                                                            'Confirm',
-                                                                                            style: TextStyle(fontSize: 18, color: colorwhite),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: size.width * 0.6,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 12.0,
-                                                                  bottom: 0,
-                                                                  top: 0),
-                                                          child: Text(
-                                                            data['subtitle'],
-                                                            style: TextStyle(
-                                                                // overflow: TextOverflow.clip,
-                                                                fontSize: 15,
-                                                                color: colorblack
-                                                                    .withOpacity(
-                                                                        0.5)),
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 12.0,
-                                                                top: 5),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(
-                                                              data['color'],
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          15),
-                                                            ),
-                                                            const Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left:
-                                                                          8.0),
-                                                              child: Text(
-                                                                '|',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        18),
-                                                              ),
-                                                            ),
-                                                            Center(
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0),
-                                                                child: Text(
-                                                                  'Size : ${data['size']}',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      StreamBuilder(
-                                                        stream:
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    'users')
-                                                                .doc(userID)
-                                                                .collection(
-                                                                    'cart')
-                                                                .doc(data['id'])
-                                                                .snapshots(),
-                                                        builder: (BuildContext
-                                                                context,
-                                                            AsyncSnapshot
-                                                                snapshot) {
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .waiting) {
-                                                            return const Center(
-                                                                child:
-                                                                    CircularProgressIndicator());
-                                                          }
-                                                          if (snapshot
-                                                              .hasError) {
-                                                            return const Text(
-                                                                'Something went wrong');
-                                                          }
-                                                          return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        10.0),
-                                                            child: Wrap(
-                                                              alignment:
-                                                                  WrapAlignment
-                                                                      .spaceBetween,
-                                                              // crossAxisAlignment:
-                                                              //     CrossAxisAlignment
-                                                              //         .stretch,
-                                                              // mainAxisAlignment:
-                                                              //     MainAxisAlignment
-                                                              //         .spaceBetween,
-                                                              children: [
-                                                                SizedBox(
-                                                                  width:
-                                                                      size.width *
-                                                                          0.21,
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            12.0,
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0),
-                                                                    child: Text(
-                                                                      '₹${data['price']}',
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              25),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .start,
-                                                                    ),
+                                                                  child: Text(
+                                                                    '₹${data['price']}',
+                                                                    style: const TextStyle(
+                                                                        fontSize:
+                                                                            25),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
                                                                   ),
                                                                 ),
-                                                                Padding(
-                                                                  padding: EdgeInsets.only(
-                                                                      left: size
-                                                                              .width *
-                                                                          0.12,
-                                                                      right:
-                                                                          10),
-                                                                  child:
-                                                                      Container(
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                20),
-                                                                        color:
-                                                                            colorgreen),
-                                                                    width: size
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    left: size
                                                                             .width *
-                                                                        0.29,
-                                                                    height: size
-                                                                            .width *
-                                                                        0.09,
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        IconButton(
+                                                                        0.12,
+                                                                    right: 10),
+                                                                child:
+                                                                    Container(
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20),
+                                                                      color:
+                                                                          colorgreen),
+                                                                  width:
+                                                                      size.width *
+                                                                          0.29,
+                                                                  height:
+                                                                      size.width *
+                                                                          0.09,
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      IconButton(
+                                                                        icon:
+                                                                            const Icon(
+                                                                          CustomIcon
+                                                                              .minusiconfluttter,
+                                                                          size:
+                                                                              14,
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          addOrRemoveFromcart(
+                                                                              data['id'],
+                                                                              false);
+                                                                        },
+                                                                      ),
+                                                                      Text(snapshot
+                                                                          .data[
+                                                                              'productCount']
+                                                                          .toString()),
+                                                                      IconButton(
                                                                           icon:
                                                                               const Icon(
-                                                                            CustomIcon.minusiconfluttter,
+                                                                            CustomIcon.addiconfluttter,
                                                                             size:
                                                                                 14,
                                                                           ),
                                                                           onPressed:
                                                                               () {
                                                                             addOrRemoveFromcart(data['id'],
-                                                                                false);
-                                                                          },
-                                                                        ),
-                                                                        Text(snapshot
-                                                                            .data['productCount']
-                                                                            .toString()),
-                                                                        IconButton(
-                                                                            icon:
-                                                                                const Icon(
-                                                                              CustomIcon.addiconfluttter,
-                                                                              size: 14,
-                                                                            ),
-                                                                            onPressed:
-                                                                                () {
-                                                                              addOrRemoveFromcart(data['id'], true);
-                                                                            }),
-                                                                      ],
-                                                                    ),
+                                                                                true);
+                                                                          }),
+                                                                    ],
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
-                                      );
-                                    }).toList());
-                              }),
-                          const SizedBox(
-                            height: 200,
-                          )
-                        ],
-                      ),
+                                      ),
+                                    );
+                                  }).toList());
+                            }),
+                        const SizedBox(
+                          height: 200,
+                        )
+                      ],
                     ),
                   )
                 : const Center(child: CircularProgressIndicator())),

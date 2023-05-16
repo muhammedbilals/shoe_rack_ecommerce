@@ -183,8 +183,8 @@ class ProductPage extends StatelessWidget {
                                                         3,
                                                         (int index) {
                                                           return ChoiceChip(
-                                                            disabledColor: colorgray,
-
+                                                            disabledColor:
+                                                                colorgray,
                                                             selectedColor:
                                                                 colorgreen,
                                                             label: Text(
@@ -227,7 +227,8 @@ class ProductPage extends StatelessWidget {
                                                         3,
                                                         (int index) {
                                                           return ChoiceChip(
-                                                            disabledColor: colorgray,
+                                                            disabledColor:
+                                                                colorgray,
                                                             selectedColor:
                                                                 colorgreen,
                                                             label: Text(
@@ -409,24 +410,13 @@ class ProductPage extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    //  StreamBuilder(
-                    //   stream: FirebaseFirestore.instance
-                    //       .collection("product")
-                    //       .doc(id)
-                    //       .snapshots(),
-                    //   // initialData: initialData,
-                    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    //     if (!snapshot.hasData) return LinearProgressIndicator();
-                    //     print('ashfulsahdgfliushadgfoiuahsdfhs${snapshot.data['name']}');
 
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          snapshot.data['name'],
-                          style: const TextStyle(fontSize: 25),
-                          textAlign: TextAlign.start,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        snapshot.data['name'],
+                        style: const TextStyle(fontSize: 25),
+                        textAlign: TextAlign.start,
                       ),
                     ),
                     Padding(
@@ -481,7 +471,7 @@ class ProductPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Text(
-                        snapshot.data['price'],
+                        '₹${snapshot.data['price']}',
                         style: const TextStyle(fontSize: 35),
                         textAlign: TextAlign.start,
                       ),
@@ -492,8 +482,72 @@ class ProductPage extends StatelessWidget {
                         snapshot.data['description'],
                         style: TextStyle(
                             // overflow: TextOverflow.clip,
-                            fontSize: 18,
+                            fontSize: 15,
                             color: colorblack.withOpacity(0.5)),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    sbox,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: Text(
+                        'Available Colors',
+                        style: TextStyle(
+                            // overflow: TextOverflow.clip,
+                            fontSize: 20,
+                            color: colorblack),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                border: Border.all(
+                                    width: 2, style: BorderStyle.solid),
+                                borderRadius: BorderRadius.circular(50)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                border: Border.all(
+                                    width: 2, style: BorderStyle.solid),
+                                borderRadius: BorderRadius.circular(50)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                border: Border.all(
+                                    width: 2, style: BorderStyle.solid),
+                                borderRadius: BorderRadius.circular(50)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    sbox,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: Text(
+                        'Available Size',
+                        style: TextStyle(
+                            // overflow: TextOverflow.clip,
+                            fontSize: 20,
+                            color: colorblack),
                         textAlign: TextAlign.start,
                       ),
                     ),
