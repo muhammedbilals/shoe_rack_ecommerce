@@ -6,6 +6,7 @@ import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/AdressRadiobu
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/widgets/mainbutton.dart';
+import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/add_new_adress_page.dart';
 
 class AddressScreen extends StatelessWidget {
   const AddressScreen({super.key});
@@ -48,6 +49,7 @@ class AddressScreen extends StatelessWidget {
                   icon: CustomIcon.locationiconfluttter,
                   buttonandtextcolor: colorblack,
                   color: colorgray,
+                  widget: AddNewAddressPage(),
                 )
               ],
             ),

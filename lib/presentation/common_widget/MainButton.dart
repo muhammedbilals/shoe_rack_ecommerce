@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
   Function? function;
   final Widget? widget;
 
-   CustomButton(
+  CustomButton(
       {super.key,
       this.icon,
       this.width,
@@ -46,13 +46,13 @@ class CustomButton extends StatelessWidget {
           },
           icon: Icon(
             icon,
-            size: 25,
+            size: 22,
             color: buttonandtextcolor != null ? buttonandtextcolor : colorwhite,
           ),
           label: Text(
             text,
             style: TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 color: buttonandtextcolor != null
                     ? buttonandtextcolor
                     : colorwhite),

@@ -557,7 +557,7 @@ class _CartPageState extends State<CartPage> {
       ]),
     );
   }
-
+  // removes data from firestore
   void removeFromCart(String docId, String id) {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('users');
