@@ -81,28 +81,35 @@ class _CartPageState extends State<CartPage> {
   }
 
   getTotalPrice() async {
-    // get product id from cart for calculation
     List<Map<dynamic, dynamic>> list = [];
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     final userID = user!.email;
     List<String> productId = [];
-    CollectionReference ordersRef = await FirebaseFirestore.instance
+    List<int> productCount = [];
+
+    CollectionReference ordersRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('cart');
 
-    await ordersRef.get().then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        // var orderData = doc.data();
-        productId.add(doc.get('productId'));
-      }
-      log('${ids.toString()}from getprice');
-      setState(() {});
-    }).catchError((error) {
-      // Handle any potential error
-      log('Error getting subcollection documents: $error');
-    });
+    // get product id from cart as list for calculation
+    try {
+      await ordersRef.get().then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          // var orderData = doc.data();
+          productId.add(doc.get('productId'));
+          productCount.add(doc.get('productCount'));
+        }
+
+        setState(() {});
+      }).catchError((error) {
+        // Handle any potential error
+        log('Error getting subcollection documents: $error');
+      });
+    } catch (e) {
+      log(e.toString());
+    }
 
     // GETTING PRICE FROM PRODUCT DATABASE WITH PRODUCT ID
     var snapshot = await FirebaseFirestore.instance
@@ -114,31 +121,22 @@ class _CartPageState extends State<CartPage> {
       return documentSnapshot.data() as Map<String, dynamic>;
     }).toList();
 
-    for (int i = 0; i < list.length; i++) {
-      totalPrice = int.parse(list[i]['price']) + totalPrice;
-    }
-    //get product count from cart to do multiplication
-    // final document = FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(userID)
-    //     .collection('cart')
-    //     .doc()
-    //     .get();
+    for (int i = 0; i < productId.length; i++) {
+      totalPrice = list[i]['price'] * productCount[i] + totalPrice;
+      List<int> pricelist = [];
 
-    // final productCount = FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(userID)
-    //     .collection('cart')
-    //     .doc('keAZuowBemJD4dLx86Qf')
-    //     .get()
-    //     .then((value) {
-    //   log('cart count ${value['productCount']}');
-    //   return value['productCount'];
-    // });
+      pricelist.add(list[i]['price']);
+
+      await ordersRef
+          .doc(productId[i])
+          .update({'totalPrice': (list[i]['price'] * productCount[i])});
+      log('total price is ,${list[i]['price'] * productCount[i]}');
+    }
+    // get product count from cart to do multiplication
 
     //updating value with new value
     setState(() {
-      totalPrice = totalPrice * cartcount;
+      totalPrice = totalPrice;
     });
     log(totalPrice.toString());
   }
@@ -431,14 +429,14 @@ class _CartPageState extends State<CartPage> {
                                                         ],
                                                       ),
                                                     ),
-                                                    FutureBuilder(
-                                                      future: FirebaseFirestore
+                                                    StreamBuilder(
+                                                      stream: FirebaseFirestore
                                                           .instance
                                                           .collection('users')
                                                           .doc(userID)
                                                           .collection('cart')
                                                           .doc(data['id'])
-                                                          .get(),
+                                                          .snapshots(),
                                                       builder:
                                                           (BuildContext context,
                                                               AsyncSnapshot
@@ -546,6 +544,7 @@ class _CartPageState extends State<CartPage> {
                                                                           addOrRemoveFromcart(
                                                                               data['id'],
                                                                               false);
+                                                                          // getTotalPrice();
                                                                           // setState(
                                                                           //     () {
                                                                           //   cartcount =
@@ -566,6 +565,7 @@ class _CartPageState extends State<CartPage> {
                                                                               () {
                                                                             addOrRemoveFromcart(data['id'],
                                                                                 true);
+                                                                            // getTotalPrice();
                                                                           }),
                                                                     ],
                                                                   ),
@@ -618,14 +618,14 @@ class _CartPageState extends State<CartPage> {
                         ),
                         totalPrice != 0
                             ? Text(
-                                '₹${totalPrice}',
-                                style: TextStyle(fontSize: 28),
+                                '₹$totalPrice',
+                                style: const TextStyle(fontSize: 28),
                               )
                             : Center(
                                 child: SizedBox(
                                 width: size.width * 0.05,
                                 height: size.width * 0.05,
-                                child: CircularProgressIndicator(),
+                                child: const CircularProgressIndicator(),
                               ))
                       ],
                     ),
