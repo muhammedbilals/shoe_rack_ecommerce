@@ -6,19 +6,22 @@ import 'package:shoe_rack_ecommerce/model/address_functions.dart';
 import 'package:shoe_rack_ecommerce/model/address_model.dart';
 
 class AdressRadioButtonWidget extends StatefulWidget {
-  const AdressRadioButtonWidget({super.key});
-
+   AdressRadioButtonWidget({super.key, this.selectedAddressIndex});
+   int? selectedAddressIndex;
   @override
   State<AdressRadioButtonWidget> createState() =>
       _AdressRadioButtonWidgetState();
 }
 
+ValueNotifier<int> selectedAddressNotifier = ValueNotifier(0);
+
 class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
-  int selectedAddressIndex = 0;
+  
+
   List<Address> adress = [];
 
   void getAddress() async {
-    adress = await DisplayAddress();
+    adress = await displayAddress();
     setState(() {
       adress = adress;
     });
@@ -27,6 +30,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
   @override
   void initState() {
     getAddress();
+
     super.initState();
   }
 
@@ -62,7 +66,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
                       sbox,
                       Text(
                         adress[index].addressType,
-                        style: TextStyle(fontSize: 19),
+                        style: const TextStyle(fontSize: 19),
                       ),
                       Text(
                         "${adress[index].houseName},${adress[index].pinCode.toString()},${adress[index].city}",
@@ -77,11 +81,12 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
                 ),
                 trailing: Radio(
                   fillColor: MaterialStatePropertyAll<Color>(colorgreen),
-                  value: selectedAddressIndex == index,
+                  value: widget.selectedAddressIndex == index,
                   groupValue: true,
                   onChanged: (value) {
                     setState(() {
-                      selectedAddressIndex = index;
+                      widget.selectedAddressIndex = index;
+                      selectedAddressNotifier.value = index;
                     });
                   },
                 ),

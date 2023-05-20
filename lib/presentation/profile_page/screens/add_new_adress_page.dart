@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -134,7 +135,14 @@ class AddNewAddressPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(18.0),
                         ))),
                     onPressed: () async {
+                      final addressRef = FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userID)
+                          .collection('address');
+                      final id = addressRef.doc();
+
                       addNewAddress(Address(
+                          id: id.id,
                           addressType: dropdownNameValue,
                           name: namecontroller.text,
                           phoneNumber: int.parse(phoneNumbercontroller.text),

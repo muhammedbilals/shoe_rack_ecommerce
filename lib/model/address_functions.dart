@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoe_rack_ecommerce/model/address_model.dart';
@@ -9,10 +11,13 @@ final addressRef = FirebaseFirestore.instance
     .collection('address');
 
 void addNewAddress(Address address) {
-  addressRef.doc().set(address.toJason());
+  final id = addressRef.doc();
+  address.id = id.id;
+  log('adress added${address.id.toString()}');
+  addressRef.doc(address.id).set(address.toJason());
 }
 
-Future<List<Address>> DisplayAddress() async {
+Future<List<Address>> displayAddress() async {
   List<Address> addres = [];
   final address = await addressRef.get();
   List<DocumentSnapshot> doclist = address.docs;
@@ -24,3 +29,23 @@ Future<List<Address>> DisplayAddress() async {
   }
   return addres;
 }
+
+// defaultAddress(int defaultValue) async {
+//   List<Address> addres = await displayAddress();
+//   if (addres.isEmpty) return;
+//   String? id = addres[defaultValue].id;
+//   log(defaultValue.toString());
+//   log(id.toString());
+//   addressRef.doc(id).update({'isDefault': true});
+  
+//   }
+
+// Future<int> getDefaultIndex() async {
+//   List<Address> addres = await displayAddress();
+//   for (int i = 0; i < addres.length; i++) {
+//     if (addres[i].isDefault == true) {
+//       return i;
+//     }
+//   }
+  
+// }

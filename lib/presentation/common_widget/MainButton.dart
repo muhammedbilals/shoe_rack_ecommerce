@@ -11,7 +11,7 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final Color? buttonandtextcolor;
   final num? width;
-  Function? function;
+  final Future? function;
   final Widget? widget;
 
   CustomButton(
@@ -40,6 +40,7 @@ class CustomButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.0),
               ))),
           onPressed: () {
+            function != null ? function : null;
             widget != null
                 ? Navigator.push(
                     context,

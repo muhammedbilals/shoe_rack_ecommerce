@@ -7,7 +7,7 @@ class ShippingAddressWidget extends StatelessWidget {
   const ShippingAddressWidget({
     super.key,
   });
-
+  
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

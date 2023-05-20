@@ -1,17 +1,19 @@
 class Address {
-  final String name;
-  final String addressType;
-  final int phoneNumber;
-  final String houseName;
-  final String roadName;
-  final int pinCode;
-  final String city;
-  final String state;
-  final String? id;
+   String name='';
+   String addressType='';
+   int phoneNumber;
+   String houseName='';
+   String roadName='';
+   int pinCode;
+   String city='';
+   String state='';
+  String? id;
+  bool isDefault = false;
 
   Address(
       {required this.addressType,
       required this.name,
+
       required this.phoneNumber,
       required this.houseName,
       required this.roadName,
@@ -33,7 +35,9 @@ class Address {
 
   Map<String, dynamic> toJason() => {
         'name': name,
-        'addressType':addressType,
+
+        'id': id,
+        'addressType': addressType,
         'phoneNumber': phoneNumber,
         'houseName': houseName,
         'roadName': roadName,

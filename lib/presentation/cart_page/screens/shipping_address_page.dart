@@ -38,7 +38,9 @@ class ShippingAdressPage extends StatelessWidget {
                 ),
                 sbox,
                 sbox,
-                const AdressRadioButtonWidget(),
+                 AdressRadioButtonWidget(
+                  
+                 ),
               ],
             ),
             Positioned(
