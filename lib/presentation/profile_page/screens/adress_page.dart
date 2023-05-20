@@ -25,24 +25,9 @@ class AddressScreen extends StatelessWidget {
           children: [
             ListView(
               physics: const BouncingScrollPhysics(),
-              // mainAxisSize: MainAxisSize.max,
-              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 sbox,
-                // const Align(
-                //   alignment: Alignment.centerLeft,
-                //   child: Padding(
-                //     padding: EdgeInsets.only(left: 25.0),
-                //     child: Text(
-                //       'Choose a Payment Method',
-                //       style: TextStyle(fontSize: 20),
-                //     ),
-                //   ),
-                // ),
-                sbox,
-                sbox,
                 const AdressRadioButtonWidget(),
-                sbox,
                 sbox,
                 CustomButton(
                   text: 'Add New Address',
@@ -53,7 +38,7 @@ class AddressScreen extends StatelessWidget {
                 )
               ],
             ),
-             Positioned(
+            Positioned(
               bottom: 10,
               left: 0,
               right: 0,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/model/address_functions.dart';
+import 'package:shoe_rack_ecommerce/model/address_model.dart';
 
 class AdressRadioButtonWidget extends StatefulWidget {
   const AdressRadioButtonWidget({super.key});
@@ -11,14 +13,22 @@ class AdressRadioButtonWidget extends StatefulWidget {
       _AdressRadioButtonWidgetState();
 }
 
-// // enum SingingCharacter {  home, office ,apartment}
-// enum SingingCharacter { lafayette, jefferson, apartment }
-
-// List<String> singingCharacter = ['lafayette', 'jefferson', 'apartment' ];
-
 class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
   int selectedAddressIndex = 0;
-  // SingingCharacter? _character = SingingCharacter.lafayette;
+  List<Address> adress = [];
+
+  void getAddress() async {
+    adress = await DisplayAddress();
+    setState(() {
+      adress = adress;
+    });
+  }
+
+  @override
+  void initState() {
+    getAddress();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +36,7 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
 
     return Column(
         children: List.generate(
-      3,
+      adress.length,
       (index) => Column(
         children: [
           Container(
@@ -49,14 +59,18 @@ class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       sbox,
-                      const Text(
-                        'Home',
+                      sbox,
+                      Text(
+                        adress[index].addressType,
                         style: TextStyle(fontSize: 19),
                       ),
                       Text(
-                        'Rose avenue,695600,Kerala',
+                        "${adress[index].houseName},${adress[index].pinCode.toString()},${adress[index].city}",
+                        // 'Rose avenue,695600,Kerala',
                         style: TextStyle(
-                            fontSize: 15, color: colorblack.withOpacity(0.5)),
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 15,
+                            color: colorblack.withOpacity(0.5)),
                       ),
                     ],
                   ),

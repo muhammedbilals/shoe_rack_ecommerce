@@ -9,7 +9,18 @@ final addressRef = FirebaseFirestore.instance
     .collection('address');
 
 void addNewAddress(Address address) {
-
   addressRef.doc().set(address.toJason());
-  
+}
+
+Future<List<Address>> DisplayAddress() async {
+  List<Address> addres = [];
+  final address = await addressRef.get();
+  List<DocumentSnapshot> doclist = address.docs;
+
+  for (var document in doclist) {
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    Address address = Address.fromJason(data);
+    addres.add(address);
+  }
+  return addres;
 }
