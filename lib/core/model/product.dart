@@ -38,3 +38,4 @@ class Product {
         'imgurl':imgurl
       };
 }
+ 

@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/model/address_functions.dart';
+import 'package:shoe_rack_ecommerce/model/address_model.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/productsTextfield.dart';
 
@@ -16,14 +18,14 @@ class AddNewAddressPage extends StatelessWidget {
   final housenamecontroller = TextEditingController();
   final roadnamecontroller = TextEditingController();
   List<String> nameList = <String>['Home', 'Work', 'Apartment'];
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     String dropdownNameValue = nameList.first;
 
     return SafeArea(
-      child: Stack(
-        children: [
+      child: Stack(children: [
         Scaffold(
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(70),
@@ -132,6 +134,15 @@ class AddNewAddressPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(18.0),
                         ))),
                     onPressed: () async {
+                      addNewAddress(Address(
+                          addressType: dropdownNameValue,
+                          name: namecontroller.text,
+                          phoneNumber: int.parse(phoneNumbercontroller.text),
+                          houseName: housenamecontroller.text,
+                          roadName: roadnamecontroller.text,
+                          pinCode: int.parse(pincodecontroller.text),
+                          city: citycontroller.text,
+                          state: statecontroller.text));
                       Navigator.pop(context);
                     },
                     child: Text(

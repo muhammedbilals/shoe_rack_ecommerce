@@ -11,158 +11,72 @@ class AdressRadioButtonWidget extends StatefulWidget {
       _AdressRadioButtonWidgetState();
 }
 
-// enum SingingCharacter {  home, office ,apartment}
-enum SingingCharacter { lafayette, jefferson, apartment }
+// // enum SingingCharacter {  home, office ,apartment}
+// enum SingingCharacter { lafayette, jefferson, apartment }
 
-List<String> singingCharacter = ['lafayette', 'jefferson', 'apartment' ];
+// List<String> singingCharacter = ['lafayette', 'jefferson', 'apartment' ];
 
 class _AdressRadioButtonWidgetState extends State<AdressRadioButtonWidget> {
-  SingingCharacter? _character = SingingCharacter.lafayette;
+  int selectedAddressIndex = 0;
+  // SingingCharacter? _character = SingingCharacter.lafayette;
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     return Column(
-      children: <Widget>[
-        Container(
-          width: size.width * 0.9,
-          height: size.width * 0.25,
-          decoration: BoxDecoration(
-              color: colorgray, borderRadius: BorderRadius.circular(20)),
-          child: Center(
-            child: ListTile(
-              leading: Container(
-                width: size.width * 0.15,
-                height: size.width * 0.25,
-                decoration:
-                    BoxDecoration(color: colorgreen, shape: BoxShape.circle),
-                child: const Icon(CustomIcon.locationiconfluttter),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    sbox,
-                    const Text(
-                      'Home',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                    Text(
-                      'Rose avenue,695600,Kerala',
-                      style: TextStyle(
-                          fontSize: 15, color: colorblack.withOpacity(0.5)),
-                    ),
-                  ],
+        children: List.generate(
+      3,
+      (index) => Column(
+        children: [
+          Container(
+            width: size.width * 0.9,
+            height: size.width * 0.25,
+            decoration: BoxDecoration(
+                color: colorgray, borderRadius: BorderRadius.circular(20)),
+            child: Center(
+              child: ListTile(
+                leading: Container(
+                  width: size.width * 0.15,
+                  height: size.width * 0.25,
+                  decoration:
+                      BoxDecoration(color: colorgreen, shape: BoxShape.circle),
+                  child: const Icon(CustomIcon.locationiconfluttter),
                 ),
-              ),
-              trailing: Radio<SingingCharacter>(
-                fillColor: MaterialStatePropertyAll<Color>(colorgreen),
-                value: SingingCharacter.lafayette,
-                groupValue: _character,
-                onChanged: (SingingCharacter? value) {
-                  setState(() {
-                    _character = value;
-                  });
-                },
+                title: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      sbox,
+                      const Text(
+                        'Home',
+                        style: TextStyle(fontSize: 19),
+                      ),
+                      Text(
+                        'Rose avenue,695600,Kerala',
+                        style: TextStyle(
+                            fontSize: 15, color: colorblack.withOpacity(0.5)),
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: Radio(
+                  fillColor: MaterialStatePropertyAll<Color>(colorgreen),
+                  value: selectedAddressIndex == index,
+                  groupValue: true,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedAddressIndex = index;
+                    });
+                  },
+                ),
               ),
             ),
           ),
-        ),
-        sbox,
-        Container(
-          width: size.width * 0.9,
-          height: size.width * 0.25,
-          decoration: BoxDecoration(
-              color: colorgray, borderRadius: BorderRadius.circular(20)),
-          child: Center(
-            child: ListTile(
-              leading: Container(
-                width: size.width * 0.15,
-                height: size.width * 0.2,
-                decoration:
-                    BoxDecoration(color: colorgreen, shape: BoxShape.circle),
-                child: const Icon(CustomIcon.locationiconfluttter),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    sbox,
-                    const Text(
-                      'Office',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                    Text(
-                      'Rose avenue,695600,Kerala',
-                      style: TextStyle(
-                          fontSize: 15, color: colorblack.withOpacity(0.5)),
-                    ),
-                  ],
-                ),
-              ),
-              trailing: Radio<SingingCharacter>(
-                fillColor: MaterialStatePropertyAll<Color>(colorgreen),
-                value: SingingCharacter.jefferson,
-                groupValue: _character,
-                onChanged: (SingingCharacter? value) {
-                  setState(() {
-                    _character = value;
-                  });
-                },
-              ),
-            ),
-          ),
-        ),
-        sbox,
-        Container(
-          width: size.width * 0.9,
-          height: size.width * 0.25,
-          decoration: BoxDecoration(
-              color: colorgray, borderRadius: BorderRadius.circular(20)),
-          child: Center(
-            child: ListTile(
-              leading: Container(
-                width: size.width * 0.15,
-                height: size.width * 0.2,
-                decoration:
-                    BoxDecoration(color: colorgreen, shape: BoxShape.circle),
-                child: const Icon(CustomIcon.locationiconfluttter),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    sbox,
-                    const Text(
-                      'Apartment',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                    Text(
-                      'Rose avenue,695600,Kerala',
-                      style: TextStyle(
-                          fontSize: 15, color: colorblack.withOpacity(0.5)),
-                    ),
-                  ],
-                ),
-              ),
-              trailing: Radio<SingingCharacter>(
-                fillColor: MaterialStatePropertyAll<Color>(colorgreen),
-                value: SingingCharacter.apartment,
-                groupValue: _character,
-                onChanged: (SingingCharacter? value) {
-                  setState(() {
-                    _character = value;
-                  });
-                },
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+          sbox,
+        ],
+      ),
+    ));
   }
 }
