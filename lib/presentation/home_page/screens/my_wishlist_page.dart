@@ -8,7 +8,7 @@ import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 
 class WishListScreen extends StatefulWidget {
-  WishListScreen({super.key});
+  const WishListScreen({super.key});
 
   @override
   State<WishListScreen> createState() => _WishListScreenState();
@@ -28,23 +28,21 @@ class _WishListScreenState extends State<WishListScreen> {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     final userID = user!.email;
-    List<String> oderIds = [];
-    CollectionReference ordersRef = await FirebaseFirestore.instance
+    CollectionReference ordersRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('wishlist');
 
     ordersRef.get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         // var orderData = doc.data();
         ids.add(doc.get('product'));
         log(doc.toString());
-      });
+      }
       log(ids.toString());
       setState(() {});
     }).catchError((error) {
       // Handle any potential error
-      print('Error getting subcollection documents: $error');
     });
   }
 
@@ -101,7 +99,6 @@ class _WishListScreenState extends State<WishListScreen> {
                               builder: (context) => ProductPage(id: data['id']),
                             ));
                         valueNotifier.value = data['id'];
-                        print('value notifirer value ${data['id']}');
                       },
                       child: SizedBox(
                         width: size.width * 0.6,

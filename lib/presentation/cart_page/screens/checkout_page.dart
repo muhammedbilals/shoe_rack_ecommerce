@@ -13,7 +13,6 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
 
     return SafeArea(
       child: Scaffold(
@@ -71,7 +70,7 @@ class CheckoutScreen extends StatelessWidget {
                CustomButton(
                 text: 'Continue to Payment',
                 icon: CustomIcon.walleticonfluttter,
-                widget: PaymentsScreen(),
+                widget: const PaymentsScreen(),
               ),
               sbox
             ],

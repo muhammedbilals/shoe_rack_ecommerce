@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
-import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_bottomsheet.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/product_delete_bottomsheet.dart';
 
 class CartDetailsWidget extends StatelessWidget {
@@ -54,7 +52,7 @@ class CartDetailsWidget extends StatelessWidget {
                             textAlign: TextAlign.start,
                           ),
                         ),
-                        Flex(direction: Axis.horizontal),
+                        const Flex(direction: Axis.horizontal),
                         IconButton(
                           icon: const Icon(CustomIcon.delete_4iconfluttter),
                           onPressed: () {
@@ -79,10 +77,10 @@ class CartDetailsWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0, top: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12.0, top: 5),
                     child: Row(
-                      children: const [
+                      children: [
                         Text(
                           'White',
                           style: TextStyle(fontSize: 15),

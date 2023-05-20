@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
-import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/wishlistButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 
@@ -85,7 +82,6 @@ class _MostPopularPageState extends State<MostPopularPage> {
                               builder: (context) => ProductPage(id: data['id']),
                             ));
                         // valueNotifier.value = data['id'];
-                        print('value notifirer value ${data['id']}');
                       },
                       child: SizedBox(
                         width: size.width * 0.6,

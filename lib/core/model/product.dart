@@ -3,7 +3,7 @@ class Product {
   final String subtitle;
   final String descrption;
   String? id;
-  final String? price;
+  final int? price;
   final String? color;
   final int? size;
   final String? imgurl;
@@ -19,13 +19,14 @@ class Product {
       this.descrption = ''});
 
   static Product fromJason(Map<String, dynamic> json) => Product(
-      imgurl : json['imgUrl'],
+      imgurl : json['imgurl'],
       name: json['name'],
       subtitle: json['subtitle'],
-      descrption: json['discrption'],
+      descrption: json['description'],
       id: json['id'],
       color: json['color'],
-      size: json['size']);
+      size: json['size'],
+      price :json['price']);
 
   Map<String, dynamic> toJason() => {
         'name': name,

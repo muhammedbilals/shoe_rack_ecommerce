@@ -1,6 +1,10 @@
+// ignore: file_names
+// ignore: file_names
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 
+// ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   final IconData? icon;
   final String text;
