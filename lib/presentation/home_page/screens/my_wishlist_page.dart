@@ -78,6 +78,9 @@ class _WishListScreenState extends State<WishListScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text("Loading");
                 }
+                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty || ids.isEmpty) {
+                  return const Center(child: Text('No products found'));
+                }
                 return GridView.count(
                   padding: const EdgeInsets.only(left: 15),
                   clipBehavior: Clip.none,
@@ -148,6 +151,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                       await userCollection
                                           .doc(querySnapshot.docs.first.id)
                                           .delete();
+                                          ids.remove(data['id']);
                                       debugPrint('produt deleteted $userID');
                                       setState(() {});
                                     },
@@ -273,17 +277,33 @@ class _FavouriteRemoveButtonState extends State<FavouriteRemoveButton> {
             color: colorgreen,
           ),
           onPressed: () async {
-            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-                .collection('users')
-                .doc('$userID')
-                .collection('wishlist')
-                .where('product', isEqualTo: widget.productId)
-                .get();
+            // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            //     .collection('users')
+            //     .doc('$userID')
+            //     .collection('wishlist')
+            //     .where('product', isEqualTo: widget.productId)
+            //     .get();
 
-            await userCollection.doc(querySnapshot.docs.first.id).delete();
-            debugPrint('produt deleteted $userID');
-            setState(() {});
+            // await userCollection.doc(querySnapshot.docs.first.id).delete();
+            // debugPrint('produt deleteted $userID');
+            // setState(() {});
           },
         ));
+  }
+    addOrRemoveFromWishlist(String id) async {
+    final userCollection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('wishlist')
+        .doc(id);
+   
+     
+   
+      userCollection.delete();
+      setState(() {
+       
+      });
+      log('removed from wishlist');
+    
   }
 }

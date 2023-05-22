@@ -5,6 +5,7 @@ import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/wishlistButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 
+// ignore: must_be_immutable
 class BrandProductScreen extends StatefulWidget {
   String brandName;
 
