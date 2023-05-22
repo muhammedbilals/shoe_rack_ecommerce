@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
-import 'package:shoe_rack_ecommerce/core/images/images.dart';
+
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/WishlistButton.dart';
@@ -12,6 +12,7 @@ import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/brand_list_ti
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/search_page/search_screen.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
   HomePage({super.key});
   final Stream<QuerySnapshot> _usersStream =
