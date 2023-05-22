@@ -8,6 +8,7 @@ import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/WishlistButton.dart';
+import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/brand_list_tile.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/search_page/search_screen.dart';
 
@@ -113,26 +114,8 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BrandTileWidget(image: logoimg[0]),
-                BrandTileWidget(image: logoimg[1]),
-                BrandTileWidget(image: logoimg[2]),
-                BrandTileWidget(image: logoimg[3]),
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BrandTileWidget(image: logoimg[4]),
-                BrandTileWidget(image: logoimg[5]),
-                BrandTileWidget(image: logoimg[6]),
-                BrandTileWidget(image: logoimg[7]),
-              ],
-            ),
+            BrandListTile(),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
@@ -345,13 +328,17 @@ final CollectionReference userCollection = FirebaseFirestore.instance
 
 class BrandTileWidget extends StatelessWidget {
   final String image;
+  final String logoname;
   const BrandTileWidget({
     required this.image,
     super.key,
+    required this.logoname,
   });
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -362,8 +349,8 @@ class BrandTileWidget extends StatelessWidget {
               color: colorgray,
               // color: Colors.amber,
             ),
-            height: 60,
-            width: 60,
+            height: size.width * 0.15,
+            width: size.width * 0.15,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
               child: Image.asset(
@@ -372,9 +359,10 @@ class BrandTileWidget extends StatelessWidget {
               ),
             ),
           ),
-          const Text(
-            'Puma',
-            style: TextStyle(fontSize: 18),
+          Text(
+            overflow: TextOverflow.ellipsis,
+            logoname,
+            style: TextStyle(fontSize: 16),
           )
         ],
       ),

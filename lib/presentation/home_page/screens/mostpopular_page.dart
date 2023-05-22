@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
@@ -20,7 +22,7 @@ Stream<QuerySnapshot> getUserSelection(String userSelection) {
   return usersStream;
 }
 
-List<String> brands = ['Adidas', 'puma', 'Fila'];
+List<String> brands = ['Adidas', 'Puma', 'Fila'];
 String userSelection = brands[0];
 final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
     .collection('product')
@@ -71,7 +73,10 @@ class _MostPopularPageState extends State<MostPopularPage> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
+                  return Center(child: const CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text('No products found'));
                 }
                 return GridView.count(
                   padding: const EdgeInsets.only(left: 15),

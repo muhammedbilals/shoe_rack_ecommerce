@@ -38,7 +38,7 @@ class _FavouriteButtonState extends State<FavouriteButton> {
   //   }
   // }
   checkWishlistStatus(String id) async {
-    final userCollection = await FirebaseFirestore.instance
+    final userCollection =  FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('wishlist')

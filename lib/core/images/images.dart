@@ -7,5 +7,15 @@ final logoimg = [
   'asset/images/Puma.png',
   'asset/images/redtape.png',
   'asset/images/Under-Armour.png',
-  'asset/images/Vans.png'
+
+];
+List<String> logoName = <String>[
+  'Adidas',
+  'droors clothing',
+  'Fila',
+  'Vans',
+  'Nike',
+  'Puma',
+  'Redtape',
+  'Under Armour'
 ];
