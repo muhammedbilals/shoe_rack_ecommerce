@@ -7,8 +7,6 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/images/images.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
-import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
-import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/ProductCardWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/WishlistButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/product_page/screens/product_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/search_page/search_screen.dart';
@@ -42,10 +40,11 @@ class HomePage extends StatelessWidget {
                   icon: const Icon(CustomIcon.hearticonfluttter),
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WishListScreen(),
-                        ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WishListScreen(),
+                      ),
+                    );
                   },
                 ),
               )
@@ -61,7 +60,6 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      
                       builder: (context) => SearchScreen(),
                     ));
               },
@@ -77,8 +75,8 @@ class HomePage extends StatelessWidget {
                       // ],
                       color: colorgray,
                       borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(9.0),
                         child: Icon(
@@ -310,14 +308,14 @@ class HomePage extends StatelessWidget {
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   children: const [
-               
+
             //     ProductCardWidget(),
             //   ],
             // ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   children: const [
-               
+
             //     ProductCardWidget(),
             //   ],
             // ),

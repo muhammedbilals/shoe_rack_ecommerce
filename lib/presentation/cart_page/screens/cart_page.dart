@@ -71,36 +71,36 @@ class _CartPageState extends State<CartPage> {
       products = products;
     });
     // getTotalPrice2();
-    getTotalPrice();
+    getTotalPrice2();
     log(products[0].name.toString());
   }
 
-  getTotalPrice() async {
-    final String email = FirebaseAuth.instance.currentUser!.email!;
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(email)
-        .collection('cart')
-        .get();
-    // List<DocumentSnapshot> documents = querySnapshot.docs;
-    // List<dynamic> cartList = documents.map((doc) => doc.data()).toList();
-    // if (mounted) {
-    //   setState(() {
-    //     this.cartList = cartList;
-    //   });
-    // }
-    if (querySnapshot.docs.isNotEmpty) {
-      for (var doc in querySnapshot.docs) {
-        totalPrice = doc.get('totalPrice') + totalPrice;
-      }
-      if (mounted) {
-        setState(() {
-          totalPrice;
-        });
-      }
-      totalPriceNotifier.value = totalPrice;
-    }
-  }
+  // getTotalPrice() async {
+  //   final String email = FirebaseAuth.instance.currentUser!.email!;
+  //   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(email)
+  //       .collection('cart')
+  //       .get();
+  //   List<DocumentSnapshot> documents = querySnapshot.docs;
+  //   List<dynamic> cartList = documents.map((doc) => doc.data()).toList();
+  //   if (mounted) {
+  //     setState(() {
+  //       this.cartList = cartList;
+  //     });
+  //   }
+  //   if (querySnapshot.docs.isNotEmpty) {
+  //     for (var doc in querySnapshot.docs) {
+  //       totalPrice = doc.get('totalPrice') + totalPrice;
+  //     }
+  //     if (mounted) {
+  //       setState(() {
+  //         totalPrice;
+  //       });
+  //     }
+  //     totalPriceNotifier.value = totalPrice;
+  //   }
+  // }
 
   addOrRemoveFromcart(String id, bool? incriment) async {
     // int? productCount;
@@ -216,429 +216,432 @@ class _CartPageState extends State<CartPage> {
             body: SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Column(children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    if (ids.isNotEmpty || products.isNotEmpty) {
-                      return GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Center(
-                            child: Container(
-                              width: size.width * 0.95,
-                              height: size.width * 0.45,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: colorgray),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 80,
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image.network(
-                                              products[index].imgurl!)),
+              
+                   ListView.builder(
+                    
+                    shrinkWrap: true,
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      if (ids.isNotEmpty || products.isNotEmpty) {
+                        return GestureDetector(
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Center(
+                              child: Container(
+                                width: size.width * 0.95,
+                                height: size.width * 0.45,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: colorgray),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 80,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.network(
+                                                products[index].imgurl!)),
+                                      ),
                                     ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: size.width * 0.64,
-                                        child: Row(
-                                          // crossAxisAlignment: CrossAxisAlignment.stretch,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 12.0,
-                                                  top: 0,
-                                                  bottom: 0),
-                                              child: Text(
-                                                products[index].name.toString(),
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                ),
-                                                textAlign: TextAlign.start,
-                                              ),
-                                            ),
-                                            Flex(direction: Axis.horizontal),
-                                            IconButton(
-                                              icon: const Icon(CustomIcon
-                                                  .delete_4iconfluttter),
-                                              onPressed: () {
-                                                showModalBottomSheet(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Container(
-                                                      decoration: BoxDecoration(
-                                                          color: colorwhite,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      20)),
-                                                      height:
-                                                          size.height * 0.42,
-                                                      child: Center(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          // mainAxisSize: MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            sbox,
-                                                            const Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                          12.0),
-                                                              child: Text(
-                                                                'Remove From Cart?',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        22),
-                                                              ),
-                                                            ),
-                                                            const Divider(
-                                                              endIndent: 30,
-                                                              indent: 30,
-                                                            ),
-                                                            sbox,
-                                                            CartDetailsWidgetBottomSheet(
-                                                                docId: products[
-                                                                        index]
-                                                                    .id
-                                                                    .toString(),
-                                                                count: 1),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            8.0),
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width: size
-                                                                              .width *
-                                                                          0.43,
-                                                                      height:
-                                                                          50,
-                                                                      child:
-                                                                          ElevatedButton(
-                                                                        style: ButtonStyle(
-                                                                            backgroundColor: MaterialStatePropertyAll<Color>(colorgray),
-                                                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(18.0),
-                                                                            ))),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          'Cancel',
-                                                                          style: TextStyle(
-                                                                              fontSize: 18,
-                                                                              color: colorblack),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            8.0),
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width: size
-                                                                              .width *
-                                                                          0.43,
-                                                                      height:
-                                                                          50,
-                                                                      child:
-                                                                          ElevatedButton(
-                                                                        style: ButtonStyle(
-                                                                            backgroundColor: MaterialStatePropertyAll<Color>(colorgreen),
-                                                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(18.0),
-                                                                            ))),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          final FirebaseAuth
-                                                                              auth =
-                                                                              await FirebaseAuth.instance;
-                                                                          final User?
-                                                                              user =
-                                                                              auth.currentUser;
-                                                                          final userID =
-                                                                              user!.email;
-                                                                          removeFromCart(
-                                                                              products[index].id.toString(),
-                                                                              userID!);
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          'Confirm',
-                                                                          style: TextStyle(
-                                                                              fontSize: 18,
-                                                                              color: colorwhite),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.6,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 12.0, bottom: 0, top: 0),
-                                          child: Text(
-                                            products[index].subtitle.toString(),
-                                            style: TextStyle(
-                                                // overflow: TextOverflow.clip,
-                                                fontSize: 15,
-                                                color: colorblack
-                                                    .withOpacity(0.5)),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 12.0, top: 5),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              products[index].color.toString(),
-                                              style:
-                                                  const TextStyle(fontSize: 15),
-                                            ),
-                                            const Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                '|',
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Padding(
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: size.width * 0.64,
+                                          child: Row(
+                                            // crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 8.0),
+                                                    left: 12.0,
+                                                    top: 0,
+                                                    bottom: 0),
                                                 child: Text(
-                                                  'Size : ${products[index].size.toString()}',
-                                                  textAlign: TextAlign.center,
+                                                  products[index].name.toString(),
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                  ),
+                                                  textAlign: TextAlign.start,
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      StreamBuilder(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('users')
-                                            .doc(userID)
-                                            .collection('cart')
-                                            .doc(
-                                              products[index].id.toString(),
-                                            )
-                                            .snapshots(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          }
-                                          if (snapshot.hasError) {
-                                            return const Text(
-                                                'Something went wrong');
-                                          }
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10.0),
-                                            child: Wrap(
-                                              alignment:
-                                                  WrapAlignment.spaceBetween,
-                                              // crossAxisAlignment:
-                                              //     CrossAxisAlignment
-                                              //         .stretch,
-                                              // mainAxisAlignment:
-                                              //     MainAxisAlignment
-                                              //         .spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  width: size.width * 0.245,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 12.0,
-                                                            top: 0,
-                                                            bottom: 0),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          '₹${products[index].price.toString()}',
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .fade,
-                                                              fontSize: 25),
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                        ),
-                                                        Text(
-                                                          '×${snapshot.data['productCount']}',
-                                                          style: TextStyle(
-                                                              color: colorblack
-                                                                  .withOpacity(
-                                                                      0.5),
-                                                              fontSize: 15),
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: size.width * 0.12,
-                                                      right: 10),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        color: colorgreen),
-                                                    width: size.width * 0.287,
-                                                    height: size.width * 0.09,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        ValueListenableBuilder(
-                                                          valueListenable:
-                                                              totalPriceNotifier,
-                                                          builder: (context,
-                                                                  priceValue,
-                                                                  child) =>
-                                                              IconButton(
-                                                            icon: const Icon(
-                                                              CustomIcon
-                                                                  .minusiconfluttter,
-                                                              size: 14,
-                                                            ),
-                                                            onPressed: () {
-                                                              if (snapshot.data[
-                                                                      'productCount'] !=
-                                                                  1) {
-                                                                totalPriceNotifier
-                                                                        .value =
-                                                                    priceValue -
-                                                                        products[index]
-                                                                            .price!;
-                                                                addOrRemoveFromcart(
-                                                                    products[
-                                                                            index]
-                                                                        .id
-                                                                        .toString(),
-                                                                    false);
-                                                                // getTotalPrice();
-                                                                // setState(
-                                                                //     () {
-                                                                //   cartcount =
-                                                                //       data['id'];
-                                                                // });
-                                                              }
-                                                            },
+                                              Flex(direction: Axis.horizontal),
+                                              IconButton(
+                                                icon: const Icon(CustomIcon
+                                                    .delete_4iconfluttter),
+                                                onPressed: () {
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return Container(
+                                                        decoration: BoxDecoration(
+                                                            color: colorwhite,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        height:
+                                                            size.height * 0.42,
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            // mainAxisSize: MainAxisSize.min,
+                                                            children: <Widget>[
+                                                              sbox,
+                                                              const Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            12.0),
+                                                                child: Text(
+                                                                  'Remove From Cart?',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          22),
+                                                                ),
+                                                              ),
+                                                              const Divider(
+                                                                endIndent: 30,
+                                                                indent: 30,
+                                                              ),
+                                                              sbox,
+                                                              CartDetailsWidgetBottomSheet(
+                                                                  docId: products[
+                                                                          index]
+                                                                      .id
+                                                                      .toString(),
+                                                                  count: 1),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width: size
+                                                                                .width *
+                                                                            0.43,
+                                                                        height:
+                                                                            50,
+                                                                        child:
+                                                                            ElevatedButton(
+                                                                          style: ButtonStyle(
+                                                                              backgroundColor: MaterialStatePropertyAll<Color>(colorgray),
+                                                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(18.0),
+                                                                              ))),
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(
+                                                                                context);
+                                                                          },
+                                                                          child:
+                                                                              Text(
+                                                                            'Cancel',
+                                                                            style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                color: colorblack),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width: size
+                                                                                .width *
+                                                                            0.43,
+                                                                        height:
+                                                                            50,
+                                                                        child:
+                                                                            ElevatedButton(
+                                                                          style: ButtonStyle(
+                                                                              backgroundColor: MaterialStatePropertyAll<Color>(colorgreen),
+                                                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(18.0),
+                                                                              ))),
+                                                                          onPressed:
+                                                                              () async {
+                                                                            final FirebaseAuth
+                                                                                auth =
+                                                                                await FirebaseAuth.instance;
+                                                                            final User?
+                                                                                user =
+                                                                                auth.currentUser;
+                                                                            final userID =
+                                                                                user!.email;
+                                                                            removeFromCart(
+                                                                                products[index].id.toString(),
+                                                                                userID!);
+                                                                            Navigator.pop(
+                                                                                context);
+                                                                          },
+                                                                          child:
+                                                                              Text(
+                                                                            'Confirm',
+                                                                            style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                color: colorwhite),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                        Text(
-                                                            '${snapshot.data['productCount']}'
-                                                                .toString()),
-                                                        ValueListenableBuilder(
-                                                          valueListenable:
-                                                              totalPriceNotifier,
-                                                          builder: (context,
-                                                                  priceValue,
-                                                                  child) =>
-                                                              IconButton(
-                                                                  icon:
-                                                                      const Icon(
-                                                                    CustomIcon
-                                                                        .addiconfluttter,
-                                                                    size: 14,
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    totalPriceNotifier
-                                                                            .value =
-                                                                        priceValue +
-                                                                            products[index].price!;
-                                                                    addOrRemoveFromcart(
-                                                                        products[index]
-                                                                            .id!,
-                                                                        true);
-                                                                    // getTotalPrice();
-                                                                  }),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.6,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 12.0, bottom: 0, top: 0),
+                                            child: Text(
+                                              products[index].subtitle.toString(),
+                                              style: TextStyle(
+                                                  // overflow: TextOverflow.clip,
+                                                  fontSize: 15,
+                                                  color: colorblack
+                                                      .withOpacity(0.5)),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 12.0, top: 5),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                products[index].color.toString(),
+                                                style:
+                                                    const TextStyle(fontSize: 15),
+                                              ),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
+                                                child: Text(
+                                                  '|',
+                                                  style: TextStyle(fontSize: 18),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 8.0),
+                                                  child: Text(
+                                                    'Size : ${products[index].size.toString()}',
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(userID)
+                                              .collection('cart')
+                                              .doc(
+                                                products[index].id.toString(),
+                                              )
+                                              .snapshots(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
+                                            if (snapshot.hasError) {
+                                              return const Text(
+                                                  'Something went wrong');
+                                            }
+                                            return Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 10.0),
+                                              child: Wrap(
+                                                alignment:
+                                                    WrapAlignment.spaceBetween,
+                                                // crossAxisAlignment:
+                                                //     CrossAxisAlignment
+                                                //         .stretch,
+                                                // mainAxisAlignment:
+                                                //     MainAxisAlignment
+                                                //         .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    width: size.width * 0.245,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 12.0,
+                                                              top: 0,
+                                                              bottom: 0),
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            '₹${products[index].price.toString()}',
+                                                            style: const TextStyle(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .fade,
+                                                                fontSize: 25),
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                          ),
+                                                          Text(
+                                                            '×${snapshot.data['productCount']}',
+                                                            style: TextStyle(
+                                                                color: colorblack
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                fontSize: 15),
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: size.width * 0.12,
+                                                        right: 10),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          color: colorgreen),
+                                                      width: size.width * 0.287,
+                                                      height: size.width * 0.09,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          ValueListenableBuilder(
+                                                            valueListenable:
+                                                                totalPriceNotifier,
+                                                            builder: (context,
+                                                                    priceValue,
+                                                                    child) =>
+                                                                IconButton(
+                                                              icon: const Icon(
+                                                                CustomIcon
+                                                                    .minusiconfluttter,
+                                                                size: 14,
+                                                              ),
+                                                              onPressed: () {
+                                                                if (snapshot.data[
+                                                                        'productCount'] !=
+                                                                    1) {
+                                                                  totalPriceNotifier
+                                                                          .value =
+                                                                      priceValue -
+                                                                          products[index]
+                                                                              .price!;
+                                                                  addOrRemoveFromcart(
+                                                                      products[
+                                                                              index]
+                                                                          .id
+                                                                          .toString(),
+                                                                      false);
+                                                                  // getTotalPrice();
+                                                                  // setState(
+                                                                  //     () {
+                                                                  //   cartcount =
+                                                                  //       data['id'];
+                                                                  // });
+                                                                }
+                                                              },
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                              '${snapshot.data['productCount']}'
+                                                                  .toString()),
+                                                          ValueListenableBuilder(
+                                                            valueListenable:
+                                                                totalPriceNotifier,
+                                                            builder: (context,
+                                                                    priceValue,
+                                                                    child) =>
+                                                                IconButton(
+                                                                    icon:
+                                                                        const Icon(
+                                                                      CustomIcon
+                                                                          .addiconfluttter,
+                                                                      size: 14,
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      totalPriceNotifier
+                                                                              .value =
+                                                                          priceValue +
+                                                                              products[index].price!;
+                                                                      addOrRemoveFromcart(
+                                                                          products[index]
+                                                                              .id!,
+                                                                          true);
+                                                                      // getTotalPrice();
+                                                                    }),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    } else {
-                      Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                )
+                        );
+                      } else {
+                        Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                
               ]),
             )),
         Positioned(

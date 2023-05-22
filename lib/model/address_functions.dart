@@ -37,7 +37,7 @@ Future<List<Address>> displayAddress() async {
 //   log(defaultValue.toString());
 //   log(id.toString());
 //   addressRef.doc(id).update({'isDefault': true});
-  
+
 //   }
 
 // Future<int> getDefaultIndex() async {
@@ -47,5 +47,16 @@ Future<List<Address>> displayAddress() async {
 //       return i;
 //     }
 //   }
-  
+
 // }
+updateDefaultValue(String adressId) async {
+  addressRef.get().then((QuerySnapshot querysnapshot) {
+    for (var doc in querysnapshot.docs) {
+      if (doc.id == adressId) {
+        doc.reference.update({'isDefault': true});
+      }else{
+        doc.reference.update({'isDefault': false});
+      }
+    }
+  });
+}

@@ -1,11 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
+import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 
-class AmountWidget extends StatelessWidget {
+class AmountWidget extends StatefulWidget {
   const AmountWidget({
     super.key,
   });
+
+  @override
+  State<AmountWidget> createState() => _AmountWidgetState();
+}
+
+class _AmountWidgetState extends State<AmountWidget> {
+  @override
+  void initState() {
+    // getTotalValue();
+    super.initState();
+  }
+
+  void getpice() {
+    final cartRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart');
+    cartRef.doc();
+  }
 
   @override
   Widget build(BuildContext context) {

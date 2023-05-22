@@ -7,18 +7,30 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/cart_page.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   ProductPage({
     super.key,
     required this.id,
   });
-  List<String> colorList = <String>['Black', 'Red', 'White', 'Blue'];
-  List<String> sizeList = <String>['9', '10', '11', '12'];
   final String id;
+
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  List<String> colorList = <String>['Black', 'Red', 'White', 'Blue'];
+
+  List<int> sizeList = <int>[9, 10, 11, 12];
+
   int choiceChipColorValue = 0;
+
   int choiceChipSizeValue = 0;
+
+  bool isAddedtoCart = false;
 
   addToCart(String id, String color, int size) async {
     int productCount = 1;
@@ -40,6 +52,40 @@ class ProductPage extends StatelessWidget {
     log('added to cart');
   }
 
+  removeFromCart(String id) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    final collectionReference = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart')
+        .doc(id);
+    collectionReference.delete();
+    setState(() {
+      isAddedtoCart = false;
+    });
+    log('removed from cart');
+  }
+
+  checkifAddedtoCart(String id) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart')
+        .doc(id)
+        .get();
+
+    if (snapshot.exists) {
+      setState(() {
+        isAddedtoCart = true;
+      });
+    }
+  }
+
   Future<bool> checkIfAvailable(String color, int size, String docId) async {
     final DocumentReference docRef =
         FirebaseFirestore.instance.collection('product').doc(docId);
@@ -47,12 +93,13 @@ class ProductPage extends StatelessWidget {
 
     if (docSnapshot.exists) {
       // document exists, check if field value is equal to the desired value
-      final dynamic fieldValue = docSnapshot['color'];
+      final dynamic fieldColor = docSnapshot['color'];
+      final dynamic fieldSize = docSnapshot['size'];
       log(docSnapshot.toString());
-      if (fieldValue == color) {
+      if (fieldColor == color && fieldSize == size) {
         // field value is equal to the desired value
-        log('[data availbale]');
-        log(fieldValue);
+        log('data availbale');
+        log(fieldColor);
         addToCart(docId, color, size);
         return true;
       } else {
@@ -65,6 +112,12 @@ class ProductPage extends StatelessWidget {
     }
     log("no data");
     return false;
+  }
+
+  @override
+  void initState() {
+    checkifAddedtoCart(widget.id);
+    super.initState();
   }
 
   @override
@@ -94,7 +147,9 @@ class ProductPage extends StatelessWidget {
                               side: BorderSide(color: colorgreen, width: 2),
                               borderRadius: BorderRadius.circular(18.0),
                             ))),
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                        },
                         child: Icon(
                           CustomIcon.hearticonfluttter,
                           size: 25,
@@ -111,256 +166,295 @@ class ProductPage extends StatelessWidget {
                       width: size.width * 0.7,
                       height: 60,
                       child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll<Color>(colorgreen),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            ))),
-                        onPressed: () {
-                          // addToCart(id);
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => CartPage(),
-                          //     ));
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                    color: colorwhite,
-                                    borderRadius: BorderRadius.circular(20)),
-                                height: size.height * 0.45,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    // mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      sbox,
-                                      const Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: Text(
-                                          'Add to Cart',
-                                          style: TextStyle(fontSize: 22),
-                                        ),
-                                      ),
-                                      const Divider(
-                                        endIndent: 30,
-                                        indent: 30,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 12.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const Padding(
-                                                  padding: EdgeInsets.all(10.0),
-                                                  child: Text(
-                                                    'Select Color',
-                                                    style:
-                                                        TextStyle(fontSize: 18),
-                                                  ),
-                                                ),
-                                                //color choice chip
-                                                StatefulBuilder(
-                                                  builder:
-                                                      (BuildContext context,
-                                                          setState) {
-                                                    return Wrap(
-                                                      spacing: 5.0,
-                                                      children:
-                                                          List<Widget>.generate(
-                                                        3,
-                                                        (int index) {
-                                                          return ChoiceChip(
-                                                            disabledColor:
-                                                                colorgray,
-                                                            selectedColor:
-                                                                colorgreen,
-                                                            label: Text(
-                                                                colorList[
-                                                                    index]),
-                                                            selected:
-                                                                choiceChipColorValue ==
-                                                                    index,
-                                                            onSelected: (bool
-                                                                selected) {
-                                                              setState(() {
-                                                                choiceChipColorValue =
-                                                                    (selected
-                                                                        ? index
-                                                                        : index);
-                                                              });
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    );
-                                                  },
-                                                ),
-                                                const Padding(
-                                                  padding: EdgeInsets.all(12.0),
-                                                  child: Text(
-                                                    'Select size',
-                                                    style:
-                                                        TextStyle(fontSize: 18),
-                                                  ),
-                                                ),
-                                                StatefulBuilder(
-                                                  builder:
-                                                      (BuildContext context,
-                                                          setState) {
-                                                    return Wrap(
-                                                      spacing: 5.0,
-                                                      children:
-                                                          List<Widget>.generate(
-                                                        3,
-                                                        (int index) {
-                                                          return ChoiceChip(
-                                                            disabledColor:
-                                                                colorgray,
-                                                            selectedColor:
-                                                                colorgreen,
-                                                            label: Text(
-                                                                sizeList[
-                                                                    index]),
-                                                            selected:
-                                                                choiceChipSizeValue ==
-                                                                    index,
-                                                            onSelected: (bool
-                                                                selected) {
-                                                              setState(() {
-                                                                choiceChipSizeValue =
-                                                                    (selected
-                                                                        ? index
-                                                                        : index);
-                                                              });
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    );
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      sbox,
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SizedBox(
-                                                width: size.width * 0.43,
-                                                height: 50,
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll<
-                                                            Color>(colorgray),
-                                                    shape: MaterialStateProperty
-                                                        .all<
-                                                            RoundedRectangleBorder>(
-                                                      RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text(
-                                                    'Cancel',
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: colorblack),
-                                                  ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll<Color>(colorgreen),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ))),
+                          onPressed: () {
+                            isAddedtoCart
+                                ? removeFromCart(widget.id)
+                                : showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                            color: colorwhite,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        height: size.height * 0.45,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            // mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              sbox,
+                                              const Padding(
+                                                padding: EdgeInsets.all(10.0),
+                                                child: Text(
+                                                  'Add to Cart',
+                                                  style:
+                                                      TextStyle(fontSize: 22),
                                                 ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SizedBox(
-                                                width: size.width * 0.43,
-                                                height: 50,
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll<
-                                                            Color>(colorgreen),
-                                                    shape: MaterialStateProperty
-                                                        .all<
-                                                            RoundedRectangleBorder>(
-                                                      RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                      ),
+                                              const Divider(
+                                                endIndent: 30,
+                                                indent: 30,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 12.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10.0),
+                                                          child: Text(
+                                                            'Select Color',
+                                                            style: TextStyle(
+                                                                fontSize: 18),
+                                                          ),
+                                                        ),
+                                                        //color choice chip
+                                                        StatefulBuilder(
+                                                          builder: (BuildContext
+                                                                  context,
+                                                              setState) {
+                                                            return Wrap(
+                                                              spacing: 5.0,
+                                                              children: List<
+                                                                  Widget>.generate(
+                                                                3,
+                                                                (int index) {
+                                                                  return ChoiceChip(
+                                                                    disabledColor:
+                                                                        colorgray,
+                                                                    selectedColor:
+                                                                        colorgreen,
+                                                                    label: Text(
+                                                                        colorList[
+                                                                            index]),
+                                                                    selected:
+                                                                        choiceChipColorValue ==
+                                                                            index,
+                                                                    onSelected:
+                                                                        (bool
+                                                                            selected) {
+                                                                      setState(
+                                                                          () {
+                                                                        choiceChipColorValue = (selected
+                                                                            ? index
+                                                                            : index);
+                                                                      });
+                                                                    },
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                            );
+                                                          },
+                                                        ),
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  12.0),
+                                                          child: Text(
+                                                            'Select size',
+                                                            style: TextStyle(
+                                                                fontSize: 18),
+                                                          ),
+                                                        ),
+                                                        StatefulBuilder(
+                                                          builder: (BuildContext
+                                                                  context,
+                                                              setState) {
+                                                            return Wrap(
+                                                              spacing: 5.0,
+                                                              children: List<
+                                                                  Widget>.generate(
+                                                                3,
+                                                                (int index) {
+                                                                  return ChoiceChip(
+                                                                    disabledColor:
+                                                                        colorgray,
+                                                                    selectedColor:
+                                                                        colorgreen,
+                                                                    label: Text(
+                                                                        sizeList[index]
+                                                                            .toString()),
+                                                                    selected:
+                                                                        choiceChipSizeValue ==
+                                                                            index,
+                                                                    onSelected:
+                                                                        (bool
+                                                                            selected) {
+                                                                      setState(
+                                                                          () {
+                                                                        choiceChipSizeValue = (selected
+                                                                            ? index
+                                                                            : index);
+                                                                      });
+                                                                    },
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    await checkIfAvailable(
-                                                        colorList[
-                                                            choiceChipColorValue],
-                                                        10,
-                                                        id);
-                                                    Navigator.pop(context);
-                                                    // addToCart(
-                                                    //     id,
-                                                    //     choiceChipColorValue
-                                                    //         .toString(),
-                                                    //     choiceChipSizeValue);
-                                                    Text('not found');
-                                                  },
-                                                  child: Text(
-                                                    'Confirm',
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: colorwhite),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              sbox,
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width:
+                                                            size.width * 0.43,
+                                                        height: 50,
+                                                        child: ElevatedButton(
+                                                          style: ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStatePropertyAll<
+                                                                        Color>(
+                                                                    colorgray),
+                                                            shape: MaterialStateProperty
+                                                                .all<
+                                                                    RoundedRectangleBorder>(
+                                                              RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            18.0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'Cancel',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color:
+                                                                    colorblack),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: size.width *
+                                                                0.43,
+                                                            height: 50,
+                                                            child:
+                                                                ElevatedButton(
+                                                              style:
+                                                                  ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStatePropertyAll<
+                                                                            Color>(
+                                                                        colorgreen),
+                                                                shape: MaterialStateProperty
+                                                                    .all<
+                                                                        RoundedRectangleBorder>(
+                                                                  RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            18.0),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                await checkIfAvailable(
+                                                                            colorList[
+                                                                                choiceChipColorValue],
+                                                                            sizeList[
+                                                                                choiceChipSizeValue],
+                                                                            widget
+                                                                                .id) ==
+                                                                        true
+                                                                    ? addToCart(
+                                                                        widget
+                                                                            .id,
+                                                                        choiceChipColorValue
+                                                                            .toString(),
+                                                                        choiceChipSizeValue)
+                                                                    : removeFromCart(
+                                                                        widget
+                                                                            .id);
+                                                              },
+                                                              child: Text(
+                                                                'Confirm',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color:
+                                                                        colorwhite),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          CustomIcon.bagiconfluttter,
-                          size: 25,
-                          color: colorwhite,
-                        ),
-                        label: Text(
-                          'Add to Cart',
-                          style: TextStyle(fontSize: 25, color: colorwhite),
-                        ),
-                      ),
+                                      );
+                                    },
+                                  );
+                          },
+                          icon: Icon(
+                            CustomIcon.bagiconfluttter,
+                            size: 25,
+                            color: colorwhite,
+                          ),
+                          label: isAddedtoCart == false
+                              ? Text(
+                                  'Add to Cart',
+                                  style: TextStyle(
+                                      fontSize: 25, color: colorwhite),
+                                )
+                              : Text(
+                                  'Remove from Cart',
+                                  style: TextStyle(
+                                      fontSize: 25, color: colorwhite),
+                                )),
                     ),
                   )
                 ],
@@ -369,7 +463,7 @@ class ProductPage extends StatelessWidget {
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("product")
-                  .doc(id)
+                  .doc(widget.id)
                   .snapshots(),
               // initialData: initialData,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
