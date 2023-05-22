@@ -11,13 +11,24 @@ class MostPopularPage extends StatefulWidget {
   @override
   State<MostPopularPage> createState() => _MostPopularPageState();
 }
-  List<String> brands = ['Adidas', 'puma', 'Fila'];
-final Stream<QuerySnapshot> _usersStream =
-    FirebaseFirestore.instance.collection('product').where('name' ,isEqualTo: brands[chipvalue]).snapshots();
- int chipvalue = 0;
-class _MostPopularPageState extends State<MostPopularPage> {
- 
 
+Stream<QuerySnapshot> getUserSelection(String userSelection) {
+  final Stream<QuerySnapshot> usersStream = FirebaseFirestore.instance
+      .collection('product')
+      .where('name', isEqualTo: userSelection)
+      .snapshots();
+  return usersStream;
+}
+
+List<String> brands = ['Adidas', 'puma', 'Fila'];
+String userSelection = brands[0];
+final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+    .collection('product')
+    .where('name', isEqualTo: userSelection)
+    .snapshots();
+int chipvalue = 0;
+
+class _MostPopularPageState extends State<MostPopularPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -43,6 +54,7 @@ class _MostPopularPageState extends State<MostPopularPage> {
                     onSelected: (bool selected) {
                       setState(() {
                         chipvalue = (selected ? index : index);
+                        userSelection = brands[index];
                       });
                     },
                   ),
@@ -51,7 +63,7 @@ class _MostPopularPageState extends State<MostPopularPage> {
             ).toList(),
           ),
           StreamBuilder<QuerySnapshot>(
-              stream: _usersStream,
+              stream: getUserSelection(userSelection),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {

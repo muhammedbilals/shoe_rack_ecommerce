@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
@@ -15,30 +17,51 @@ class FavouriteButton extends StatefulWidget {
   State<FavouriteButton> createState() => _FavouriteButtonState();
 }
 
-bool isliked = false;
+bool isAddedtoWishlist = false;
 
 class _FavouriteButtonState extends State<FavouriteButton> {
-  checkIfAlreadyAdded() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+  // checkIfAlreadyAdded() async {
+  //   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc('$userID')
+  //       .collection('wishlist')
+  //       .where('product', isEqualTo: widget.productId)
+  //       .get();
+  //   if (querySnapshot.docs.isNotEmpty) {
+  //     if (mounted) {
+  //       setState(
+  //         () {
+  //           isliked = true;
+  //         },
+  //       );
+  //     }
+  //   }
+  // }
+  checkWishlistStatus(String id) async {
+    final userCollection = await FirebaseFirestore.instance
         .collection('users')
-        .doc('$userID')
+        .doc(userID)
         .collection('wishlist')
-        .where('product', isEqualTo: widget.productId)
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
+        .doc(id);
+
+    final wishlistDocSnapshot = await userCollection.get();
+
+    if (wishlistDocSnapshot.exists) {
       if (mounted) {
-        setState(
-          () {
-            isliked = true;
-          },
-        );
+        setState(() {
+          isAddedtoWishlist = true;
+        });
       }
+
+      log('product in wishlist');
+    } else {
+      log('not in wishlist');
     }
   }
 
   @override
   void initState() {
-    checkIfAlreadyAdded();
+    checkWishlistStatus(widget.productId);
     super.initState();
   }
 
@@ -50,34 +73,43 @@ class _FavouriteButtonState extends State<FavouriteButton> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: 5,
-        right: 5,
-        child: IconButton(
-          icon: isliked
-              ? Icon(
-                  CustomIcon.hearticonfluttter,
-                  color: colorgreen,
-                )
-              : const Icon(CustomIcon.hearticonfluttter),
-          onPressed: () async {
-            QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-                .collection('users')
-                .doc('$userID')
-                .collection('wishlist')
-                .where('product', isEqualTo: widget.productId)
-                .get();
-            if (querySnapshot.docs.isEmpty) {
-              await userCollection.doc().set({'product': widget.productId});
-              debugPrint('produt added to $userID');
-            } else {
-              await userCollection.doc(querySnapshot.docs.first.id).delete();
-              debugPrint('produt deleteto $userID');
-            }
-
+      top: 5,
+      right: 5,
+      child: IconButton(
+        icon: isAddedtoWishlist
+            ? Icon(
+                CustomIcon.hearticonfluttter,
+                color: colorgreen,
+              )
+            : const Icon(CustomIcon.hearticonfluttter),
+        onPressed: () async {
+          QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc('$userID')
+              .collection('wishlist')
+              .where('product', isEqualTo: widget.productId)
+              .get();
+          if (querySnapshot.docs.isEmpty) {
+            await userCollection
+                .doc(widget.productId)
+                .set({'product': widget.productId});
+            debugPrint('produt added to $userID');
             setState(() {
-              isliked = !isliked;
+              isAddedtoWishlist = true;
             });
-          },
-        ));
+          } else {
+            setState(() {
+              isAddedtoWishlist = false;
+            });
+            await userCollection.doc(widget.productId).delete();
+            debugPrint('produt deleteto $userID');
+          }
+
+          // setState(() {
+          //   isAddedtoWishlist = !isAddedtoWishlist;
+          // });
+        },
+      ),
+    );
   }
 }

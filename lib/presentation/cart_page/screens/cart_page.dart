@@ -67,9 +67,12 @@ class _CartPageState extends State<CartPage> {
       Product product = Product.fromJason(data);
       products.add(product);
     }
-    setState(() {
+    if(mounted){
+   setState(() {
       products = products;
     });
+    }
+ 
     // getTotalPrice2();
     getTotalPrice2();
     log(products[0].name.toString());
@@ -186,9 +189,12 @@ class _CartPageState extends State<CartPage> {
     // get product count from cart to do multiplication
 
     //updating value with new value
+    if(mounted){
     setState(() {
       totalPrice = totalPrice;
     });
+    }
+
     log(totalPrice.toString());
   }
   // checkIfCartIsEmpty(List ids){

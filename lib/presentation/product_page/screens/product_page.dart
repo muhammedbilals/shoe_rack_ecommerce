@@ -31,6 +31,7 @@ class _ProductPageState extends State<ProductPage> {
   int choiceChipSizeValue = 0;
 
   bool isAddedtoCart = false;
+  bool isAddedtoWishlist = false;
 
   addToCart(String id, String color, int size) async {
     int productCount = 1;
@@ -114,9 +115,53 @@ class _ProductPageState extends State<ProductPage> {
     return false;
   }
 
+  checkWishlistStatus(String id) async {
+    final userCollection = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('wishlist')
+        .doc(id);
+
+    final wishlistDocSnapshot = await userCollection.get();
+
+    if (wishlistDocSnapshot.exists) {
+      setState(() {
+        
+        isAddedtoWishlist = true;
+      });
+      log('product in wishlist');
+    } else {
+      log('not in wishlist');
+    }
+  }
+
+  addOrRemoveFromWishlist(String id) async {
+    final userCollection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('wishlist')
+        .doc(id);
+    if (!isAddedtoWishlist) {
+      await userCollection.set({
+        'product': id,
+      });
+      setState(() {
+        isAddedtoWishlist = true;
+      });
+      log('added to wishlist');
+    } else {
+      userCollection.delete();
+      setState(() {
+        isAddedtoWishlist = false;
+      });
+      log('removed from wishlist');
+    }
+  }
+
   @override
   void initState() {
     checkifAddedtoCart(widget.id);
+    checkWishlistStatus(widget.id);
     super.initState();
   }
 
@@ -139,23 +184,29 @@ class _ProductPageState extends State<ProductPage> {
                       height: 60,
                       //add to wishlist button
                       child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll<Color>(colorwhite),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              side: BorderSide(color: colorgreen, width: 2),
-                              borderRadius: BorderRadius.circular(18.0),
-                            ))),
-                        onPressed: () {
-                          
-                        },
-                        child: Icon(
-                          CustomIcon.hearticonfluttter,
-                          size: 25,
-                          color: colorblack,
-                        ),
-                      ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll<Color>(colorwhite),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                side: BorderSide(color: colorgreen, width: 2),
+                                borderRadius: BorderRadius.circular(18.0),
+                              ))),
+                          onPressed: () {
+                            addOrRemoveFromWishlist(widget.id);
+                          },
+                          child: isAddedtoWishlist
+                              ? Icon(
+                                  CustomIcon.hearticonfluttter,
+                                  size: 25,
+                                  color: colorgreen,
+                                )
+                              : Icon(
+                                  CustomIcon.hearticonfluttter,
+                                  size: 25,
+                                  color: colorblack,
+                                )),
                     ),
                   ),
                   //add to cart Button
