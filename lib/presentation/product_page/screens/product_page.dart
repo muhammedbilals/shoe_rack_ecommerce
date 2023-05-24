@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/cart_page.dart';
 
 class ProductPage extends StatefulWidget {
   ProductPage({
@@ -70,7 +68,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   checkifAddedtoCart(String id) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseAuth auth = await FirebaseAuth.instance;
     final User? user = auth.currentUser;
     final userID = user!.email;
     final snapshot = await FirebaseFirestore.instance
@@ -126,7 +124,6 @@ class _ProductPageState extends State<ProductPage> {
 
     if (wishlistDocSnapshot.exists) {
       setState(() {
-        
         isAddedtoWishlist = true;
       });
       log('product in wishlist');
@@ -185,14 +182,16 @@ class _ProductPageState extends State<ProductPage> {
                       //add to wishlist button
                       child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll<Color>(colorwhite),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
+                            backgroundColor:
+                                MaterialStatePropertyAll<Color>(colorwhite),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
                                 side: BorderSide(color: colorgreen, width: 2),
                                 borderRadius: BorderRadius.circular(18.0),
-                              ))),
+                              ),
+                            ),
+                          ),
                           onPressed: () {
                             addOrRemoveFromWishlist(widget.id);
                           },
@@ -226,7 +225,7 @@ class _ProductPageState extends State<ProductPage> {
                                 borderRadius: BorderRadius.circular(18.0),
                               ))),
                           onPressed: () {
-                            isAddedtoCart
+                            isAddedtoCart == true
                                 ? removeFromCart(widget.id)
                                 : showModalBottomSheet(
                                     context: context,
@@ -466,6 +465,9 @@ class _ProductPageState extends State<ProductPage> {
                                                                     : removeFromCart(
                                                                         widget
                                                                             .id);
+                                                                // ignore: use_build_context_synchronously
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
                                                               child: Text(
                                                                 'Confirm',
@@ -495,7 +497,7 @@ class _ProductPageState extends State<ProductPage> {
                             size: 25,
                             color: colorwhite,
                           ),
-                          label: isAddedtoCart == false
+                          label: isAddedtoCart == true
                               ? Text(
                                   'Add to Cart',
                                   style: TextStyle(

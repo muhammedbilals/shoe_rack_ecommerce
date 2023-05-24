@@ -76,6 +76,7 @@ class _CartDetailsWidgetCheckoutPageState
                     }
 
                     return GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         // crossAxisSpacing: 1,
                         // mainAxisSpacing: 2,

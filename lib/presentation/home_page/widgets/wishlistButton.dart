@@ -52,7 +52,6 @@ class _FavouriteButtonState extends State<FavouriteButton> {
           isAddedtoWishlist = true;
         });
       }
-
       log('product in wishlist');
     } else {
       log('not in wishlist');

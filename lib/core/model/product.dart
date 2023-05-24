@@ -18,7 +18,7 @@ class Product {
       this.size,
       this.descrption = ''});
 
-  static Product fromJason(Map<String, dynamic> json) => Product(
+  static Product fromJson(Map<String, dynamic> json) => Product(
       imgurl : json['imgurl'],
       name: json['name'],
       subtitle: json['subtitle'],

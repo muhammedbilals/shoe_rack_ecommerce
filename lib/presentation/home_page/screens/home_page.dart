@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            BrandListTile(),
+            const BrandListTile(),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -363,7 +363,7 @@ class BrandTileWidget extends StatelessWidget {
           Text(
             overflow: TextOverflow.ellipsis,
             logoname,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           )
         ],
       ),

@@ -5,7 +5,15 @@ class PaymentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return const Text('data');
+    return Scaffold(
+        body: Center(
+            child: Column(
+      children: [
+        const Text('order successfull'),
+        IconButton(onPressed: () {
+          
+        }, icon: Icon(Icons.skip_next))
+      ],
+    )));
   }
 }

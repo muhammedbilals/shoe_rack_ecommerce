@@ -42,7 +42,6 @@ laodCartData() async {
       // var orderData = doc.data();
       productId.add(doc.get('productId'));
     }
-
     log('${productId.toString()}----from getdocId');
   }).catchError((error) {
     log('Error getting subcollection documents: $error');
@@ -55,7 +54,7 @@ laodCartData() async {
 
     for (var document in documentList) {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-      Product product = Product.fromJason(data);
+      Product product = Product.fromJson(data);
       products.add(product);
     }
     // setState(() {
