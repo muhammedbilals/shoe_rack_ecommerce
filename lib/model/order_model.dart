@@ -1,12 +1,12 @@
 class OrderModel {
   String? orderId;
-  List<Map<String, dynamic>>? productId;
+  List<String>? productId;
   int? totalValue;
   String? addressId;
   String? paymentMethode;
 
   OrderModel(
-      { this.orderId,
+      {this.orderId,
      required this.productId,
      required this.totalValue,
      required this.addressId,

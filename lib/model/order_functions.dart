@@ -7,7 +7,7 @@ import 'package:shoe_rack_ecommerce/model/order_model.dart';
 addtoOrders(
     {int? totalValue,
     String? addressId,
-    List<Map<String, dynamic>>? productId}) {
+    List<String>? productId}) {
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final dataTime = DateTime.now();
   final orderRef = FirebaseFirestore.instance
@@ -48,10 +48,29 @@ Future<DocumentSnapshot> getAddressId() async {
       .get();
   return querySnapshot.docs.first;
 }
-  int getTotalCarttValue(List<dynamic> totalPrice) {
-    dynamic totalValue = 0;
-    for (int i = 0; i < totalPrice.length; i++) {
-      totalValue = totalValue + totalPrice[i];
-    }
-    return totalValue;
+
+int getTotalCarttValue(List<dynamic> totalPrice) {
+  dynamic totalValue = 0;
+  for (int i = 0; i < totalPrice.length; i++) {
+    totalValue = totalValue + totalPrice[i];
   }
+  return totalValue;
+}
+
+Future<QuerySnapshot> getProductIdFromOrders() async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.email;
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('order')
+      .get();
+  return querySnapshot;
+}
+
+Future<QuerySnapshot> getProducts() async {
+  final querySnapshot =
+      await FirebaseFirestore.instance.collection('product').get();
+  return querySnapshot;
+}

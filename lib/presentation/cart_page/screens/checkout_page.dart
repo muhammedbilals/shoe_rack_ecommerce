@@ -96,15 +96,15 @@ class CheckoutScreen extends StatelessWidget {
                           return Text('Error: ${cartSnapshot.error}');
                         }
                         if (cartSnapshot.hasData) {
-                          List<Map<String, dynamic>> productList = [];
-                          List<dynamic> productId = cartSnapshot.data!.docs
-                              .map((doc) => doc.get('productId'))
+                          // List<String> productList = [];
+                          List<String> productId = cartSnapshot.data!.docs
+                              .map((doc) => doc.get('productId')as String)
                               .toList();
 
-                          for (String productId in productId) {
-                            Map<String, dynamic> productMap = {'id': productId};
-                            productList.add(productMap);
-                          }
+                          // for (String productId in productId) {
+                          //   // Map<String, dynamic> productMap = {'id': productId};
+                          //   productList.add(productId);
+                          // }
                           //to get total value from cart and calculating total cart value
                           List<dynamic> productPrice = cartSnapshot.data!.docs
                               .map((doc) => doc.get('totalPrice'))
@@ -129,7 +129,7 @@ class CheckoutScreen extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   addtoOrders(
-                                      productId: productList,
+                                      productId: productId,
                                       addressId: addressId,
                                       totalValue: totalvalue);
                                 },
