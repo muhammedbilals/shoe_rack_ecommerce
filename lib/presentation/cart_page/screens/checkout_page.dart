@@ -131,7 +131,8 @@ class CheckoutScreen extends StatelessWidget {
                                   addtoOrders(
                                       productId: productId,
                                       addressId: addressId,
-                                      totalValue: totalvalue);
+                                      totalValue: totalvalue,
+                                      orderStatus: 'placed');
                                 },
                                 icon: Icon(
                                   CustomIcon.walleticonfluttter,

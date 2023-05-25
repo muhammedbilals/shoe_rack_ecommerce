@@ -3,11 +3,15 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoe_rack_ecommerce/model/order_model.dart';
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.displayName;
 addtoOrders(
     {int? totalValue,
     String? addressId,
-    List<String>? productId}) {
+    List<String>? productId
+    ,String? orderStatus
+    }) {
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final dataTime = DateTime.now();
   final orderRef = FirebaseFirestore.instance
@@ -16,10 +20,12 @@ addtoOrders(
       .collection('order');
   OrderModel orderModel = OrderModel(
       orderId:
-          '${dataTime.day}/${dataTime.month}/${dataTime.year}- ${dataTime.hour}:${dataTime.minute}',
+          '$userID${dataTime.day}/${dataTime.month}/${dataTime.year}- ${dataTime.hour}:${dataTime.minute}',
       productId: productId,
       totalValue: totalValue,
-      addressId: addressId);
+      addressId: addressId,
+      orderStatus: orderStatus,
+      orderDate:  '${dataTime.day}/${dataTime.month}/${dataTime.year}- ${dataTime.hour}:${dataTime.minute}');
   orderRef.add(orderModel.toJason());
   log('added to Orders');
 }
