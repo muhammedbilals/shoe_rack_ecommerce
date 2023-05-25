@@ -42,7 +42,7 @@ class ForgotPassword extends StatelessWidget {
             .sendPasswordResetEmail(email: emailController.text.trim());
       }on FirebaseAuthException catch (e) {
         print(e);
-        utils.showSnackbar(e.message); 
+        utils.showSnackbar(e.message);
       }
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }

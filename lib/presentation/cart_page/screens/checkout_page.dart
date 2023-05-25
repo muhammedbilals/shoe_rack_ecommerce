@@ -8,13 +8,14 @@ import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/amountwidget.
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/shippingadresswidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+  Widget build(BuildContext bcontext) {
+    final Size size = MediaQuery.of(bcontext).size;
 
     return SafeArea(
       child: Scaffold(
@@ -69,7 +70,7 @@ class CheckoutScreen extends StatelessWidget {
               sbox,
               //future builder to get selceted address where contains a field set to true
               FutureBuilder<DocumentSnapshot>(
-                future: getAddressId(),
+                future: getAddressIdActive(),
                 builder: (context, addressSnapshot) {
                   String addressId = '';
                   if (addressSnapshot.connectionState ==
@@ -85,7 +86,7 @@ class CheckoutScreen extends StatelessWidget {
                   }
                   //to get product id stored in cart collection
                   return FutureBuilder<QuerySnapshot>(
-                      future: getProductId(),
+                      future: getProductIdActive(),
                       builder: (context, cartSnapshot) {
                         if (cartSnapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -98,7 +99,7 @@ class CheckoutScreen extends StatelessWidget {
                         if (cartSnapshot.hasData) {
                           // List<String> productList = [];
                           List<String> productId = cartSnapshot.data!.docs
-                              .map((doc) => doc.get('productId')as String)
+                              .map((doc) => doc.get('productId') as String)
                               .toList();
 
                           // for (String productId in productId) {
@@ -133,6 +134,11 @@ class CheckoutScreen extends StatelessWidget {
                                       addressId: addressId,
                                       totalValue: totalvalue,
                                       orderStatus: 'placed');
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (bcontext) => MainPage()),
+                                   
+                                  );
                                 },
                                 icon: Icon(
                                   CustomIcon.walleticonfluttter,

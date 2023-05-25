@@ -30,7 +30,7 @@ addtoOrders(
   log('added to Orders');
 }
 
-Future<QuerySnapshot> getProductId() async {
+Future<QuerySnapshot> getProductIdActive() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
   final userID = user!.email;
@@ -42,7 +42,7 @@ Future<QuerySnapshot> getProductId() async {
   return querySnapshot;
 }
 
-Future<DocumentSnapshot> getAddressId() async {
+Future<DocumentSnapshot> getAddressIdActive() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
   final userID = user!.email;
@@ -50,7 +50,7 @@ Future<DocumentSnapshot> getAddressId() async {
       .collection('users')
       .doc(userID)
       .collection('address')
-      .where('isDefault', isEqualTo: true)
+      .where('isDefault', isEqualTo: true).where('orderStatus',isEqualTo: 'placed')
       .get();
   return querySnapshot.docs.first;
 }

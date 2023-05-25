@@ -12,22 +12,15 @@ import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 
 import '../../common_widget/AppBarWidget.dart';
 
-class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+// ignore: must_be_immutable
+class CartPage extends StatelessWidget {
+   CartPage({super.key});
 
-  @override
-  State<CartPage> createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
   ValueNotifier<int> totalPriceNotifier = ValueNotifier(0);
+
   ValueNotifier<int> totalCartTotalNotifier = ValueNotifier(0);
 
   int totalPrice = 0;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void updateTotalPrice(List<dynamic> productPrices) {
     totalPrice = getTotalCarttValue(productPrices);
