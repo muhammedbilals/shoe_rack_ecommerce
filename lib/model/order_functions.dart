@@ -30,7 +30,7 @@ addtoOrders(
   log('added to Orders');
 }
 
-Future<QuerySnapshot> getProductIdActive() async {
+Future<QuerySnapshot> getProductId() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
   final userID = user!.email;
@@ -42,7 +42,7 @@ Future<QuerySnapshot> getProductIdActive() async {
   return querySnapshot;
 }
 
-Future<DocumentSnapshot> getAddressIdActive() async {
+Future<DocumentSnapshot> getAddressId() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
   final userID = user!.email;
@@ -50,7 +50,7 @@ Future<DocumentSnapshot> getAddressIdActive() async {
       .collection('users')
       .doc(userID)
       .collection('address')
-      .where('isDefault', isEqualTo: true).where('orderStatus',isEqualTo: 'placed')
+      .where('isDefault', isEqualTo: true)
       .get();
   return querySnapshot.docs.first;
 }
@@ -63,7 +63,19 @@ int getTotalCarttValue(List<dynamic> totalPrice) {
   return totalValue;
 }
 
-Future<QuerySnapshot> getProductIdFromOrders() async {
+Future<QuerySnapshot> getProductIdFromOrdersActive() async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.email;
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('order').where('orderStatus',isEqualTo: 'placed')
+      .get();
+  return querySnapshot;
+}
+
+Future<QuerySnapshot> getProductIdFromOrdersCompleted() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
   final userID = user!.email;
@@ -71,6 +83,7 @@ Future<QuerySnapshot> getProductIdFromOrders() async {
       .collection('users')
       .doc(userID)
       .collection('order')
+      // .where('orderStatus',isEqualTo: 'delivered')
       .get();
   return querySnapshot;
 }

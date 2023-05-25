@@ -26,7 +26,7 @@ class OrderDetailsActive extends StatelessWidget {
       child: Column(
         children: [
           FutureBuilder<QuerySnapshot>(
-              future: getProductIdFromOrders(),
+              future: getProductIdFromOrdersActive(),
               builder: (context, orderSnapshot) {
                 if (orderSnapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

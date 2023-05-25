@@ -70,7 +70,7 @@ class CheckoutScreen extends StatelessWidget {
               sbox,
               //future builder to get selceted address where contains a field set to true
               FutureBuilder<DocumentSnapshot>(
-                future: getAddressIdActive(),
+                future: getAddressId(),
                 builder: (context, addressSnapshot) {
                   String addressId = '';
                   if (addressSnapshot.connectionState ==
@@ -86,7 +86,7 @@ class CheckoutScreen extends StatelessWidget {
                   }
                   //to get product id stored in cart collection
                   return FutureBuilder<QuerySnapshot>(
-                      future: getProductIdActive(),
+                      future: getProductId(),
                       builder: (context, cartSnapshot) {
                         if (cartSnapshot.connectionState ==
                             ConnectionState.waiting) {
