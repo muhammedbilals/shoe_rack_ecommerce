@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 
 class ProductPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _ProductPageState extends State<ProductPage> {
 
   bool isAddedtoCart = false;
   bool isAddedtoWishlist = false;
+  bool isSelectedItemAvailable = false;
 
   addToCart(String id, String color, int size) async {
     int productCount = 1;
@@ -47,6 +49,10 @@ class _ProductPageState extends State<ProductPage> {
       'productCount': productCount,
       'color': color,
       'size': size
+    });
+
+    setState(() {
+      // isAddedtoCart == true;
     });
     log('added to cart');
   }
@@ -68,7 +74,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   checkifAddedtoCart(String id) async {
-    final FirebaseAuth auth = await FirebaseAuth.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     final userID = user!.email;
     final snapshot = await FirebaseFirestore.instance
@@ -82,6 +88,12 @@ class _ProductPageState extends State<ProductPage> {
       setState(() {
         isAddedtoCart = true;
       });
+      log('is availbale at cart');
+    } else {
+      setState(() {
+        isAddedtoCart = false;
+      });
+      log('is not availbale at cart');
     }
   }
 
@@ -109,12 +121,13 @@ class _ProductPageState extends State<ProductPage> {
       return false;
       // document does not exist
     }
+    utils.showSnackbar('selected combination not availbale');
     log("no data");
     return false;
   }
 
   checkWishlistStatus(String id) async {
-    final userCollection = await FirebaseFirestore.instance
+    final userCollection = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('wishlist')
@@ -459,9 +472,10 @@ class _ProductPageState extends State<ProductPage> {
                                                                     ? addToCart(
                                                                         widget
                                                                             .id,
-                                                                        choiceChipColorValue
-                                                                            .toString(),
-                                                                        choiceChipSizeValue)
+                                                                        colorList[
+                                                                            choiceChipColorValue],
+                                                                        sizeList[
+                                                                            choiceChipSizeValue])
                                                                     : removeFromCart(
                                                                         widget
                                                                             .id);
@@ -497,7 +511,7 @@ class _ProductPageState extends State<ProductPage> {
                             size: 25,
                             color: colorwhite,
                           ),
-                          label: isAddedtoCart == true
+                          label: isAddedtoCart == false
                               ? Text(
                                   'Add to Cart',
                                   style: TextStyle(

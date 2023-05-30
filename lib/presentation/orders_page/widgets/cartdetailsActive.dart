@@ -19,6 +19,18 @@ class OrderDetailsActive extends StatelessWidget {
         .toList();
   }
 
+  List<String> getListasString(List<dynamic> nestedList) {
+    List<String> flattenedList = [];
+    for (var sublist in nestedList) {
+      if (sublist is List<dynamic>) {
+        flattenedList.addAll(getListasString(sublist));
+      } else {
+        flattenedList.add(sublist.toString());
+      }
+    }
+    return flattenedList;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -37,21 +49,11 @@ class OrderDetailsActive extends StatelessWidget {
                 }
                 if (orderSnapshot.hasData) {
                   //get product id from orders as nested list and convertting into a list of string
-                  List<String> getListasString(List<dynamic> nestedList) {
-                    List<String> flattenedList = [];
-                    for (var sublist in nestedList) {
-                      if (sublist is List<dynamic>) {
-                        flattenedList.addAll(getListasString(sublist));
-                      } else {
-                        flattenedList.add(sublist.toString());
-                      }
-                    }
-                    return flattenedList;
-                  }
 
                   List<String> productId = getListasString(orderSnapshot
                       .data!.docs
                       .map((doc) => doc.get('productId') as List<dynamic>)
+                      
                       .toList());
                   log(productId.toString());
                   List<String> dateTime = getListasString(orderSnapshot
@@ -86,6 +88,7 @@ class OrderDetailsActive extends StatelessWidget {
                           log(orderProduct[0].name);
                         }
                         return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: orderProduct.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
@@ -95,8 +98,7 @@ class OrderDetailsActive extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: 10, left: size.width * 0.05),
-                                  child: Text(
-                                      'Order Placed on: ${dateTime[index]}',
+                                  child: Text('Order Placed on: ${dateTime[0]}',
                                       style: const TextStyle(fontSize: 15)),
                                 ),
                                 Padding(
@@ -169,8 +171,8 @@ class OrderDetailsActive extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                     orderProduct[index].color!,
-                                                    style:
-                                                        const TextStyle(fontSize: 15),
+                                                    style: const TextStyle(
+                                                        fontSize: 15),
                                                   ),
                                                   const Padding(
                                                     padding: EdgeInsets.only(
@@ -183,8 +185,9 @@ class OrderDetailsActive extends StatelessWidget {
                                                   ),
                                                   Center(
                                                     child: Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          left: 8.0),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 8.0),
                                                       child: Text(
                                                         'Size : ${orderProduct[index].size}',
                                                         textAlign:
@@ -205,10 +208,11 @@ class OrderDetailsActive extends StatelessWidget {
                                                         .spaceAround,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 12.0,
-                                                        top: 0,
-                                                        bottom: 0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 12.0,
+                                                            top: 0,
+                                                            bottom: 0),
                                                     child: Text(
                                                       '₹${orderProduct[index].price}',
                                                       style: const TextStyle(

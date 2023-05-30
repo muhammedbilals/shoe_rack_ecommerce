@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 
-
 class CartDetailsWidgetCheckoutPage extends StatefulWidget {
   const CartDetailsWidgetCheckoutPage({
     super.key,
@@ -56,8 +55,8 @@ class _CartDetailsWidgetCheckoutPageState
     final userID = user!.email;
     return ids.isNotEmpty
         ? ListView(
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             shrinkWrap: true,
             children: [
               StreamBuilder<QuerySnapshot>(
@@ -76,7 +75,7 @@ class _CartDetailsWidgetCheckoutPageState
                     }
 
                     return GridView.count(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         // crossAxisSpacing: 1,
                         // mainAxisSpacing: 2,
@@ -135,7 +134,7 @@ class _CartDetailsWidgetCheckoutPageState
                                                     textAlign: TextAlign.start,
                                                   ),
                                                 ),
-                                                Flex(
+                                                const Flex(
                                                     direction: Axis.horizontal),
                                               ],
                                             ),
@@ -208,9 +207,23 @@ class _CartDetailsWidgetCheckoutPageState
                                                         CircularProgressIndicator());
                                               }
                                               if (snapshot.hasError) {
-                                                return const Text(
-                                                    'Something went wrong');
+                                                if (snapshot.error
+                                                    .toString()
+                                                    .contains(
+                                                        'Document does not exist')) {
+                                                  return const SizedBox
+                                                      .shrink();
+                                                } else {
+                                                  return const Text(
+                                                      'Something went wrong');
+                                                }
                                               }
+                                              if (!snapshot.hasData ||
+                                                  !snapshot.data!.exists) {
+                                                return const SizedBox
+                                                    .shrink();
+                                              }
+                                              
                                               return Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
