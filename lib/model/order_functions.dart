@@ -1,11 +1,9 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
-import 'package:shoe_rack_ecommerce/main.dart';
 import 'package:shoe_rack_ecommerce/model/order_model.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/payment_successfull_screen.dart';
 
@@ -85,7 +83,7 @@ _handlePaymentSuccess(BuildContext context, List<String>? productId, cartRef) {
   Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PaymentSuccessfullScreen(),
+        builder: (context) => const PaymentSuccessfullScreen(),
       ));
   //  navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => PaymentSuccessfullScreen(),));
 }

@@ -8,6 +8,7 @@ import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/edit_profile.dart';
+import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/privacy_widget.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -35,8 +36,9 @@ class ProfilePage extends StatelessWidget {
     AddressScreen(),
     EditProfile(),
     EditProfile(),
-    EditProfile(),
-    EditProfile(),
+      SettingsMenuPop(mdFileName: 'privacy.md'),
+     SettingsMenuPop(mdFileName: 'terms.md'),
+ 
     EditProfile(),
   ];
 
