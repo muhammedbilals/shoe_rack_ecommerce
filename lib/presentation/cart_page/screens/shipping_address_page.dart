@@ -130,32 +130,30 @@ class _ShippingAdressPageState extends State<ShippingAdressPage> {
               bottom: 10,
               left: 0,
               right: 0,
-              child: Container(
-                child: Center(
-                  child: SizedBox(
-                    width: size.width * 0.9,
-                    height: size.width * 0.15,
-                    child: ElevatedButton.icon(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll<Color>(colorgreen),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ))),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        CustomIcon.ticksquareiconfluttter,
-                        size: 25,
-                        color: colorwhite,
-                      ),
-                      label: Text(
-                        'Confirm',
-                        style: TextStyle(fontSize: 22, color: colorwhite),
-                      ),
+              child: Center(
+                child: SizedBox(
+                  width: size.width * 0.9,
+                  height: size.width * 0.15,
+                  child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(colorgreen),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ))),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      CustomIcon.ticksquareiconfluttter,
+                      size: 25,
+                      color: colorwhite,
+                    ),
+                    label: Text(
+                      'Confirm',
+                      style: TextStyle(fontSize: 22, color: colorwhite),
                     ),
                   ),
                 ),

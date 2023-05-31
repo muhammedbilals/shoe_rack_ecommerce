@@ -63,7 +63,7 @@ class _AmountWidgetState extends State<AmountWidget> {
                   Text('Shipping',
                       style: TextStyle(
                           fontSize: 18, color: colorblack.withOpacity(0.5))),
-                  const Text('₹7,500', style: TextStyle(fontSize: 18)),
+                  const Text('FREE', style: TextStyle(fontSize: 18)),
                 ],
               ),
             ),

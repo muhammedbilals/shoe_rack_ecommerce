@@ -4,8 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/cart_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/screens/login_or_signup_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/orders_page/screens/orders_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/edit_profile.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/privacy_widget.dart';
@@ -14,31 +17,30 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
   final List<IconData> icons = [
-    CustomIcon.profile_1iconfluttter,
+    CustomIcon.buy_2iconfluttter,
+    CustomIcon.bagiconfluttter,
     CustomIcon.locationiconfluttter,
-    CustomIcon.notificationiconfluttter,
-    CustomIcon.mooniconfluttter,
+    CustomIcon.hearticonfluttter,
     CustomIcon.shieldiconfluttter,
     CustomIcon.document_align_left_5iconfluttter,
     CustomIcon.logouticonfluttter,
   ];
   final List<String> title = [
-    'Edit Profile',
+    'Orders',
+    'Cart',
     'Address',
-    'Notification',
-    'Dark Mode',
+    'Wishlist',
     'Privacy Policy',
     'Terms & Conditions',
     'Log Out',
   ];
   final List<Widget> widget = [
-    EditProfile(),
+    const OrdersPage(),
+    const CartPage(),
     AddressScreen(),
-    EditProfile(),
-    EditProfile(),
-      SettingsMenuPop(mdFileName: 'privacy.md'),
-     SettingsMenuPop(mdFileName: 'terms.md'),
- 
+    const WishListScreen(),
+    SettingsMenuPop(mdFileName: 'privacy.md'),
+    SettingsMenuPop(mdFileName: 'terms.md'),
     EditProfile(),
   ];
 
@@ -71,7 +73,7 @@ class ProfilePage extends StatelessWidget {
             Center(
               child: Text(
                 user.displayName ?? 'Name',
-                style: TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 25),
               ),
             ),
             Text(
@@ -219,7 +221,7 @@ class ProfilePage extends StatelessWidget {
                                                           context,
                                                           MaterialPageRoute(
                                                             builder: (context) =>
-                                                                LoginOrSignUp(),
+                                                                const LoginOrSignUp(),
                                                           ));
                                                     },
                                                     child: Text(
