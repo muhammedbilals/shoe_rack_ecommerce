@@ -5,10 +5,12 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/model/address_functions.dart';
 import 'package:shoe_rack_ecommerce/model/address_model.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
+import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
+import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/add_new_adress_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
 
 class ShippingAdressPage extends StatefulWidget {
-   ShippingAdressPage({super.key});
+   const ShippingAdressPage({super.key});
 
   @override
   State<ShippingAdressPage> createState() => _ShippingAdressPageState();
@@ -44,95 +46,84 @@ class _ShippingAdressPageState extends State<ShippingAdressPage> {
           children: [
             ListView(
               physics: const BouncingScrollPhysics(),
-              // mainAxisSize: MainAxisSize.max,
-              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 sbox,
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      'Choose an Address',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
-                sbox,
-                sbox,
-              
-                    Column(
-                        children: List.generate(
-                      adress.length,
-                      (index) => Column(
-                        children: [
-                          Container(
-                            width: size.width * 0.9,
-                            height: size.width * 0.25,
-                            decoration: BoxDecoration(
-                                color: colorgray,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Center(
-                              child: ListTile(
-                                  leading: Container(
-                                    width: size.width * 0.15,
-                                    height: size.width * 0.25,
-                                    decoration: BoxDecoration(
-                                        color: colorgreen,
-                                        shape: BoxShape.circle),
-                                    child: const Icon(
-                                        CustomIcon.locationiconfluttter),
-                                  ),
-                                  title: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        sbox,
-                                        sbox,
-                                        Text(
-                                          adress[index].addressType,
-                                          style: const TextStyle(fontSize: 19),
-                                        ),
-                                        Text(
-                                          "${adress[index].houseName},${adress[index].pinCode.toString()},${adress[index].city}",
-                                          // 'Rose avenue,695600,Kerala',
-                                          style: TextStyle(
-                                              overflow: TextOverflow.ellipsis,
-                                              fontSize: 15,
-                                              color:
-                                                  colorblack.withOpacity(0.5)),
-                                        ),
-                                      ],
+                Column(
+                    children: List.generate(
+                  adress.length,
+                  (index) => Column(
+                    children: [
+                      Container(
+                        width: size.width * 0.9,
+                        height: size.width * 0.25,
+                        decoration: BoxDecoration(
+                            color: colorgray,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Center(
+                          child: ListTile(
+                              leading: Container(
+                                width: size.width * 0.15,
+                                height: size.width * 0.25,
+                                decoration: BoxDecoration(
+                                    color: colorgreen, shape: BoxShape.circle),
+                                child:
+                                    const Icon(CustomIcon.locationiconfluttter),
+                              ),
+                              title: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    sbox,
+                                    sbox,
+                                    Text(
+                                      adress[index].addressType,
+                                      style: const TextStyle(fontSize: 19),
                                     ),
-                                  ),
-                                  trailing: ValueListenableBuilder(
-                                    valueListenable: selectedAddressNotifier,
-                                    builder: (context, selectedAddressIndex,
-                                            child) =>
+                                    Text(
+                                      "${adress[index].houseName},${adress[index].pinCode.toString()},${adress[index].city}",
+                                      // 'Rose avenue,695600,Kerala',
+                                      style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 15,
+                                          color: colorblack.withOpacity(0.5)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              trailing: ValueListenableBuilder(
+                                valueListenable: selectedAddressNotifier,
+                                builder:
+                                    (context, selectedAddressIndex, child) =>
                                         Radio(
-                                      fillColor:
-                                          MaterialStatePropertyAll<Color>(
-                                              colorgreen),
-                                      value: selectedAddressIndex == index,
-                                      groupValue: true,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          selectedAddressIndex = index;
-                                          selectedAddressNotifier.value = index;
-                                        });
-                                      },
-                                    ),
-                                  )),
-                            ),
-                          ),
-                          sbox,
-                        ],
+                                  fillColor: MaterialStatePropertyAll<Color>(
+                                      colorgreen),
+                                  value: selectedAddressIndex == index,
+                                  groupValue: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedAddressIndex = index;
+                                      selectedAddressNotifier.value = index;
+                                    });
+                                    updateDefaultValue(
+                                        adress[index].id.toString());
+                                  },
+                                ),
+                              )),
+                        ),
                       ),
-                    ))
-                  
-                
+                      sbox,
+                    ],
+                  ),
+                )),
+                sbox,
+                CustomButton(
+                  text: 'Add New Address',
+                  icon: CustomIcon.locationiconfluttter,
+                  buttonandtextcolor: colorblack,
+                  color: colorgray,
+                  widget: AddNewAddressPage(),
+                ),
               ],
             ),
             Positioned(

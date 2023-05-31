@@ -6,6 +6,7 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/model/product.dart';
+import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_bottomsheet.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
@@ -13,69 +14,29 @@ import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 import '../../common_widget/AppBarWidget.dart';
 
 // ignore: must_be_immutable
-class CartPage extends StatelessWidget {
-  CartPage({super.key});
+class CartPage extends StatefulWidget {
+  const CartPage({super.key});
 
-  ValueNotifier<int> totalPriceNotifier = ValueNotifier(0);
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
 
+class _CartPageState extends State<CartPage> {
+  // ValueNotifier<int> totalPriceNotifier = ValueNotifier(0);
   ValueNotifier<int> totalCartTotalNotifier = ValueNotifier(0);
 
   int totalPrice = 0;
 
   void updateTotalPrice(List<dynamic> productPrices) {
-    totalPrice = getTotalCarttValue(productPrices);
-
-    totalCartTotalNotifier.value = totalPrice;
-  }
-
-  addOrRemoveFromcart(String id, bool? incriment) async {
-    //to update cart product count
-    final FirebaseAuth auth = await FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final collectionReference = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .doc(id);
-
-    //to get product count
-    final DocumentSnapshot docSnapshot = await collectionReference.get();
-    final dynamic productCount = docSnapshot['productCount'];
-    if (incriment == true) {
-      if (productCount < 5) {
-        collectionReference.update({
-          'productCount': productCount + 1,
-        });
-        log('added again cart');
-      } else {
-        return;
-      }
-    } else {
-      if (productCount > 1) {
-        collectionReference.update({
-          'productCount': productCount - 1,
-        });
-        log('removed again cart');
-      } else if (productCount <= 1) {
-        collectionReference.delete();
-      }
+    int totalValue = 0;
+    for (int i = 0; i < productPrices.length; i++) {
+      totalValue += productPrices[i] as int;
     }
+    totalCartTotalNotifier.value = totalValue;
   }
 
-  getTotalProductValue(String id, int productPrice, int productCount) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final cartRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .doc(id);
-    // final doc = cartRef.get();
-    await cartRef.update({'totalPrice': productPrice * productCount});
-  }
 
+ 
   int getTotalCarttValue(List<dynamic> totalPrice) {
     dynamic totalValue = 0;
     for (int i = 0; i < totalPrice.length; i++) {
@@ -91,19 +52,6 @@ class CartPage extends StatelessWidget {
         FirebaseFirestore.instance.collection('product').snapshots();
     return querySnapshot;
   }
-
-  Stream<QuerySnapshot> getProductIdfromCart() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final querySnapshot = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .snapshots();
-    return querySnapshot;
-  }
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -145,16 +93,18 @@ class CartPage extends StatelessWidget {
                                       productId.contains(product.id))
                                   .toList();
                               //to get product price based on product id
-                              List<dynamic> productPrice = productSnapshot
+
+                              List<dynamic> productPrice = cartSnapshot
                                   .data!.docs
-                                  .map((doc) => doc.get('price'))
+                                  .map((doc) => doc.get('totalPrice'))
                                   .toList();
-                              if (totalPrice == 0.0) {
-                                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
-                                  updateTotalPrice(productPrice);
-                                });
-                              }
+
+                              // if (totalPrice == 0.0) {
+                              //   WidgetsBinding.instance
+                              //       .addPostFrameCallback((_) {
+                              //     updateTotalPrice(productPrice);
+                              //   });
+                              // }
                               return product.isNotEmpty
                                   ? ListView.builder(
                                       itemCount: product.length,
@@ -315,6 +265,7 @@ class CartPage extends StatelessWidget {
                                                                                             final User? user = auth.currentUser;
                                                                                             final userID = user!.email;
                                                                                             removeFromCart(product[index].id.toString(), userID!);
+                                                                                           
                                                                                             Navigator.pop(context);
                                                                                           },
                                                                                           child: Text(
@@ -543,20 +494,17 @@ class CartPage extends StatelessWidget {
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.center,
                                                                         children: [
-                                                                          ValueListenableBuilder(
-                                                                            valueListenable:
-                                                                                totalPriceNotifier,
-                                                                            builder: (context, priceValue, child) =>
-                                                                                IconButton(
-                                                                              icon: const Icon(
-                                                                                CustomIcon.minusiconfluttter,
-                                                                                size: 14,
-                                                                              ),
-                                                                              onPressed: () {
-                                                                                addOrRemoveFromcart(product[index].id.toString(), false);
-                                                                                updateTotalPrice(productPrice);
-                                                                              },
+                                                                          IconButton(
+                                                                            icon:
+                                                                                const Icon(
+                                                                              CustomIcon.minusiconfluttter,
+                                                                              size: 14,
                                                                             ),
+                                                                            onPressed:
+                                                                                () {
+                                                                              addOrRemoveFromcart(product[index].id.toString(), false);
+                                                                              // updateTotalPrice(productPrice);
+                                                                            },
                                                                           ),
                                                                           Text('${snapshot.data['productCount']}'
                                                                               .toString()),
@@ -567,7 +515,7 @@ class CartPage extends StatelessWidget {
                                                                               ),
                                                                               onPressed: () {
                                                                                 addOrRemoveFromcart(product[index].id.toString(), true);
-                                                                                updateTotalPrice(productPrice);
+                                                                                // updateTotalPrice(productPrice);
                                                                               }),
                                                                         ],
                                                                       ),
@@ -590,8 +538,8 @@ class CartPage extends StatelessWidget {
                                     )
                                   : SizedBox(
                                       height: size.height * 0.7,
-                                      child:
-                                          const Center(child: Text('Cart is Empty')));
+                                      child: const Center(
+                                          child: Text('Cart is Empty')));
                             }
                             return const Text('loading');
                           },
@@ -641,7 +589,7 @@ class CartPage extends StatelessWidget {
                             text: 'Checkout',
                             icon: CustomIcon.ticksquareiconfluttter,
                             width: 0.69,
-                            widget:  CheckoutScreen(),
+                            widget: CheckoutScreen(),
                           ),
                         )
                       ],

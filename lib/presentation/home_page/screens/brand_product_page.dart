@@ -77,7 +77,9 @@ int chipvalue = 0;
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProductPage(id: data['id']),
+                              builder: (context) => ProductPage(
+                                
+                                id: data['id']),
                             ));
                         // valueNotifier.value = data['id'];
                       },

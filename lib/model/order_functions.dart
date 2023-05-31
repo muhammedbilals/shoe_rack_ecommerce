@@ -14,6 +14,8 @@ final userid = user!.email;
 final number = user!.phoneNumber;
 final _razorpay = Razorpay();
 
+
+
 addtoOrders(
     {int? totalValue,
     String? addressId,
@@ -66,19 +68,19 @@ addtoOrders(
     _handlePaymentSuccess(context!, productId, cartRef);
   });
   _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) {
-    _handlePaymentError(response,context!);
+    _handlePaymentError(response, context!);
   });
   _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 }
 
 _handlePaymentSuccess(BuildContext context, List<String>? productId, cartRef) {
-  productId!.forEach((cartId) {
+  for (var cartId in productId!) {
     cartRef
         .doc(cartId)
         .delete()
         .then((_) => log('Deleted cart: $cartId'))
         .catchError((error) => log('Error deleting cart $cartId: $error'));
-  });
+  }
   log('deleted from cart');
   Navigator.push(
       context,
@@ -87,7 +89,6 @@ _handlePaymentSuccess(BuildContext context, List<String>? productId, cartRef) {
       ));
   //  navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => PaymentSuccessfullScreen(),));
 }
-
 
 _handlePaymentError(PaymentFailureResponse response, BuildContext context) {
   utils.showSnackbar('Payment was Unsuccessful');

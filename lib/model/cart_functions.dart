@@ -61,33 +61,66 @@ laodCartData() async {
       products = products;
     // });
   
-    getTotalPrice();
+
     log(products[0].name.toString());
 }
-getTotalPrice(){}
 
 
-// void getTotalValue() async {
-//   await cartRef.get().then((QuerySnapshot querySnapshot) {
-//     for (var doc in querySnapshot.docs) {
-//       productId.add(doc.get('productId'));
-//       productCount.add(doc.get('productCount'));
-//     }
-//   }).catchError((error) {
-//     log(error);
-//   });
-//   // GETTING PRICE FROM PRODUCT DATABASE WITH PRODUCT ID
-//   var snapshot = await FirebaseFirestore.instance
-//       .collection('product')
-//       .where('id', whereIn: productId)
-//       .get();
-//   final templista = snapshot.docs;
-//   list = templista.map((DocumentSnapshot documentSnapshot) {
-//     return documentSnapshot.data() as Map<String, dynamic>;
-//   }).toList();
-//   //update total price
-//   for (int i = 0; i < productId.length; i++) {
-//     cartRef.doc(productId[i]).update(list[i]['totalPrice'] * productCount[i]);
-//     print(cartRef);
-//   }
-// }
+ getTotalProductValue(String id, int productPrice, int productCount) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    final cartRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart')
+        .doc(id);
+    // final doc = cartRef.get();
+    await cartRef.update({'totalPrice': productPrice * productCount});
+  }
+
+  addOrRemoveFromcart(String id, bool? incriment) async {
+    //to update cart product count
+    final FirebaseAuth auth =  FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    final collectionReference = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart')
+        .doc(id);
+ 
+    //to get product count
+    final DocumentSnapshot docSnapshot = await collectionReference.get();
+    final dynamic productCount = docSnapshot['productCount'];
+    if (incriment == true) {
+      if (productCount < 5) {
+        collectionReference.update({
+          'productCount': productCount + 1,
+        });
+        log('added again cart');
+      } else {
+        return;
+      }
+    } else {
+      if (productCount > 1) {
+        collectionReference.update({
+          'productCount': productCount - 1,
+        });
+        log('removed again cart');
+      } else if (productCount <= 1) {
+        collectionReference.delete();
+      }
+    }
+  }
+   Stream<QuerySnapshot> getProductIdfromCart() {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user!.email;
+    final querySnapshot = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('cart')
+        .snapshots();
+    return querySnapshot;
+  }

@@ -33,7 +33,7 @@ class _ProductPageState extends State<ProductPage> {
   bool isAddedtoWishlist = false;
   bool isSelectedItemAvailable = false;
 
-  addToCart(String id, String color, int size) async {
+  addToCart(String id, String color, int size,int totalValue) async {
     int productCount = 1;
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
@@ -48,7 +48,8 @@ class _ProductPageState extends State<ProductPage> {
       'productId': id,
       'productCount': productCount,
       'color': color,
-      'size': size
+      'size': size,
+      'totalPrice':totalValue
     });
 
     setState(() {
@@ -97,7 +98,7 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
-  Future<bool> checkIfAvailable(String color, int size, String docId) async {
+  Future<bool> checkIfAvailable(String color, int size, String docId,int totalValue) async {
     final DocumentReference docRef =
         FirebaseFirestore.instance.collection('product').doc(docId);
     final DocumentSnapshot docSnapshot = await docRef.get();
@@ -111,7 +112,7 @@ class _ProductPageState extends State<ProductPage> {
         // field value is equal to the desired value
         log('data availbale');
         log(fieldColor);
-        addToCart(docId, color, size);
+        addToCart(docId, color, size,totalValue);
         return true;
       } else {
         // field value is not equal to the desired value
@@ -430,69 +431,91 @@ class _ProductPageState extends State<ProductPage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    StatefulBuilder(
+                                                    FutureBuilder(
+                                                      future: FirebaseFirestore
+                                                          .instance
+                                                          .collection('product')
+                                                          .doc(widget.id)
+                                                          .get(),
                                                       builder:
-                                                          (context, setState) {
-                                                        return Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: SizedBox(
-                                                            width: size.width *
-                                                                0.43,
-                                                            height: 50,
-                                                            child:
-                                                                ElevatedButton(
-                                                              style:
-                                                                  ButtonStyle(
-                                                                backgroundColor:
-                                                                    MaterialStatePropertyAll<
-                                                                            Color>(
-                                                                        colorgreen),
-                                                                shape: MaterialStateProperty
-                                                                    .all<
-                                                                        RoundedRectangleBorder>(
-                                                                  RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            18.0),
+                                                          (context, snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return const Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        }
+                                                        if (snapshot.hasError) {
+                                                          return const Text(
+                                                              'Something went wrong');
+                                                        }
+
+                                                        final futureProductData =
+                                                            snapshot
+                                                                .data!['price'];
+                                                        log(futureProductData
+                                                            .toString());
+
+                                                        return StatefulBuilder(
+                                                          builder: (context,
+                                                              setState) {
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: SizedBox(
+                                                                width:
+                                                                    size.width *
+                                                                        0.43,
+                                                                height: 50,
+                                                                child:
+                                                                    ElevatedButton(
+                                                                  style:
+                                                                      ButtonStyle(
+                                                                    backgroundColor:
+                                                                        MaterialStatePropertyAll<Color>(
+                                                                            colorgreen),
+                                                                    shape: MaterialStateProperty
+                                                                        .all<
+                                                                            RoundedRectangleBorder>(
+                                                                      RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              ),
-                                                              onPressed:
-                                                                  () async {
-                                                                await checkIfAvailable(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await checkIfAvailable(colorList[choiceChipColorValue], sizeList[choiceChipSizeValue], widget.id,futureProductData) ==
+                                                                            true
+                                                                        ? addToCart(
+                                                                            widget
+                                                                                .id,
                                                                             colorList[
                                                                                 choiceChipColorValue],
                                                                             sizeList[
-                                                                                choiceChipSizeValue],
-                                                                            widget
-                                                                                .id) ==
-                                                                        true
-                                                                    ? addToCart(
-                                                                        widget
-                                                                            .id,
-                                                                        colorList[
-                                                                            choiceChipColorValue],
-                                                                        sizeList[
-                                                                            choiceChipSizeValue])
-                                                                    : removeFromCart(
-                                                                        widget
-                                                                            .id);
-                                                                // ignore: use_build_context_synchronously
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                'Confirm',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                    color:
-                                                                        colorwhite),
+                                                                                choiceChipSizeValue],futureProductData)
+                                                                        : removeFromCart(
+                                                                            widget.id);
+                                                                  
+                                                                    // ignore: use_build_context_synchronously
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                    'Confirm',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            18,
+                                                                        color:
+                                                                            colorwhite),
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ),
+                                                            );
+                                                          },
                                                         );
                                                       },
                                                     ),
