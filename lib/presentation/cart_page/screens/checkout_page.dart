@@ -22,19 +22,10 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _razorpay = Razorpay();
 
   @override
   void initState() {
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
-        (PaymentSuccessResponse response) {
-      _handlePaymentSuccess(response, context, productId, cartRef);
-    });
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
-        (PaymentFailureResponse response) {
-      _handlePaymentError(response, context);
-    });
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  
     super.initState();
   }
 
@@ -46,7 +37,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Scaffold(
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: 'Checkout'),
+          child: AppBarWidget(title: 'Checkout', leadingIcon: true),
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -63,12 +54,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               sbox,
               sbox,
-
               // ShippingAddressWidget--------------------
               const ShippingAddressWidget(),
               sbox,
               sbox,
-
               const Padding(
                 padding: EdgeInsets.only(left: 22.0),
                 child: Text(
@@ -155,29 +144,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                if (addressId !="") {
-                                  var options = {
-                                    'key': 'rzp_test_EgXUcvHZRGYEZU',
-                                    'amount': totalvalue,
-                                    'name': 'ShoeRack',
-                                    'description': '$productId',
-                                    'prefill': {
-                                      'contact': '',
-                                      'email': '$userid'
-                                    }
-                                  };
+                                // if (addressId !="") {
+                                
 
-                                  _razorpay.open(options);
-
-                                  addtoOrders(
-                                      context: ccontext,
-                                      productId: productId,
-                                      addressId: addressId,
-                                      totalValue: totalvalue,
-                                      orderStatus: 'Placed');
-                                } else {
-                                  utils.showSnackbar('Please add an address');
-                                }
+                                addtoOrders(
+                                    context: ccontext,
+                                    productId: productId,
+                                    addressId: addressId,
+                                    totalValue: totalvalue,
+                                    orderStatus: 'Placed');
+                                // } else {
+                                //   utils.showSnackbar('Please add an address');
+                                // }
                               },
                               icon: Icon(
                                 CustomIcon.walleticonfluttter,
@@ -206,32 +184,5 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  _handlePaymentSuccess(PaymentSuccessResponse response, BuildContext context,
-      List<String>? productId, cartRef) {
-    for (var cartId in productId!) {
-      cartRef
-          .doc(cartId)
-          .delete()
-          .then((_) => log('Deleted cart: $cartId'))
-          .catchError((error) => log('Error deleting cart $cartId: $error'));
-    }
-    log('deleted from cart');
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PaymentSuccessfullScreen(),
-        ));
-    //  navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => PaymentSuccessfullScreen(),));
-  }
 
-  _handlePaymentError(PaymentFailureResponse response, BuildContext context) {
-    utils.showSnackbar('Payment was Unsuccessful');
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => SudoPage(),
-    //     ));
-  }
-
-  _handleExternalWallet() {}
 }
