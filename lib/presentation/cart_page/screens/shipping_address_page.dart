@@ -10,7 +10,7 @@ import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/add_new_ad
 import 'package:shoe_rack_ecommerce/presentation/profile_page/screens/adress_page.dart';
 
 class ShippingAdressPage extends StatefulWidget {
-   const ShippingAdressPage({super.key});
+  const ShippingAdressPage({super.key});
 
   @override
   State<ShippingAdressPage> createState() => _ShippingAdressPageState();
@@ -40,7 +40,7 @@ class _ShippingAdressPageState extends State<ShippingAdressPage> {
       child: Scaffold(
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: 'Shipping Address'),
+          child: AppBarWidget(title: 'Shipping Address', leadingIcon: true),
         ),
         body: Stack(
           children: [

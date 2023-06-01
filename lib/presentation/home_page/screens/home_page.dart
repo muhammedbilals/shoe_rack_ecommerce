@@ -75,6 +75,7 @@ class HomePage extends StatelessWidget {
                       // boxShadow: [
                       //   BoxShadow(blurRadius: 25),
                       // ],
+
                       color: colorgray,
                       borderRadius: BorderRadius.circular(20)),
                   child: const Row(
@@ -89,13 +90,13 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: 40,
                         width: 300,
-                        // child: Center(
-                        //   child: TextField(
-                        //     decoration: InputDecoration.collapsed(
-                        //         hintText: 'Search',
-                        //         hintStyle: TextStyle(fontSize: 19)),
-                        //   ),
-                        // ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'search',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ),
                       )
                     ],
                   ),

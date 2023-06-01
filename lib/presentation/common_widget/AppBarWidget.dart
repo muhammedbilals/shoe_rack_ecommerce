@@ -4,7 +4,7 @@ import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 class AppBarWidget extends StatelessWidget {
   final String title;
   final Icon? icons;
-  final Icon? leadingIcon;
+  final bool? leadingIcon;
   const AppBarWidget({super.key, required this.title, this.icons, this.leadingIcon});
 
   @override
@@ -17,7 +17,7 @@ class AppBarWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            icon:leadingIcon!=null? const Icon(
+            icon:leadingIcon==true? const Icon(
               CustomIcon.lefticonfluttter,
               size: 30,
             ):SizedBox(

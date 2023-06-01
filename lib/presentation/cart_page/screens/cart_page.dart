@@ -563,11 +563,21 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                     );
                             }
-                            return const Text('loading');
+                            return SizedBox(
+                              height: size.height * 0.7,
+                              child: const Center(
+                                child: Text('Loading'),
+                              ),
+                            );
                           },
                         );
                       }
-                      return const Text('loaasd');
+                      return SizedBox(
+                        height: size.height * 0.7,
+                        child: const Center(
+                          child: Text('Loading'),
+                        ),
+                      );
                     },
                   )
                 ],

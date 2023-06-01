@@ -68,7 +68,7 @@ class _WishListScreenState extends State<WishListScreen> {
       backgroundColor: colorwhite,
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: 'My Wishlist')),
+          child: AppBarWidget(title: 'My Wishlist',leadingIcon: true,)),
       body: SingleChildScrollView(
         child: Column(children: [
           StreamBuilder<QuerySnapshot>(

@@ -30,9 +30,7 @@ class AddNewAddressPage extends StatelessWidget {
         Scaffold(
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(70),
-            child: AppBarWidget(
-                leadingIcon: Icon(CustomIcon.lefticonfluttter),
-                title: 'New Address'),
+            child: AppBarWidget(leadingIcon: true, title: 'New Address'),
           ),
           body: SingleChildScrollView(
             child: Column(

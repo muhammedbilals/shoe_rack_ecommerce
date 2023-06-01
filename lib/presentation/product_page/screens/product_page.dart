@@ -10,7 +10,7 @@ import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 
 class ProductPage extends StatefulWidget {
-  ProductPage({
+  const ProductPage({
     super.key,
     required this.id,
   });
@@ -21,14 +21,10 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  List<String> colorList = <String>['Black', 'Red', 'White', 'Blue'];
-
+  List<String> colorList = <String>['Black', 'Red'];
   List<int> sizeList = <int>[9, 10, 11, 12];
-
   int choiceChipColorValue = 0;
-
   int choiceChipSizeValue = 0;
-
   bool isAddedtoCart = false;
   bool isAddedtoWishlist = false;
   bool isSelectedItemAvailable = false;
@@ -196,35 +192,35 @@ class _ProductPageState extends State<ProductPage> {
                       height: 60,
                       //add to wishlist button
                       child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll<Color>(colorwhite),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                side: BorderSide(color: colorgreen, width: 2),
-                                borderRadius: BorderRadius.circular(18.0),
-                              ),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll<Color>(colorwhite),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              side: BorderSide(color: colorgreen, width: 2),
+                              borderRadius: BorderRadius.circular(18.0),
                             ),
                           ),
-                          onPressed: () {
-                            addOrRemoveFromWishlist(widget.id);
-                          },
-                          child: isAddedtoWishlist
-                              ? Icon(
-                                  CustomIcon.hearticonfluttter,
-                                  size: 25,
-                                  color: colorgreen,
-                                )
-                              : Icon(
-                                  CustomIcon.hearticonfluttter,
-                                  size: 25,
-                                  color: colorblack,
-                                )),
+                        ),
+                        onPressed: () {
+                          addOrRemoveFromWishlist(widget.id);
+                        },
+                        child: isAddedtoWishlist
+                            ? Icon(
+                                CustomIcon.hearticonfluttter,
+                                size: 25,
+                                color: colorgreen,
+                              )
+                            : Icon(
+                                CustomIcon.hearticonfluttter,
+                                size: 25,
+                                color: colorblack,
+                              ),
+                      ),
                     ),
                   ),
                   //add to cart Button
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -304,7 +300,7 @@ class _ProductPageState extends State<ProductPage> {
                                                               spacing: 5.0,
                                                               children: List<
                                                                   Widget>.generate(
-                                                                3,
+                                                                2,
                                                                 (int index) {
                                                                   return ChoiceChip(
                                                                     disabledColor:
@@ -321,11 +317,12 @@ class _ProductPageState extends State<ProductPage> {
                                                                         (bool
                                                                             selected) {
                                                                       setState(
-                                                                          () {
-                                                                        choiceChipColorValue = (selected
-                                                                            ? index
-                                                                            : index);
-                                                                      });
+                                                                        () {
+                                                                          choiceChipColorValue = (selected
+                                                                              ? index
+                                                                              : index);
+                                                                        },
+                                                                      );
                                                                     },
                                                                   );
                                                                 },
@@ -368,11 +365,12 @@ class _ProductPageState extends State<ProductPage> {
                                                                         (bool
                                                                             selected) {
                                                                       setState(
-                                                                          () {
-                                                                        choiceChipSizeValue = (selected
-                                                                            ? index
-                                                                            : index);
-                                                                      });
+                                                                        () {
+                                                                          choiceChipSizeValue = (selected
+                                                                              ? index
+                                                                              : index);
+                                                                        },
+                                                                      );
                                                                     },
                                                                   );
                                                                 },
@@ -452,16 +450,16 @@ class _ProductPageState extends State<ProductPage> {
                                                           return const Text(
                                                               'Something went wrong');
                                                         }
-                                                         int futureProductData=0;
+                                                        int futureProductData =
+                                                            0;
                                                         if (snapshot.hasData) {
-                                                             futureProductData =
-                                                            snapshot
-                                                                .data!['price'];
-                                                        log(futureProductData
-                                                            .toString());
-
+                                                          futureProductData =
+                                                              snapshot.data![
+                                                                  'price'];
+                                                          log(futureProductData
+                                                              .toString());
                                                         }
-                                                      
+
                                                         return StatefulBuilder(
                                                           builder: (context,
                                                               setState) {
@@ -560,10 +558,8 @@ class _ProductPageState extends State<ProductPage> {
                   .collection("product")
                   .doc(widget.id)
                   .snapshots(),
-              // initialData: initialData,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 List<String> img = [];
-
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -599,7 +595,6 @@ class _ProductPageState extends State<ProductPage> {
                         );
                       }).toList(),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
@@ -657,6 +652,7 @@ class _ProductPageState extends State<ProductPage> {
                     //     ],
                     //   ),
                     // ),
+                    sbox,
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Text(
@@ -665,81 +661,21 @@ class _ProductPageState extends State<ProductPage> {
                         textAlign: TextAlign.start,
                       ),
                     ),
+                    sbox,
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Text(
                         snapshot.data['description'],
                         style: TextStyle(
                             // overflow: TextOverflow.clip,
-                            fontSize: 15,
+                            fontSize: 17,
                             color: colorblack.withOpacity(0.5)),
-                        textAlign: TextAlign.start,
+                        textAlign: TextAlign.left,
                       ),
                     ),
                     sbox,
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: Text(
-                        'Available Colors',
-                        style: TextStyle(
-                            // overflow: TextOverflow.clip,
-                            fontSize: 20,
-                            color: colorblack),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                border: Border.all(
-                                    width: 2, style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(50)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                border: Border.all(
-                                    width: 2, style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(50)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                border: Border.all(
-                                    width: 2, style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(50)),
-                          ),
-                        ),
-                      ],
-                    ),
+
                     sbox,
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: Text(
-                        'Available Size',
-                        style: TextStyle(
-                            // overflow: TextOverflow.clip,
-                            fontSize: 20,
-                            color: colorblack),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
                   ],
                 );
               },
