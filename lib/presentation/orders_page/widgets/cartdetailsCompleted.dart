@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,15 +11,16 @@ class OrderDetailsCompleted extends StatelessWidget {
   const OrderDetailsCompleted({
     super.key,
   });
- List<Product> filterProducts(
+  List<Product> filterProducts(
       List<Product> productList, List<dynamic> productIdList) {
     return productList
         .where((product) => productIdList.contains(product.id))
         .toList();
   }
+
   @override
   Widget build(BuildContext context) {
-  final Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -54,7 +53,7 @@ class OrderDetailsCompleted extends StatelessWidget {
                       .map((doc) => doc.get('productId') as List<dynamic>)
                       .toList());
                   log(productId.toString());
-             
+
                   return FutureBuilder<QuerySnapshot>(
                     future: getProducts(),
                     builder: (context, productSnapshot) {
@@ -71,7 +70,7 @@ class OrderDetailsCompleted extends StatelessWidget {
                         List<Product> product = productSnapshot.data!.docs
                             .map((doc) => Product.fromJson(
                                 doc.data() as Map<String, dynamic>))
-                            // .where((product) => productIdList.contains(product.id))
+                            // .where((product) => productId.contains(product.id))
                             .toList();
                         log(product[0].name);
                         // List<Product> desiredProducts = product.where((product) {
@@ -82,159 +81,174 @@ class OrderDetailsCompleted extends StatelessWidget {
                         if (orderProduct.isNotEmpty) {
                           log(orderProduct[0].name);
                         }
-                        return ListView.builder(
-                          itemCount: orderProduct.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Container(
-                                width: size.width * 0.98,
-                                height: size.width * 0.45,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: colorgray),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: 80,
-                                        child: ClipRRect(
+                        return orderProduct.isNotEmpty
+                            ? ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: orderProduct.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Container(
+                                      width: size.width * 0.98,
+                                      height: size.width * 0.45,
+                                      decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          child: Image.network(
-                                              orderProduct[index].imgurl!),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: size.width * 0.64,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 12.0,
-                                                top: 0,
-                                                bottom: 0),
-                                            child: Text(
-                                              orderProduct[index].name,
-                                              style: const TextStyle(
-                                                fontSize: 15,
+                                          color: colorgray),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: 80,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: Image.network(
+                                                    orderProduct[index]
+                                                        .imgurl!),
                                               ),
-                                              textAlign: TextAlign.start,
                                             ),
                                           ),
-                                        ),
-                                        sbox,
-                                        SizedBox(
-                                          width: size.width * 0.6,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 12.0,
-                                                bottom: 0,
-                                                top: 0),
-                                            child: Text(
-                                              orderProduct[index].subtitle,
-                                              style: TextStyle(
-                                                  // overflow: TextOverflow.clip,
-                                                  fontSize: 15,
-                                                  color: colorblack
-                                                      .withOpacity(0.5)),
-                                              textAlign: TextAlign.start,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 12.0, top: 5),
-                                          child: Row(
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                orderProduct[index].color!,
-                                                style:
-                                                    const TextStyle(fontSize: 15),
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8.0),
-                                                child: Text(
-                                                  '|',
-                                                  style: TextStyle(
-                                                      fontSize: 18),
-                                                ),
-                                              ),
-                                              Center(
+                                              SizedBox(
+                                                width: size.width * 0.64,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 8.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12.0,
+                                                          top: 0,
+                                                          bottom: 0),
                                                   child: Text(
-                                                    'Size : ${orderProduct[index].size}',
-                                                    textAlign:
-                                                        TextAlign.center,
+                                                    orderProduct[index].name,
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                    ),
+                                                    textAlign: TextAlign.start,
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 10.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceAround,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 12.0,
-                                                    top: 0,
-                                                    bottom: 0),
-                                                child: Text(
-                                                  '₹${orderProduct[index].price}',
-                                                  style: const TextStyle(
-                                                      fontSize: 25),
-                                                  textAlign:
-                                                      TextAlign.start,
+                                              sbox,
+                                              SizedBox(
+                                                width: size.width * 0.6,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12.0,
+                                                          bottom: 0,
+                                                          top: 0),
+                                                  child: Text(
+                                                    orderProduct[index]
+                                                        .subtitle,
+                                                    style: TextStyle(
+                                                        // overflow: TextOverflow.clip,
+                                                        fontSize: 15,
+                                                        color: colorblack
+                                                            .withOpacity(0.5)),
+                                                    textAlign: TextAlign.start,
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: size.width *
-                                                        0.16),
-                                                child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    20),
-                                                        color:
-                                                            colorgreen),
-                                                    width: size.width *
-                                                        0.26,
-                                                    height: size.width *
-                                                        0.09,
-                                                    child: const Center(
+                                                padding: const EdgeInsets.only(
+                                                    left: 12.0, top: 5),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      orderProduct[index]
+                                                          .color!,
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                    ),
+                                                    const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                        '|',
+                                                        style: TextStyle(
+                                                            fontSize: 18),
+                                                      ),
+                                                    ),
+                                                    Center(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 8.0),
                                                         child: Text(
-                                                            'Successfull'))),
+                                                          'Size : ${orderProduct[index].size}',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 12.0,
+                                                              top: 0,
+                                                              bottom: 0),
+                                                      child: Text(
+                                                        '₹${orderProduct[index].price}',
+                                                        style: const TextStyle(
+                                                            fontSize: 25),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: size.width *
+                                                              0.16),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              color:
+                                                                  colorgreen),
+                                                          width:
+                                                              size.width * 0.26,
+                                                          height:
+                                                              size.width * 0.09,
+                                                          child: const Center(
+                                                              child: Text(
+                                                                  'Successfull'))),
+                                                    )
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           ),
-                                        )
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                                  );
+                                },
+                              )
+                            : SizedBox(
+                                      height: size.height * 0.7,
+                                      child: const Center(
+                                          child: Text('Orders are still processing')));
                       }
                       return const Text('loading');
                     },

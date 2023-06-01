@@ -27,23 +27,27 @@ class _AddressScreenState extends State<AddressScreen> {
       .collection('address');
   void getAddress() async {
     adress = await displayAddress();
-    setState(() {
-      adress = adress;
-    });
+    setState(
+      () {
+        adress = adress;
+      },
+    );
   }
 
   getRadioIndex() {
-    addressRef.get().then((QuerySnapshot querysnapshot) {
-      final docs = querysnapshot.docs;
-      for (int i = 0; i < docs.length; i++) {
-        final boolvalue = docs[i]['isDefault'];
-        if (boolvalue) {
-          selectedAddressNotifier.value = i;
-        } else {
-          break;
+    addressRef.get().then(
+      (QuerySnapshot querysnapshot) {
+        final docs = querysnapshot.docs;
+        for (int i = 0; i < docs.length; i++) {
+          final boolvalue = docs[i]['isDefault'];
+          if (boolvalue) {
+            selectedAddressNotifier.value = i;
+          } else {
+            break;
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   @override
@@ -69,18 +73,18 @@ class _AddressScreenState extends State<AddressScreen> {
               children: [
                 sbox,
                 Column(
-                    children: List.generate(
-                  adress.length,
-                  (index) => Column(
-                    children: [
-                      Container(
-                        width: size.width * 0.9,
-                        height: size.width * 0.25,
-                        decoration: BoxDecoration(
-                            color: colorgray,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Center(
-                          child: ListTile(
+                  children: List.generate(
+                    adress.length,
+                    (index) => Column(
+                      children: [
+                        Container(
+                          width: size.width * 0.9,
+                          height: size.width * 0.25,
+                          decoration: BoxDecoration(
+                              color: colorgray,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Center(
+                            child: ListTile(
                               leading: Container(
                                 width: size.width * 0.15,
                                 height: size.width * 0.25,
@@ -129,13 +133,15 @@ class _AddressScreenState extends State<AddressScreen> {
                                         adress[index].id.toString());
                                   },
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      sbox,
-                    ],
+                        sbox,
+                      ],
+                    ),
                   ),
-                )),
+                ),
                 sbox,
                 CustomButton(
                   text: 'Add New Address',

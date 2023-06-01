@@ -33,27 +33,35 @@ class _WishListScreenState extends State<WishListScreen> {
         .doc(userID)
         .collection('wishlist');
 
-    ordersRef.get().then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        // var orderData = doc.data();
-        ids.add(doc.get('product'));
-        log(doc.toString());
-      }
-      log(ids.toString());
-      setState(() {});
-    }).catchError((error) {
-      // Handle any potential error
-    });
+    ordersRef.get().then(
+      (QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          // var orderData = doc.data();
+          ids.add(
+            doc.get('product'),
+          );
+          log(doc.toString());
+        }
+        log(ids.toString());
+        setState(() {});
+      },
+    ).catchError(
+      (error) {
+        // Handle any potential error
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    log('buildmethode called');
     final Size size = MediaQuery.of(context).size;
     if (ids.isEmpty) {
       return Scaffold(
-          backgroundColor: colorwhite,
-          body: const Center(child: CircularProgressIndicator()));
+        backgroundColor: colorwhite,
+        body: const Center(
+          child: Text('Please add Something'),
+        ),
+      );
     }
     return SafeArea(
         child: Scaffold(
@@ -78,7 +86,9 @@ class _WishListScreenState extends State<WishListScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text("Loading");
                 }
-                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty || ids.isEmpty) {
+                if (!snapshot.hasData ||
+                    snapshot.data!.docs.isEmpty ||
+                    ids.isEmpty) {
                   return const Center(child: Text('No products found'));
                 }
                 return GridView.count(
@@ -151,7 +161,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                       await userCollection
                                           .doc(querySnapshot.docs.first.id)
                                           .delete();
-                                          ids.remove(data['id']);
+                                      ids.remove(data['id']);
                                       debugPrint('produt deleteted $userID');
                                       setState(() {});
                                     },
@@ -290,20 +300,16 @@ class _FavouriteRemoveButtonState extends State<FavouriteRemoveButton> {
           },
         ));
   }
-    addOrRemoveFromWishlist(String id) async {
+
+  addOrRemoveFromWishlist(String id) async {
     final userCollection = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('wishlist')
         .doc(id);
-   
-     
-   
-      userCollection.delete();
-      setState(() {
-       
-      });
-      log('removed from wishlist');
-    
+
+    userCollection.delete();
+    setState(() {});
+    log('removed from wishlist');
   }
 }

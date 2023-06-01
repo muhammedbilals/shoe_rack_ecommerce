@@ -33,7 +33,7 @@ class _ProductPageState extends State<ProductPage> {
   bool isAddedtoWishlist = false;
   bool isSelectedItemAvailable = false;
 
-  addToCart(String id, String color, int size,int totalValue) async {
+  addToCart(String id, String color, int size, int totalValue) async {
     int productCount = 1;
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
@@ -49,7 +49,7 @@ class _ProductPageState extends State<ProductPage> {
       'productCount': productCount,
       'color': color,
       'size': size,
-      'totalPrice':totalValue
+      'totalPrice': totalValue
     });
 
     setState(() {
@@ -98,7 +98,8 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
-  Future<bool> checkIfAvailable(String color, int size, String docId,int totalValue) async {
+  Future<bool> checkIfAvailable(
+      String color, int size, String docId, int totalValue) async {
     final DocumentReference docRef =
         FirebaseFirestore.instance.collection('product').doc(docId);
     final DocumentSnapshot docSnapshot = await docRef.get();
@@ -112,7 +113,7 @@ class _ProductPageState extends State<ProductPage> {
         // field value is equal to the desired value
         log('data availbale');
         log(fieldColor);
-        addToCart(docId, color, size,totalValue);
+        addToCart(docId, color, size, totalValue);
         return true;
       } else {
         // field value is not equal to the desired value
@@ -451,13 +452,16 @@ class _ProductPageState extends State<ProductPage> {
                                                           return const Text(
                                                               'Something went wrong');
                                                         }
-
-                                                        final futureProductData =
+                                                         int futureProductData=0;
+                                                        if (snapshot.hasData) {
+                                                             futureProductData =
                                                             snapshot
                                                                 .data!['price'];
                                                         log(futureProductData
                                                             .toString());
 
+                                                        }
+                                                      
                                                         return StatefulBuilder(
                                                           builder: (context,
                                                               setState) {
@@ -488,7 +492,7 @@ class _ProductPageState extends State<ProductPage> {
                                                                   ),
                                                                   onPressed:
                                                                       () async {
-                                                                    await checkIfAvailable(colorList[choiceChipColorValue], sizeList[choiceChipSizeValue], widget.id,futureProductData) ==
+                                                                    await checkIfAvailable(colorList[choiceChipColorValue], sizeList[choiceChipSizeValue], widget.id, futureProductData) ==
                                                                             true
                                                                         ? addToCart(
                                                                             widget
@@ -496,10 +500,11 @@ class _ProductPageState extends State<ProductPage> {
                                                                             colorList[
                                                                                 choiceChipColorValue],
                                                                             sizeList[
-                                                                                choiceChipSizeValue],futureProductData)
+                                                                                choiceChipSizeValue],
+                                                                            futureProductData)
                                                                         : removeFromCart(
                                                                             widget.id);
-                                                                  
+
                                                                     // ignore: use_build_context_synchronously
                                                                     Navigator.pop(
                                                                         context);

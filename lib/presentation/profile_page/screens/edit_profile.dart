@@ -9,7 +9,7 @@ import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/edit_screen_textfield.dart';
 
 class EditProfile extends StatelessWidget {
-   EditProfile({super.key});
+  EditProfile({super.key});
   final namecontroller = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -38,7 +38,8 @@ class EditProfile extends StatelessWidget {
                 ),
                 sbox,
                 sbox,
-                EditScreenTextField(hinttext: 'Name',controller:namecontroller),
+                EditScreenTextField(
+                    hinttext: 'Name', controller: namecontroller),
                 sbox,
                 EditScreenTextField(hinttext: 'Phone Number'),
                 sbox,
@@ -51,10 +52,8 @@ class EditProfile extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: CustomButton(
-                  
                   text: 'Update',
                   icon: CustomIcon.tickcircleiconfluttter,
-               
                 ))
           ],
         ),

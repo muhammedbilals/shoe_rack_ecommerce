@@ -21,29 +21,29 @@ class CartPage extends StatefulWidget {
   State<CartPage> createState() => _CartPageState();
 }
 
+ValueNotifier<int> totalCartTotalNotifier = ValueNotifier(0);
+int updateTotalPrice(List<dynamic> productPrices) {
+  int totalValue = 0;
+  for (int i = 0; i < productPrices.length; i++) {
+    totalValue += productPrices[i] as int;
+  }
+  log(totalValue.toString());
+  return totalValue;
+  // totalCartTotalNotifier.value = totalValue;
+}
+
 class _CartPageState extends State<CartPage> {
   // ValueNotifier<int> totalPriceNotifier = ValueNotifier(0);
-  ValueNotifier<int> totalCartTotalNotifier = ValueNotifier(0);
 
   int totalPrice = 0;
 
-  void updateTotalPrice(List<dynamic> productPrices) {
-    int totalValue = 0;
-    for (int i = 0; i < productPrices.length; i++) {
-      totalValue += productPrices[i] as int;
-    }
-    totalCartTotalNotifier.value = totalValue;
-  }
-
-
- 
-  int getTotalCarttValue(List<dynamic> totalPrice) {
-    dynamic totalValue = 0;
-    for (int i = 0; i < totalPrice.length; i++) {
-      totalValue = totalValue + totalPrice[i];
-    }
-    return totalValue;
-  }
+  // int getTotalCarttValue(List<dynamic> totalPrice) {
+  //   dynamic totalValue = 0;
+  //   for (int i = 0; i < totalPrice.length; i++) {
+  //     totalValue = totalValue + totalPrice[i];
+  //   }
+  //   return totalValue;
+  // }
 
   Stream<QuerySnapshot> getProducts() {
     // final FirebaseAuth auth = FirebaseAuth.instance;
@@ -52,6 +52,7 @@ class _CartPageState extends State<CartPage> {
         FirebaseFirestore.instance.collection('product').snapshots();
     return querySnapshot;
   }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -72,9 +73,10 @@ class _CartPageState extends State<CartPage> {
               child: Column(
                 children: [
                   //streambuilder to get product id from cart
-                  StreamBuilder<QuerySnapshot>(
-                    stream: getProductIdfromCart(),
+                  FutureBuilder<QuerySnapshot>(
+                    future: getProductIdfromCart(),
                     builder: (context, cartSnapshot) {
+                      log('get id strream called');
                       if (cartSnapshot.hasData) {
                         List<dynamic> productId = cartSnapshot.data!.docs
                             .map((doc) => doc.get('productId'))
@@ -84,14 +86,17 @@ class _CartPageState extends State<CartPage> {
                         return StreamBuilder<QuerySnapshot>(
                           stream: getProducts(),
                           builder: (context, productSnapshot) {
+                            log('get products strream called');
+
                             if (productSnapshot.hasData) {
                               //to get product based on product id from cart
-                                List<Product> product = productSnapshot.data!.docs
-                                    .map((doc) => Product.fromJson(
-                                        doc.data() as Map<String, dynamic>))
-                                    .where((product) =>
-                                        productId.contains(product.id))
-                                    .toList();
+                              List<Product> product = productSnapshot.data!.docs
+                                  .map((doc) => Product.fromJson(
+                                      doc.data() as Map<String, dynamic>))
+                                  .where((product) =>
+                                      productId.contains(product.id))
+                                  .toList();
+
                               //to get product price based on product id
 
                               List<dynamic> productPrice = cartSnapshot
@@ -104,6 +109,11 @@ class _CartPageState extends State<CartPage> {
                               //     updateTotalPrice(productPrice);
                               //   });
                               // }
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                // int totalValue = updateTotalPrice(productPrice);
+                                // totalCartTotalNotifier.value = totalValue;
+                              });
+
                               return product.isNotEmpty
                                   ? ListView.builder(
                                       itemCount: product.length,
@@ -111,7 +121,7 @@ class _CartPageState extends State<CartPage> {
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(0.0),
+                                            padding: const EdgeInsets.all(5.0),
                                             child: Center(
                                               child: Container(
                                                 width: size.width * 0.95,
@@ -264,7 +274,7 @@ class _CartPageState extends State<CartPage> {
                                                                                             final User? user = auth.currentUser;
                                                                                             final userID = user!.email;
                                                                                             removeFromCart(product[index].id.toString(), userID!);
-                                                                                           
+
                                                                                             Navigator.pop(context);
                                                                                           },
                                                                                           child: Text(
@@ -379,19 +389,6 @@ class _CartPageState extends State<CartPage> {
                                                                   context,
                                                               AsyncSnapshot
                                                                   snapshot) {
-                                                            if (snapshot
-                                                                .hasData) {
-                                                              // //get the cart value of individual cartItem and saving it as a field
-                                                              getTotalProductValue(
-                                                                  productId[
-                                                                      index],
-                                                                  productPrice[
-                                                                      index],
-                                                                  snapshot.data[
-                                                                          'productCount'] ??
-                                                                      1);
-                                                              //TODO
-                                                            }
                                                             if (!snapshot
                                                                     .hasData ||
                                                                 !snapshot.data!
@@ -417,6 +414,20 @@ class _CartPageState extends State<CartPage> {
                                                               return const Text(
                                                                   'Something went wrong');
                                                             }
+                                                            if (snapshot
+                                                                .hasData) {
+                                                              // //get the cart value of individual cartItem and saving it as a field
+                                                              getTotalProductValue(
+                                                                  productId[
+                                                                      index],
+                                                                  productPrice[
+                                                                      index],
+                                                                  snapshot.data[
+                                                                          'productCount'] ??
+                                                                      1);
+                                                              //TODO
+                                                            }
+
                                                             return Padding(
                                                               padding:
                                                                   const EdgeInsets
@@ -469,56 +480,66 @@ class _CartPageState extends State<CartPage> {
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  Padding(
-                                                                    padding: EdgeInsets.only(
-                                                                        left: size.width *
-                                                                            0.12,
-                                                                        right:
-                                                                            10),
-                                                                    child:
-                                                                        Container(
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              20),
-                                                                          color:
-                                                                              colorgreen),
-                                                                      width: size
-                                                                              .width *
-                                                                          0.287,
-                                                                      height: size
-                                                                              .width *
-                                                                          0.09,
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: [
-                                                                          IconButton(
-                                                                            icon:
-                                                                                const Icon(
-                                                                              CustomIcon.minusiconfluttter,
-                                                                              size: 14,
-                                                                            ),
-                                                                            onPressed:
-                                                                                () {
-                                                                              addOrRemoveFromcart(product[index].id.toString(), false);
-                                                                              // updateTotalPrice(productPrice);
-                                                                            },
-                                                                          ),
-                                                                          Text('${snapshot.data['productCount']}'
-                                                                              .toString()),
-                                                                          IconButton(
-                                                                              icon: const Icon(
-                                                                                CustomIcon.addiconfluttter,
-                                                                                size: 14,
+                                                                  ValueListenableBuilder(
+                                                                    valueListenable:
+                                                                        totalCartTotalNotifier,
+                                                                    builder: (context,
+                                                                        value,
+                                                                        child) {
+                                                                      return Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            left: size.width *
+                                                                                0.12,
+                                                                            right:
+                                                                                10),
+                                                                        child:
+                                                                            Container(
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20),
+                                                                              color: colorgreen),
+                                                                          width:
+                                                                              size.width * 0.287,
+                                                                          height:
+                                                                              size.width * 0.09,
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              IconButton(
+                                                                                icon: const Icon(
+                                                                                  CustomIcon.minusiconfluttter,
+                                                                                  size: 14,
+                                                                                ),
+                                                                                onPressed: () {
+                                                                                  if (snapshot.data['productCount'] != 1) {
+                                                                                    addOrRemoveFromcart(product[index].id.toString(), false, product[index].price!);
+                                                                                  } else {
+                                                                                    final collectionReference = FirebaseFirestore.instance.collection('users').doc(userID).collection('cart').doc(product[index].id);
+
+                                                                                    collectionReference.delete();
+                                                                                    setState(() {});
+                                                                                  }
+                                                                                  // updateTotalPrice(productPrice);
+                                                                                },
                                                                               ),
-                                                                              onPressed: () {
-                                                                                addOrRemoveFromcart(product[index].id.toString(), true);
-                                                                                // updateTotalPrice(productPrice);
-                                                                              }),
-                                                                        ],
-                                                                      ),
-                                                                    ),
+                                                                              Text('${snapshot.data['productCount']}'.toString()),
+                                                                              IconButton(
+                                                                                icon: const Icon(
+                                                                                  CustomIcon.addiconfluttter,
+                                                                                  size: 14,
+                                                                                ),
+                                                                                onPressed: () {
+                                                                                  addOrRemoveFromcart(product[index].id.toString(), true, product[index].price!);
+
+                                                                                  // updateTotalPrice(productPrice);
+                                                                                },
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    },
                                                                   ),
                                                                 ],
                                                               ),
@@ -538,7 +559,9 @@ class _CartPageState extends State<CartPage> {
                                   : SizedBox(
                                       height: size.height * 0.7,
                                       child: const Center(
-                                          child: Text('Cart is Empty')));
+                                        child: Text('Cart is Empty'),
+                                      ),
+                                    );
                             }
                             return const Text('loading');
                           },
@@ -551,51 +574,73 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
           ),
-          ValueListenableBuilder(
-            valueListenable: totalCartTotalNotifier,
-            builder: (context, totalValue, child) {
-              return Positioned(
-                left: 0,
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  color: colorwhite,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: size.width * 0.22,
-                          height: size.width * 0.14,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Total Price',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: colorblack.withOpacity(0.5)),
+          StreamBuilder(
+            stream: getTotalValue(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasData) {
+                List<dynamic> productPrice = snapshot.data!.docs
+                    .map((doc) => doc.get('totalPrice'))
+                    .toList();
+                int totalPrice = updateTotalPrice(productPrice);
+
+                return Visibility(
+                  visible: totalPrice != 0,
+                  child: Positioned(
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      color: colorwhite,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: size.width * 0.22,
+                              height: size.width * 0.14,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Total Price',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: colorblack.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹${totalPrice.toString()}',
+                                    style: const TextStyle(
+                                      fontSize: 27,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(totalValue.toString())
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: CustomButton(
+                                text: 'Checkout',
+                                icon: CustomIcon.ticksquareiconfluttter,
+                                width: 0.69,
+                                widget: const CheckoutScreen(),
+                              ),
+                            )
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: CustomButton(
-                            text: 'Checkout',
-                            icon: CustomIcon.ticksquareiconfluttter,
-                            width: 0.69,
-                            widget: CheckoutScreen(),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              );
+                );
+              }
+              return const Text('loading');
             },
           )
         ],

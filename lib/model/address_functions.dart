@@ -10,11 +10,12 @@ final addressRef = FirebaseFirestore.instance
     .doc(userID)
     .collection('address');
 
-void addNewAddress(Address address) {
-  final id = addressRef.doc();
-  address.id = id.id;
+void addNewAddress(Address address)async {
+  // final id = addressRef.doc();
+  // address.id = id.id;
   log('adress added${address.id.toString()}');
-  addressRef.doc(address.id).set(address.toJason());
+ await addressRef.doc(address.id).set(address.toJason());
+  addressRef.doc(address.id).update({'isDefault':true});
 }
 
 Future<List<Address>> displayAddress() async {

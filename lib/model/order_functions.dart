@@ -16,7 +16,7 @@ addtoOrders(
     List<String>? productId,
     String? orderStatus,
     String? cartId,
-    BuildContext? context}) async{
+    BuildContext? context}) async {
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final dataTime = DateTime.now();
   // final orderRef = FirebaseFirestore.instance
@@ -41,16 +41,14 @@ addtoOrders(
       orderDate:
           '${dataTime.day}/${dataTime.month}/${dataTime.year} - ${dataTime.hour}:${dataTime.minute}:${dataTime.millisecond}');
   // orderRef.add(orderModel.toJason());
-DocumentReference docRef = await orderAdminRef.add(orderModel.toJason());
-String orderId = docRef.id;
+  DocumentReference docRef = await orderAdminRef.add(orderModel.toJason());
+  String orderId = docRef.id;
 
+  orderModel.orderId = orderId;
 
-orderModel.orderId = orderId;
+  await docRef.update({'orderId': orderId});
 
-
-await docRef.update({'orderId': orderId});
-
-log('Added to Orders with ID: $orderId');
+  log('Added to Orders with ID: $orderId');
   // productId!.forEach((cartId) {
   //   cartRef
   //       .doc(cartId)
@@ -73,17 +71,19 @@ Future<QuerySnapshot> getProductId() async {
   return querySnapshot;
 }
 
-Future<DocumentSnapshot> getAddressId() async {
+Future<QuerySnapshot> getAddressId() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
   final userID = user!.email;
+ 
   final querySnapshot = await FirebaseFirestore.instance
       .collection('users')
       .doc(userID)
       .collection('address')
       .where('isDefault', isEqualTo: true)
       .get();
-  return querySnapshot.docs.first;
+  
+  return querySnapshot;
 }
 
 int getTotalCarttValue(List<dynamic> totalPrice) {
@@ -101,7 +101,7 @@ Future<QuerySnapshot> getProductIdFromOrdersActive() async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection('orders')
       .where('userId', isEqualTo: userID)
-      .where('orderStatus', isEqualTo: 'placed')
+      .where('orderStatus', isEqualTo: 'Placed')
       .get();
   return querySnapshot;
 }
@@ -113,7 +113,7 @@ Future<QuerySnapshot> getProductIdFromOrdersCompleted() async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection('orders')
       .where('userId', isEqualTo: userID)
-      .where('orderStatus', isEqualTo: 'delivered')
+      .where('orderStatus', isEqualTo: 'Delivered')
       .get();
   return querySnapshot;
 }

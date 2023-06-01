@@ -189,24 +189,25 @@ class HomePage extends StatelessWidget {
                             children: [
                               Stack(children: [
                                 Container(
-                                    width: size.width * 0.45,
-                                    height: size.width * 0.45,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
+                                  width: size.width * 0.45,
+                                  height: size.width * 0.45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      data['imgurl'],
+                                      fit: BoxFit.cover,
                                     ),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          data['imgurl'],
-                                          fit: BoxFit.cover,
-                                        ))
-                                    // const Align(
-                                    //     alignment: Alignment.topRight,
-                                    //     child: Padding(
-                                    //       padding: EdgeInsets.all(10.0),
-                                    //       child: Icon(Icons.favorite_border_outlined),
-                                    //     )),
-                                    ),
+                                  ),
+                                  // const Align(
+                                  //     alignment: Alignment.topRight,
+                                  //     child: Padding(
+                                  //       padding: EdgeInsets.all(10.0),
+                                  //       child: Icon(Icons.favorite_border_outlined),
+                                  //     )),
+                                ),
                                 FavouriteButton(
                                   productId: data['id'],
                                 ),

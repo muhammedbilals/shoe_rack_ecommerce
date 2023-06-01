@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -29,7 +28,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void initState() {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
         (PaymentSuccessResponse response) {
-      _handlePaymentSuccess(response,context, productId, cartRef);
+      _handlePaymentSuccess(response, context, productId, cartRef);
     });
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
         (PaymentFailureResponse response) {
@@ -95,7 +94,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const AmountWidget(),
               sbox,
               //future builder to get selceted address where contains a field set to true
-              FutureBuilder<DocumentSnapshot>(
+              FutureBuilder<QuerySnapshot>(
                 future: getAddressId(),
                 builder: (ccontext, addressSnapshot) {
                   String addressId = '';
@@ -106,53 +105,57 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     return Text('Error: ${addressSnapshot.error}');
                   }
                   if (addressSnapshot.hasData) {
-                    final addressData =
-                        addressSnapshot.data!.data() as Map<String, dynamic>;
-                    addressId = addressData['id'];
+                    final docs = addressSnapshot.data!.docs;
+
+                    if (docs.isNotEmpty) {
+                      final addressData =
+                          docs.first.data() as Map<String, dynamic>;
+                      addressId = addressData['addressId'] ?? '';
+                    }
                   }
                   //to get product id stored in cart collection
                   return FutureBuilder<QuerySnapshot>(
-                      future: getProductId(),
-                      builder: (ccontext, cartSnapshot) {
-                        if (cartSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (cartSnapshot.hasError) {
-                          return Text('Error: ${cartSnapshot.error}');
-                        }
-                        if (cartSnapshot.hasData) {
-                          // List<String> productList = [];
-                          List<String> productId = cartSnapshot.data!.docs
-                              .map((doc) => doc.get('productId') as String)
-                              .toList();
-                          // for (String productId in productId) {
-                          //   // Map<String, dynamic> productMap = {'id': productId};
-                          //   productList.add(productId);
-                          // }
-                          //to get total value from cart and calculating total cart value
-                          List<dynamic> productPrice = cartSnapshot.data!.docs
-                              .map((doc) => doc.get('totalPrice'))
-                              .toList();
-                          final totalvalue = getTotalCarttValue(productPrice);
-                          return Center(
-                            child: SizedBox(
-                              width: size.width * 0.9,
-                              height: 60,
-                              child: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll<Color>(
-                                          colorgreen),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    ),
+                    future: getProductId(),
+                    builder: (ccontext, cartSnapshot) {
+                      if (cartSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (cartSnapshot.hasError) {
+                        return Text('Error: ${cartSnapshot.error}');
+                      }
+                      if (cartSnapshot.hasData) {
+                        // List<String> productList = [];
+                        List<String> productId = cartSnapshot.data!.docs
+                            .map((doc) => doc.get('productId') as String)
+                            .toList();
+                        // for (String productId in productId) {
+                        //   // Map<String, dynamic> productMap = {'id': productId};
+                        //   productList.add(productId);
+                        // }
+                        //to get total value from cart and calculating total cart value
+                        List<dynamic> productPrice = cartSnapshot.data!.docs
+                            .map((doc) => doc.get('totalPrice'))
+                            .toList();
+                        final totalvalue = getTotalCarttValue(productPrice);
+                        return Center(
+                          child: SizedBox(
+                            width: size.width * 0.9,
+                            height: 60,
+                            child: ElevatedButton.icon(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll<Color>(colorgreen),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
                                   ),
                                 ),
-                                onPressed: () {
+                              ),
+                              onPressed: () {
+                                if (addressId !="") {
                                   var options = {
                                     'key': 'rzp_test_EgXUcvHZRGYEZU',
                                     'amount': totalvalue,
@@ -172,23 +175,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       addressId: addressId,
                                       totalValue: totalvalue,
                                       orderStatus: 'Placed');
-                                },
-                                icon: Icon(
-                                  CustomIcon.walleticonfluttter,
-                                  size: 22,
-                                  color: colorwhite,
-                                ),
-                                label: Text(
-                                  'Continue to Payment',
-                                  style: TextStyle(
-                                      fontSize: 20, color: colorwhite),
-                                ),
+                                } else {
+                                  utils.showSnackbar('Please add an address');
+                                }
+                              },
+                              icon: Icon(
+                                CustomIcon.walleticonfluttter,
+                                size: 22,
+                                color: colorwhite,
+                              ),
+                              label: Text(
+                                'Continue to Payment',
+                                style:
+                                    TextStyle(fontSize: 20, color: colorwhite),
                               ),
                             ),
-                          );
-                        }
-                        return const Text('loading');
-                      });
+                          ),
+                        );
+                      }
+                      return const Text('loading');
+                    },
+                  );
                 },
               ),
               sbox
@@ -199,8 +206,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  _handlePaymentSuccess(PaymentSuccessResponse response,
-      BuildContext context, List<String>? productId, cartRef) {
+  _handlePaymentSuccess(PaymentSuccessResponse response, BuildContext context,
+      List<String>? productId, cartRef) {
     for (var cartId in productId!) {
       cartRef
           .doc(cartId)
