@@ -2,11 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
-import 'package:shoe_rack_ecommerce/presentation/home_page/screens/home_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -28,7 +25,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     if (!isEmailVerified) {
       sentVerificationEmail();
 
-      timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailVerified());
+      timer = Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
     }
   }
 
@@ -57,9 +54,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) => isEmailVerified
       ? MainPage()
-      : SafeArea(
+      : const SafeArea(
           child: Scaffold(
-            appBar: const PreferredSize(
+            appBar: PreferredSize(
               preferredSize: Size.fromHeight(70),
               child: AppBarWidget(title: 'Verify Email'),
             ),
@@ -67,11 +64,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 250,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0),
                   child: Text(
                     'A verification Email has been sent to your mail',
                     style: TextStyle(fontSize: 20),

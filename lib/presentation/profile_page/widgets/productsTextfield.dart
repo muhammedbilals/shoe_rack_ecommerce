@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 
+// ignore: must_be_immutable
 class ProductsTextField extends StatelessWidget {
   ProductsTextField({
     super.key,

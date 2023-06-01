@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
@@ -9,7 +7,6 @@ import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/main.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/functions/singinfunction.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_page/screens/login_screen.dart';
-import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 import 'package:shoe_rack_ecommerce/presentation/sign_in_page/widgets/textfieldsignup.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -29,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
       //     passwordController.text.trim().length >= 8) {
       showDialog(
         context: context,
-        builder: (context) => Center(child: CircularProgressIndicator()),
+        builder: (context) => const Center(child: CircularProgressIndicator()),
       );
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(

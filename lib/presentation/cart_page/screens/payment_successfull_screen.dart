@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/MainButton.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
-import 'package:shoe_rack_ecommerce/presentation/main_pages/sudo_page.dart';
 
 class PaymentSuccessfullScreen extends StatelessWidget {
   const PaymentSuccessfullScreen({super.key});

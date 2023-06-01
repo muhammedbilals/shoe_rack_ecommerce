@@ -1,8 +1,7 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
-import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 
+// ignore: must_be_immutable
 class TextFieldSignUp extends StatefulWidget {
   final IconData icon;
   final String title;
@@ -78,7 +77,7 @@ late ValueNotifier<bool> visibileNotifier = ValueNotifier(widget.passwordVisible
                     // cursorHeight: 20,
                     decoration: InputDecoration.collapsed(
                         hintText: widget.title,
-                        hintStyle: TextStyle(fontSize: 20)),
+                        hintStyle: const TextStyle(fontSize: 20)),
                   );
                 },
               ),
@@ -86,7 +85,7 @@ late ValueNotifier<bool> visibileNotifier = ValueNotifier(widget.passwordVisible
           ),
           Padding(
               padding: const EdgeInsets.only(left: 00.0, right: 0.0),
-              child: widget.passwordVisible != null && widget.trailing1 != null
+              child: widget.trailing1 != null
                   ? ValueListenableBuilder(
                       valueListenable: visibileNotifier,
                       builder: (context, visibleBool, child) => IconButton(

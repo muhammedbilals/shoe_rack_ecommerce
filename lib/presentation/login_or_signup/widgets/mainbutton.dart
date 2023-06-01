@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 
+// ignore: must_be_immutable
 class MainButton extends StatelessWidget {
   final String text;
   final String iconurl;

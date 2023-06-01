@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
+import '../../../core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
-import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/functions/singinfunction.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_or_signup/widgets/mainbutton.dart';
 import 'package:shoe_rack_ecommerce/presentation/login_page/screens/login_screen.dart';
@@ -28,7 +24,7 @@ class LoginOrSignUp extends StatelessWidget {
                 height: 200,
                 child: Image.asset('asset/images/shoerackmainlogo.png')),
           ),
-          SizedBox(
+          const SizedBox(
             height: 200,
           ),
           // MainButton(
@@ -53,11 +49,11 @@ class LoginOrSignUp extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network('https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png')),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       'Contionue with Google',
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20),
                     ),
                   )
                 ],

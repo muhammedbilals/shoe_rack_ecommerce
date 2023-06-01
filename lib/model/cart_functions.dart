@@ -95,7 +95,6 @@ laodCartData() async {
     //to get product count
     final DocumentSnapshot docSnapshot = await collectionReference.get();
     final dynamic productCount = docSnapshot['productCount'];
-    final dynamic productPrice = docSnapshot['totalPrice']; 
     if (incriment == true) {
       if (productCount < 5) {
         collectionReference.update({

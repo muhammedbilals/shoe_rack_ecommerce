@@ -82,14 +82,7 @@ addtoOrders(
     //     ));
   }
 
-  _handleExternalWallet() {}
 
-  final String email = FirebaseAuth.instance.currentUser!.email!;
-
-  // final orderRef = FirebaseFirestore.instance
-  //     .collection('users')
-  //     .doc(email)
-  //     .collection('order');
 
   _razorpay.open(options);
   _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
@@ -99,10 +92,6 @@ addtoOrders(
   _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) {
     _handlePaymentError(response, context!);
   });
-  _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
-  // orderRef.add(orderModel.toJason());
-
 
 }
 

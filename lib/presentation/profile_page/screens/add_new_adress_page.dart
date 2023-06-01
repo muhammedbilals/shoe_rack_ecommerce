@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
-import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/model/address_functions.dart';
 import 'package:shoe_rack_ecommerce/model/address_model.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/profile_page/widgets/productsTextfield.dart';
 
+// ignore: must_be_immutable
 class AddNewAddressPage extends StatelessWidget {
   AddNewAddressPage({super.key});
   final namecontroller = TextEditingController();
