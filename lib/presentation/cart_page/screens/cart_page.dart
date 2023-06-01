@@ -86,19 +86,18 @@ class _CartPageState extends State<CartPage> {
                           builder: (context, productSnapshot) {
                             if (productSnapshot.hasData) {
                               //to get product based on product id from cart
-                              List<Product> product = productSnapshot.data!.docs
-                                  .map((doc) => Product.fromJson(
-                                      doc.data() as Map<String, dynamic>))
-                                  .where((product) =>
-                                      productId.contains(product.id))
-                                  .toList();
+                                List<Product> product = productSnapshot.data!.docs
+                                    .map((doc) => Product.fromJson(
+                                        doc.data() as Map<String, dynamic>))
+                                    .where((product) =>
+                                        productId.contains(product.id))
+                                    .toList();
                               //to get product price based on product id
 
                               List<dynamic> productPrice = cartSnapshot
                                   .data!.docs
                                   .map((doc) => doc.get('totalPrice'))
                                   .toList();
-
                               // if (totalPrice == 0.0) {
                               //   WidgetsBinding.instance
                               //       .addPostFrameCallback((_) {

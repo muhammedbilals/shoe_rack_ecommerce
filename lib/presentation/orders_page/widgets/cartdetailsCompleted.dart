@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
-import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/model/product.dart';
 import 'package:shoe_rack_ecommerce/model/order_functions.dart';
 

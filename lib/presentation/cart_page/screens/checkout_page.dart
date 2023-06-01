@@ -1,24 +1,46 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
+import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 import 'package:shoe_rack_ecommerce/model/order_functions.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/payment_successfull_screen.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/payments_screen.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/amountwidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/shippingadresswidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
-import 'package:shoe_rack_ecommerce/presentation/main_pages/main_pages.dart';
 
-class CheckoutScreen extends StatelessWidget {
-  CheckoutScreen({super.key});
+class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key});
+
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  final _razorpay = Razorpay();
+
+  @override
+  void initState() {
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+        (PaymentSuccessResponse response) {
+      _handlePaymentSuccess(response,context, productId, cartRef);
+    });
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
+        (PaymentFailureResponse response) {
+      _handlePaymentError(response, context);
+    });
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     final Size size = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -131,13 +153,25 @@ class CheckoutScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
+                                  var options = {
+                                    'key': 'rzp_test_EgXUcvHZRGYEZU',
+                                    'amount': totalvalue,
+                                    'name': 'ShoeRack',
+                                    'description': '$productId',
+                                    'prefill': {
+                                      'contact': '',
+                                      'email': '$userid'
+                                    }
+                                  };
+
+                                  _razorpay.open(options);
+
                                   addtoOrders(
-                                    context: ccontext,
+                                      context: ccontext,
                                       productId: productId,
                                       addressId: addressId,
                                       totalValue: totalvalue,
-                                      orderStatus: 'placed');
-                             
+                                      orderStatus: 'Placed');
                                 },
                                 icon: Icon(
                                   CustomIcon.walleticonfluttter,
@@ -165,5 +199,32 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
+  _handlePaymentSuccess(PaymentSuccessResponse response,
+      BuildContext context, List<String>? productId, cartRef) {
+    for (var cartId in productId!) {
+      cartRef
+          .doc(cartId)
+          .delete()
+          .then((_) => log('Deleted cart: $cartId'))
+          .catchError((error) => log('Error deleting cart $cartId: $error'));
+    }
+    log('deleted from cart');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PaymentSuccessfullScreen(),
+        ));
+    //  navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => PaymentSuccessfullScreen(),));
+  }
 
+  _handlePaymentError(PaymentFailureResponse response, BuildContext context) {
+    utils.showSnackbar('Payment was Unsuccessful');
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => SudoPage(),
+    //     ));
+  }
+
+  _handleExternalWallet() {}
 }

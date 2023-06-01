@@ -2,19 +2,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/model/order_model.dart';
-import 'package:shoe_rack_ecommerce/presentation/cart_page/screens/payment_successfull_screen.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 final User? user = auth.currentUser;
 final userID = user!.displayName;
 final userid = user!.email;
 final number = user!.phoneNumber;
-final _razorpay = Razorpay();
-
-
 
 addtoOrders(
     {int? totalValue,
@@ -22,37 +16,41 @@ addtoOrders(
     List<String>? productId,
     String? orderStatus,
     String? cartId,
-    BuildContext? context}) {
+    BuildContext? context}) async{
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final dataTime = DateTime.now();
-  final orderRef = FirebaseFirestore.instance
-      .collection('users')
-      .doc(email)
-      .collection('order');
-  final cartRef = FirebaseFirestore.instance
-      .collection('users')
-      .doc(userid)
-      .collection('cart');
-  var options = {
-    'key': 'rzp_test_EgXUcvHZRGYEZU',
-    'amount': totalValue! * 100,
-    'name': 'ShoeRack',
-    'description': '$productId',
-    'prefill': {'contact': '', 'email': '$userid'}
-  };
+  // final orderRef = FirebaseFirestore.instance
+  //     .collection('users')
+  //     .doc(email)
+  //     .collection('order');
+  final orderAdminRef = FirebaseFirestore.instance.collection('orders');
+
+  // final cartRef = FirebaseFirestore.instance
+  //     .collection('users')
+  //     .doc(userid)
+  //     .collection('cart');
 
   OrderModel orderModel = OrderModel(
+      userId: userid,
       orderId:
-          '$userID${dataTime.day}/${dataTime.month}/${dataTime.year} - ${dataTime.hour}:${dataTime.minute}',
+          '$userid${dataTime.day}/${dataTime.month}/${dataTime.year} - ${dataTime.hour}:${dataTime.minute}',
       productId: productId,
       totalValue: totalValue,
       addressId: addressId,
       orderStatus: orderStatus,
       orderDate:
-          '${dataTime.day}/${dataTime.month}/${dataTime.year} - ${dataTime.hour}:${dataTime.minute}');
-  orderRef.add(orderModel.toJason());
-  log('added to Orders');
+          '${dataTime.day}/${dataTime.month}/${dataTime.year} - ${dataTime.hour}:${dataTime.minute}:${dataTime.millisecond}');
+  // orderRef.add(orderModel.toJason());
+DocumentReference docRef = await orderAdminRef.add(orderModel.toJason());
+String orderId = docRef.id;
 
+
+orderModel.orderId = orderId;
+
+
+await docRef.update({'orderId': orderId});
+
+log('Added to Orders with ID: $orderId');
   // productId!.forEach((cartId) {
   //   cartRef
   //       .doc(cartId)
@@ -61,41 +59,7 @@ addtoOrders(
   //       .catchError((error) => log('Error deleting cart $cartId: $error'));
   // });
   // log('deleted from cart');
-  _razorpay.open(options);
-
-  _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
-      (PaymentSuccessResponse response) {
-    _handlePaymentSuccess(context!, productId, cartRef);
-  });
-  _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) {
-    _handlePaymentError(response, context!);
-  });
-  _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 }
-
-_handlePaymentSuccess(BuildContext context, List<String>? productId, cartRef) {
-  for (var cartId in productId!) {
-    cartRef
-        .doc(cartId)
-        .delete()
-        .then((_) => log('Deleted cart: $cartId'))
-        .catchError((error) => log('Error deleting cart $cartId: $error'));
-  }
-  log('deleted from cart');
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PaymentSuccessfullScreen(),
-      ));
-  //  navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) => PaymentSuccessfullScreen(),));
-}
-
-_handlePaymentError(PaymentFailureResponse response, BuildContext context) {
-  utils.showSnackbar('Payment was Unsuccessful');
-  Navigator.pop(context);
-}
-
-_handleExternalWallet() {}
 
 Future<QuerySnapshot> getProductId() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -135,9 +99,8 @@ Future<QuerySnapshot> getProductIdFromOrdersActive() async {
   final User? user = auth.currentUser;
   final userID = user!.email;
   final querySnapshot = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(userID)
-      .collection('order')
+      .collection('orders')
+      .where('userId', isEqualTo: userID)
       .where('orderStatus', isEqualTo: 'placed')
       .get();
   return querySnapshot;
@@ -148,10 +111,9 @@ Future<QuerySnapshot> getProductIdFromOrdersCompleted() async {
   final User? user = auth.currentUser;
   final userID = user!.email;
   final querySnapshot = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(userID)
-      .collection('order')
-      // .where('orderStatus',isEqualTo: 'delivered')
+      .collection('orders')
+      .where('userId', isEqualTo: userID)
+      .where('orderStatus', isEqualTo: 'delivered')
       .get();
   return querySnapshot;
 }

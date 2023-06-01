@@ -26,7 +26,6 @@ class ShippingAddressWidget extends StatelessWidget {
         if (addressSnapshot.hasData) {
           final addressData =
               addressSnapshot.data!.data() as Map<String, dynamic>;
-
           return Center(
             child: Container(
               width: size.width * 0.9,

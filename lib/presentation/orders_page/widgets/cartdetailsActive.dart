@@ -49,11 +49,9 @@ class OrderDetailsActive extends StatelessWidget {
                 }
                 if (orderSnapshot.hasData) {
                   //get product id from orders as nested list and convertting into a list of string
-
                   List<String> productId = getListasString(orderSnapshot
                       .data!.docs
                       .map((doc) => doc.get('productId') as List<dynamic>)
-                      
                       .toList());
                   log(productId.toString());
                   List<String> dateTime = getListasString(orderSnapshot
