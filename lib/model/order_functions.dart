@@ -159,3 +159,14 @@ Future<QuerySnapshot> getProducts() async {
       await FirebaseFirestore.instance.collection('product').get();
   return querySnapshot;
 }
+Future<DocumentSnapshot> getOrderStatus(String id) async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.email;
+  final querySnapshot = await FirebaseFirestore.instance
+      .collection('orders')
+      .where('userId', isEqualTo: userID)
+      .where('orderId',isEqualTo: id )
+      .get();
+  return querySnapshot.docs.first;
+}

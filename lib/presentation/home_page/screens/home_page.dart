@@ -117,7 +117,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const BrandListTile(),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(

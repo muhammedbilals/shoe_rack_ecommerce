@@ -55,6 +55,10 @@ class OrderDetailsActive extends StatelessWidget {
                     .data!.docs
                     .map((doc) => doc.get('productId') as List<dynamic>)
                     .toList());
+                    List<String> orderId = getListasString(orderSnapshot
+                    .data!.docs
+                    .map((doc) => doc.get('orderId') as String)
+                    .toList());
                 log(productId.toString());
                 List<String> dateTime = getListasString(orderSnapshot.data!.docs
                     .map((doc) => doc.get('orderDate') as String)
@@ -248,7 +252,7 @@ class OrderDetailsActive extends StatelessWidget {
                                                                   MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            const TrackOrderScreen(),
+                                                                             TrackOrderScreen(orderId: orderId[index]),
                                                                   ));
                                                             },
                                                             child: Container(
