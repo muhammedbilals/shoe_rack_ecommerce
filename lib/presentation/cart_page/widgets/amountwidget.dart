@@ -4,30 +4,11 @@ import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/model/cart_functions.dart';
 
-class AmountWidget extends StatefulWidget {
+class AmountWidget extends StatelessWidget {
   const AmountWidget({
-    super.key,
+    super.key, required this.totalPrice,
   });
-
-  @override
-  State<AmountWidget> createState() => _AmountWidgetState();
-}
-
-class _AmountWidgetState extends State<AmountWidget> {
-  @override
-  void initState() {
-    // getTotalValue();
-    super.initState();
-  }
-
-  void getpice() {
-    final cartRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart');
-    cartRef.doc();
-  }
-
+  final int totalPrice;
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -51,7 +32,7 @@ class _AmountWidgetState extends State<AmountWidget> {
                     style: TextStyle(
                         fontSize: 18, color: colorblack.withOpacity(0.5)),
                   ),
-                  const Text('₹7,500', style: TextStyle(fontSize: 18)),
+                   Text('₹$totalPrice', style: const TextStyle(fontSize: 18)),
                 ],
               ),
             ),
@@ -81,7 +62,7 @@ class _AmountWidgetState extends State<AmountWidget> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: colorblack.withOpacity(0.5))),
-                  const Text('₹7,500', style: TextStyle(fontSize: 20)),
+                   Text('₹$totalPrice', style: const TextStyle(fontSize: 20)),
                 ],
               ),
             ),

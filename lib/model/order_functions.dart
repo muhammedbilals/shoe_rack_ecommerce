@@ -116,7 +116,7 @@ Future<QuerySnapshot> getAddressId() async {
       .collection('users')
       .doc(userID)
       .collection('address')
-      .where('isDefault', isEqualTo: true)
+      // .where('isDefault', isEqualTo: true)
       .get();
 
   return querySnapshot;

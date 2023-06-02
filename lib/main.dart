@@ -4,6 +4,7 @@ import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 // ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shoe_rack_ecommerce/presentation/main_pages/sudo_page.dart';
+import 'package:shoe_rack_ecommerce/presentation/splash_screen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
             GoogleFonts.quicksand(fontWeight: FontWeight.w600).fontFamily,
         primarySwatch: Colors.blue,
       ),
-      home: const SudoPage(),
+      home: const SplashScreen(),
     );
   }
 }

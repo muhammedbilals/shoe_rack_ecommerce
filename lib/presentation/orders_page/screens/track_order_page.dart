@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:shoe_rack_ecommerce/model/order_functions.dart';
-import 'package:shoe_rack_ecommerce/presentation/main_pages/bottomnavigation.dart';
 
 import '../../common_widget/AppBarWidget.dart';
 
@@ -12,6 +11,7 @@ class TextDtoa {
   TextDtoa(this.text, this.text2);
 }
 
+// ignore: must_be_immutable
 class TrackOrderScreen extends StatelessWidget {
   TrackOrderScreen({super.key, required this.orderId});
   final String orderId;

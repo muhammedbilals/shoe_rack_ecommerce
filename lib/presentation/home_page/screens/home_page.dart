@@ -1,10 +1,10 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
-
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/mostpopular_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/screens/my_wishlist_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/home_page/widgets/WishlistButton.dart';
@@ -55,98 +55,99 @@ class HomePage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(children: [
-            // searchBar----------------------
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SearchScreen(),
-                    ));
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      // border: Border(
-                      //   bottom: BorderSide(width: 3, color: colorgreen),
-                      // ),
-                      // boxShadow: [
-                      //   BoxShadow(blurRadius: 25),
-                      // ],
+          child: Column(
+            children: [
+              // searchBar----------------------
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchScreen(),
+                      ));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        // border: Border(
+                        //   bottom: BorderSide(width: 3, color: colorgreen),
+                        // ),
+                        // boxShadow: [
+                        //   BoxShadow(blurRadius: 25),
+                        // ],
 
-                      color: colorgray,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(9.0),
-                        child: Icon(
-                          CustomIcon.search_2iconfluttter,
-                          size: 20,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        width: 300,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'search',
-                            style: TextStyle(fontSize: 17),
+                        color: colorgray,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: const Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(9.0),
+                          child: Icon(
+                            CustomIcon.search_2iconfluttter,
+                            size: 20,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                width: size.width,
-                height: 200,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                child: Image.asset(
-                  'asset/images/Group23pumalogo.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            const BrandListTile(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Most Popular',
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.start,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MostPopularPage(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'SEE ALL',
-                      style: TextStyle(fontSize: 18),
-                      textAlign: TextAlign.start,
+                        SizedBox(
+                          height: 40,
+                          width: 300,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'search',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-            sbox,
-            StreamBuilder<QuerySnapshot>(
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  width: size.width,
+                  height: 200,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  child: Image.asset(
+                    'asset/images/Group23pumalogo.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              const BrandListTile(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Most Popular',
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.start,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MostPopularPage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'SEE ALL',
+                        style: TextStyle(fontSize: 18),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              sbox,
+              StreamBuilder<QuerySnapshot>(
                 stream: _usersStream,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -179,7 +180,7 @@ class HomePage extends StatelessWidget {
                                     ProductPage(id: data['id']),
                               ));
                           valueNotifier.value = data['id'];
-                          print('value notifirer value ${data['id']}');
+                          log('value notifirer value ${data['id']}');
                         },
                         child: SizedBox(
                           width: size.width * 0.6,
@@ -289,29 +290,10 @@ class HomePage extends StatelessWidget {
                       );
                     }).toList(),
                   );
-                }),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: const [
-
-            //     ProductCardWidget(),
-            //   ],
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: const [
-
-            //     ProductCardWidget(),
-            //   ],
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: const [
-            //     ProductCardWidget(),
-            //     ProductCardWidget(),
-            //   ],
-            // ),
-          ]),
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -325,8 +307,6 @@ final CollectionReference userCollection = FirebaseFirestore.instance
     .collection('users')
     .doc(userID)
     .collection('wishlist');
-
-// DocumentReference usersRef = FirebaseFirestore.instance.collection('product').doc();
 
 class BrandTileWidget extends StatelessWidget {
   final String image;

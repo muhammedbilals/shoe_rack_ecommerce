@@ -8,7 +8,7 @@ List<String> productId = [];
 List<Map<dynamic, dynamic>> list = [];
 List<Product> products = [];
 List<int> productCount = [];
-List<int> totalprice = [];
+// List<int> totalprice = [];
 final userID = FirebaseAuth.instance.currentUser!.email;
 final cartRef = FirebaseFirestore.instance
     .collection('users')
@@ -46,98 +46,94 @@ laodCartData() async {
   }).catchError((error) {
     log('Error getting subcollection documents: $error');
   });
-  
- final product = await productRef
-        .where('id', whereIn: productId)
-        .get();
-    List<DocumentSnapshot> documentList = product.docs;
 
-    for (var document in documentList) {
-      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-      Product product = Product.fromJson(data);
-      products.add(product);
-    }
-    // setState(() {
-      products = products;
-    // });
-  
+  final product = await productRef.where('id', whereIn: productId).get();
+  List<DocumentSnapshot> documentList = product.docs;
 
-    log(products[0].name.toString());
+  for (var document in documentList) {
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    Product product = Product.fromJson(data);
+    products.add(product);
+  }
+  // setState(() {
+  products = products;
+  // });
+
+  log(products[0].name.toString());
 }
 
+// getTotalProductValue(String id, int productPrice, int productCount) async {
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+//   final User? user = auth.currentUser;
+//   final userID = user!.email;
+//   final cartRef = FirebaseFirestore.instance
+//       .collection('users')
+//       .doc(userID)
+//       .collection('cart')
+//       .doc(id);
+//   // final doc = cartRef.get();
+//   await cartRef.update({'totalPrice': productPrice * productCount});
+// }
 
- getTotalProductValue(String id, int productPrice, int productCount) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final cartRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .doc(id);
-    // final doc = cartRef.get();
-    await cartRef.update({'totalPrice': productPrice * productCount});
-  }
+addOrRemoveFromcart(String id, bool? incriment, int price) async {
+  //to update cart product count
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.email;
+  final collectionReference = FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('cart')
+      .doc(id);
 
-  addOrRemoveFromcart(String id, bool? incriment,int price) async {
-    //to update cart product count
-    final FirebaseAuth auth =  FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final collectionReference = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .doc(id);
+  //to get product count
+  final DocumentSnapshot docSnapshot = await collectionReference.get();
+  final dynamic productCount = docSnapshot['productCount'];
+  if (incriment == true) {
+    if (productCount < 5) {
+      collectionReference.update({
+        'productCount': productCount + 1,
+        'totalPrice': docSnapshot['totalPrice'] + price,
+      });
 
-       
- 
-    //to get product count
-    final DocumentSnapshot docSnapshot = await collectionReference.get();
-    final dynamic productCount = docSnapshot['productCount'];
-    if (incriment == true) {
-      if (productCount < 5) {
-        collectionReference.update({
-          'productCount': productCount + 1,
-          'totalPrice': price*(productCount+1)
-        });
-
-        log('added again cart');
-      } else {
-        return;
-      }
+      log('added again cart');
     } else {
-      if (productCount > 1) {
-        collectionReference.update({
-          'productCount': productCount - 1,
-          'totalPrice': price*(productCount-1)
-        });
+      return;
+    }
+  } else {
+    if (productCount > 1) {
+      collectionReference.update({
+        'productCount': productCount - 1,
+        'totalPrice': docSnapshot['totalPrice'] - price,
+      });
 
-        log('removed again cart');
-      } else if (productCount <= 1) {
-        collectionReference.delete();
-      }
+      log('removed again cart');
+    } else if (productCount <= 1) {
+      collectionReference.delete();
     }
   }
-   Future<QuerySnapshot> getProductIdfromCart() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final querySnapshot = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .get();
-    return querySnapshot;
-  }
-   Stream<QuerySnapshot> getTotalValue() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user!.email;
-    final querySnapshot = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('cart')
-        .snapshots();
-    return querySnapshot;
-  }
+}
+
+Future<QuerySnapshot> getProductIdfromCart() {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.email;
+  final querySnapshot = FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('cart')
+      .get();
+  return querySnapshot;
+}
+
+Stream<QuerySnapshot> getTotalValue() {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final User? user = auth.currentUser;
+  final userID = user!.email;
+  final querySnapshot = FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('cart')
+      .snapshots();
+  return querySnapshot;
+}

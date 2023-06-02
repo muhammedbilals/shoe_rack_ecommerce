@@ -22,20 +22,25 @@ class CartPage extends StatefulWidget {
 }
 
 ValueNotifier<int> totalCartTotalNotifier = ValueNotifier(0);
+ValueNotifier<List<dynamic>> previousProductPrice =
+    ValueNotifier<List<dynamic>>([]);
 int updateTotalPrice(List<dynamic> productPrices) {
   int totalValue = 0;
+
   for (int i = 0; i < productPrices.length; i++) {
     totalValue += productPrices[i] as int;
   }
+
   log(totalValue.toString());
+  log(productPrices.toString());
+
+  // Update the previousProductPrice outside the function
+
   return totalValue;
-  // totalCartTotalNotifier.value = totalValue;
 }
 
 class _CartPageState extends State<CartPage> {
   // ValueNotifier<int> totalPriceNotifier = ValueNotifier(0);
-
-  int totalPrice = 0;
 
   // int getTotalCarttValue(List<dynamic> totalPrice) {
   //   dynamic totalValue = 0;
@@ -45,11 +50,11 @@ class _CartPageState extends State<CartPage> {
   //   return totalValue;
   // }
 
-  Stream<QuerySnapshot> getProducts() {
+  Future<QuerySnapshot> getProducts() {
     // final FirebaseAuth auth = FirebaseAuth.instance;
 
     final querySnapshot =
-        FirebaseFirestore.instance.collection('product').snapshots();
+        FirebaseFirestore.instance.collection('product').get();
     return querySnapshot;
   }
 
@@ -83,8 +88,8 @@ class _CartPageState extends State<CartPage> {
                             .toList();
                         log('${productId.toString()}productId');
                         //streambuilder to get products using product id added in the cart
-                        return StreamBuilder<QuerySnapshot>(
-                          stream: getProducts(),
+                        return FutureBuilder<QuerySnapshot>(
+                          future: getProducts(),
                           builder: (context, productSnapshot) {
                             log('get products strream called');
 
@@ -103,16 +108,7 @@ class _CartPageState extends State<CartPage> {
                                   .data!.docs
                                   .map((doc) => doc.get('totalPrice'))
                                   .toList();
-                              // if (totalPrice == 0.0) {
-                              //   WidgetsBinding.instance
-                              //       .addPostFrameCallback((_) {
-                              //     updateTotalPrice(productPrice);
-                              //   });
-                              // }
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                // int totalValue = updateTotalPrice(productPrice);
-                                // totalCartTotalNotifier.value = totalValue;
-                              });
+                            
 
                               return product.isNotEmpty
                                   ? ListView.builder(
@@ -416,16 +412,7 @@ class _CartPageState extends State<CartPage> {
                                                             }
                                                             if (snapshot
                                                                 .hasData) {
-                                                              // //get the cart value of individual cartItem and saving it as a field
-                                                              getTotalProductValue(
-                                                                  productId[
-                                                                      index],
-                                                                  productPrice[
-                                                                      index],
-                                                                  snapshot.data[
-                                                                          'productCount'] ??
-                                                                      1);
-                                                              //TODO
+                                                              
                                                             }
 
                                                             return Padding(
@@ -584,73 +571,87 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
           ),
-          StreamBuilder(
-            stream: getTotalValue(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasData) {
-                List<dynamic> productPrice = snapshot.data!.docs
-                    .map((doc) => doc.get('totalPrice'))
-                    .toList();
-                int totalPrice = updateTotalPrice(productPrice);
+          ValueListenableBuilder(
+            valueListenable: previousProductPrice,
+            builder: (context, value, child) {
+              return StreamBuilder(
+                stream: getTotalValue(),
+                builder: (context, snapshot) {
+                  int totalPrice = 0;
 
-                return Visibility(
-                  visible: totalPrice != 0,
-                  child: Positioned(
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      color: colorwhite,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: size.width * 0.22,
-                              height: size.width * 0.14,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Total Price',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: colorblack.withOpacity(0.5),
-                                    ),
+                  if (snapshot.hasError) {
+                    return Text('Error = ${snapshot.error}');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasData) {
+                    List<dynamic> productPrice = snapshot.data!.docs
+                        .map((doc) => doc.get('totalPrice'))
+                        .toList();
+
+                    if (totalPrice != value) {
+                      totalPrice = updateTotalPrice(productPrice);
+                    }
+
+                    return Visibility(
+                      visible: totalPrice != 0,
+                      child: Positioned(
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          color: colorwhite,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: size.width * 0.22,
+                                  height: size.width * 0.14,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Total Price',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: colorblack.withOpacity(0.5),
+                                        ),
+                                      ),
+                                      Text(
+                                        '₹${totalPrice.toString()}',
+                                        style: const TextStyle(
+                                          fontSize: 27,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    '₹${totalPrice.toString()}',
-                                    style: const TextStyle(
-                                      fontSize: 27,
-                                    ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: CustomButton(
+                                    text: 'Checkout',
+                                    icon: CustomIcon.ticksquareiconfluttter,
+                                    width: 0.69,
+                                    widget:
+                                        CheckoutScreen(totalPrice: totalPrice),
                                   ),
-                                ],
-                              ),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: CustomButton(
-                                text: 'Checkout',
-                                icon: CustomIcon.ticksquareiconfluttter,
-                                width: 0.69,
-                                widget: const CheckoutScreen(),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }
-              return const Text('loading');
+                    );
+                  }
+                  return const Text('loading');
+                },
+              );
             },
           )
         ],

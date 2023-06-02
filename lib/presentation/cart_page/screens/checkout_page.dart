@@ -3,27 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/constant/constant.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
+import 'package:shoe_rack_ecommerce/core/utils/utils.dart';
 import 'package:shoe_rack_ecommerce/model/order_functions.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/amountwidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/cartdetailswidget_checkout_page.dart';
 import 'package:shoe_rack_ecommerce/presentation/cart_page/widgets/shippingadresswidget.dart';
 import 'package:shoe_rack_ecommerce/presentation/common_widget/AppBarWidget.dart';
 
-class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
-
-  @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
-}
-
-class _CheckoutScreenState extends State<CheckoutScreen> {
-
-  @override
-  void initState() {
-  
-    super.initState();
-  }
-
+class CheckoutScreen extends StatelessWidget {
+  const CheckoutScreen({super.key, required this.totalPrice});
+  final int totalPrice;
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -75,7 +64,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               sbox,
-              const AmountWidget(),
+              AmountWidget(totalPrice: totalPrice),
               sbox,
               //future builder to get selceted address where contains a field set to true
               FutureBuilder<QuerySnapshot>(
@@ -139,15 +128,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                // if (addressId !="") {
-                                
-
-                                addtoOrders(
-                                    context: ccontext,
-                                    productId: productId,
-                                    addressId: addressId,
-                                    totalValue: totalvalue,
-                                    orderStatus: 'Placed');
+                                // if (addressId != "") {
+                                  addtoOrders(
+                                      context: ccontext,
+                                      productId: productId,
+                                      addressId: addressId,
+                                      totalValue: totalvalue,
+                                      orderStatus: 'Placed');
                                 // } else {
                                 //   utils.showSnackbar('Please add an address');
                                 // }
@@ -178,6 +165,4 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     );
   }
-
-
 }
