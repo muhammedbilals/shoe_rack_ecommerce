@@ -8,7 +8,6 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
     return DefaultTabController(
       length: 2,
       child: SafeArea(

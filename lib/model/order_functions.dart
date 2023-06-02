@@ -62,7 +62,7 @@ addtoOrders(
           .then((_) => log('Deleted cart: $cartId'))
           .catchError((error) => log('Error deleting cart $cartId: $error'));
     }
-    
+
     log('deleted from cart');
     // ignore: use_build_context_synchronously
     Navigator.push(
@@ -82,8 +82,6 @@ addtoOrders(
     //     ));
   }
 
-
-
   _razorpay.open(options);
   _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
       (PaymentSuccessResponse response) {
@@ -92,7 +90,6 @@ addtoOrders(
   _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) {
     _handlePaymentError(response, context!);
   });
-
 }
 
 Future<QuerySnapshot> getProductId() async {
@@ -137,7 +134,7 @@ Future<QuerySnapshot> getProductIdFromOrdersActive() async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection('orders')
       .where('userId', isEqualTo: userID)
-      .where('orderStatus', isEqualTo: 'Placed')
+      // .where('orderStatus', isEqualTo: 'Placed')
       .get();
   return querySnapshot;
 }
@@ -159,6 +156,7 @@ Future<QuerySnapshot> getProducts() async {
       await FirebaseFirestore.instance.collection('product').get();
   return querySnapshot;
 }
+
 Future<DocumentSnapshot> getOrderStatus(String id) async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? user = auth.currentUser;
@@ -166,7 +164,14 @@ Future<DocumentSnapshot> getOrderStatus(String id) async {
   final querySnapshot = await FirebaseFirestore.instance
       .collection('orders')
       .where('userId', isEqualTo: userID)
-      .where('orderId',isEqualTo: id )
+      .where('orderId', isEqualTo: id)
       .get();
   return querySnapshot.docs.first;
+}
+
+deleteFromOrders(String id) async {
+  final orderRef =
+      await FirebaseFirestore.instance.collection('orders').doc(id);
+  orderRef.delete();
+  log('deleted from ORder :$id');
 }

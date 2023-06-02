@@ -22,7 +22,44 @@
           }
         },
         {
-          "client_id": "785396972421-8uaoh5ledoohrq428v4sfqirsei7di1a.apps.googleusercontent.com",
+          "client_id": "785396972421-bbhgv3p586pnlmvovsc6ttu7r3cm7529.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecom.shoe_rack",
+            "certificate_hash": "9f815e11401715be78a1b77980db1c499b607061"
+          }
+        },
+        {
+          "client_id": "785396972421-uff99ts3tdoaj5kv8g16mrsbndctv43g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB77dtOW2uqIWX0QAmZ_Yu2xHCtD1Fuks8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785396972421-8uaoh5ledoohrq428v4sfqirsei7di1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785396972421:android:dcfc5165d87e98a210e2ec",
+        "android_client_info": {
+          "package_name": "com.ecom.shoe_rack_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785396972421-uff99ts3tdoaj5kv8g16mrsbndctv43g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

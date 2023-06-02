@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily:
             GoogleFonts.quicksand(fontWeight: FontWeight.w600).fontFamily,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const SplashScreen(),
     );

@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
       if (password!.isEmpty) {
         return 'Password empty';
       } else if (password.length < 8) {
-        return 'sdafhlkdshf';
+        return 'password must be 8 digits';
       }
       return null;
     }
@@ -103,7 +103,7 @@ class LoginPage extends StatelessWidget {
                 sbox,
                 TextFieldSignUp(
                     passwordVisible: true,
-                    isNumberPad: true,
+                    // isNumberPad: true,
                     validator: passwordValidator,
                     // formKey: formKey,
                     controller: passwordController,

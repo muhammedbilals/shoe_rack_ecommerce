@@ -1,6 +1,6 @@
 class OrderModel {
   String? orderId;
-  List<String>? productId;
+  List<dynamic>? productId;
   int? totalValue;
   String? addressId;
   String? paymentMethode;
