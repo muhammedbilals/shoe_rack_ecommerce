@@ -108,7 +108,6 @@ class _CartPageState extends State<CartPage> {
                                   .data!.docs
                                   .map((doc) => doc.get('totalPrice'))
                                   .toList();
-                            
 
                               return product.isNotEmpty
                                   ? ListView.builder(
@@ -411,9 +410,7 @@ class _CartPageState extends State<CartPage> {
                                                                   'Something went wrong');
                                                             }
                                                             if (snapshot
-                                                                .hasData) {
-                                                              
-                                                            }
+                                                                .hasData) {}
 
                                                             return Padding(
                                                               padding:
@@ -607,29 +604,31 @@ class _CartPageState extends State<CartPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  width: size.width * 0.22,
-                                  height: size.width * 0.14,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Total Price',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: colorblack.withOpacity(0.5),
+                                Material(
+                                  child: SizedBox(
+                                    width: size.width * 0.22,
+                                    height: size.width * 0.14,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Total Price',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: colorblack.withOpacity(0.5),
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        '₹${totalPrice.toString()}',
-                                        style: const TextStyle(
-                                          fontSize: 27,
+                                        Text(
+                                          '₹${totalPrice.toString()}',
+                                          style: const TextStyle(
+                                            fontSize: 27,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(

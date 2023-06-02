@@ -68,7 +68,10 @@ class _WishListScreenState extends State<WishListScreen> {
       backgroundColor: colorwhite,
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: 'My Wishlist',leadingIcon: true,)),
+          child: AppBarWidget(
+            title: 'My Wishlist',
+            leadingIcon: true,
+          )),
       body: SingleChildScrollView(
         child: Column(children: [
           StreamBuilder<QuerySnapshot>(
@@ -84,7 +87,7 @@ class _WishListScreenState extends State<WishListScreen> {
                 // return const Text('Something went wrong');
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
+                  return const Center(child: Text("Loading"));
                 }
                 if (!snapshot.hasData ||
                     snapshot.data!.docs.isEmpty ||

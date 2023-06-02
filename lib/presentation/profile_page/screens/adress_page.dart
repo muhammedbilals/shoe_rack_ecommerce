@@ -75,71 +75,84 @@ class _AddressScreenState extends State<AddressScreen> {
                 Column(
                   children: List.generate(
                     adress.length,
-                    (index) => Column(
-                      children: [
-                        Container(
-                          width: size.width * 0.9,
-                          height: size.width * 0.25,
-                          decoration: BoxDecoration(
-                              color: colorgray,
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Center(
-                            child: ListTile(
-                              leading: Container(
-                                width: size.width * 0.15,
+                    (index) => adress.isNotEmpty
+                        ? Column(
+                            children: [
+                              Container(
+                                width: size.width * 0.9,
                                 height: size.width * 0.25,
                                 decoration: BoxDecoration(
-                                    color: colorgreen, shape: BoxShape.circle),
-                                child:
-                                    const Icon(CustomIcon.locationiconfluttter),
-                              ),
-                              title: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    sbox,
-                                    sbox,
-                                    Text(
-                                      adress[index].addressType,
-                                      style: const TextStyle(fontSize: 19),
+                                    color: colorgray,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Center(
+                                  child: ListTile(
+                                    leading: Container(
+                                      width: size.width * 0.15,
+                                      height: size.width * 0.25,
+                                      decoration: BoxDecoration(
+                                          color: colorgreen,
+                                          shape: BoxShape.circle),
+                                      child: const Icon(
+                                          CustomIcon.locationiconfluttter),
                                     ),
-                                    Text(
-                                      "${adress[index].houseName},${adress[index].pinCode.toString()},${adress[index].city}",
-                                      // 'Rose avenue,695600,Kerala',
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 15,
-                                          color: colorblack.withOpacity(0.5)),
+                                    title: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          sbox,
+                                          sbox,
+                                          Text(
+                                            adress[index].addressType,
+                                            style:
+                                                const TextStyle(fontSize: 19),
+                                          ),
+                                          Text(
+                                            "${adress[index].houseName},${adress[index].pinCode.toString()},${adress[index].city}",
+                                            // 'Rose avenue,695600,Kerala',
+                                            style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 15,
+                                                color: colorblack
+                                                    .withOpacity(0.5)),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
+                                    trailing: ValueListenableBuilder(
+                                      valueListenable: selectedAddressNotifier,
+                                      builder: (context, selectedAddressIndex,
+                                              child) =>
+                                          Radio(
+                                        fillColor:
+                                            MaterialStatePropertyAll<Color>(
+                                                colorgreen),
+                                        value: selectedAddressIndex == index,
+                                        groupValue: true,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedAddressIndex = index;
+                                            selectedAddressNotifier.value =
+                                                index;
+                                          });
+                                          updateDefaultValue(
+                                              adress[index].id.toString());
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              trailing: ValueListenableBuilder(
-                                valueListenable: selectedAddressNotifier,
-                                builder:
-                                    (context, selectedAddressIndex, child) =>
-                                        Radio(
-                                  fillColor: MaterialStatePropertyAll<Color>(
-                                      colorgreen),
-                                  value: selectedAddressIndex == index,
-                                  groupValue: true,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedAddressIndex = index;
-                                      selectedAddressNotifier.value = index;
-                                    });
-                                    updateDefaultValue(
-                                        adress[index].id.toString());
-                                  },
-                                ),
-                              ),
+                              sbox,
+                            ],
+                          )
+                        : SizedBox(
+                            height: size.height * 0.7,
+                            child: const Center(
+                              child: Text('No adress found'),
                             ),
                           ),
-                        ),
-                        sbox,
-                      ],
-                    ),
                   ),
                 ),
                 sbox,
