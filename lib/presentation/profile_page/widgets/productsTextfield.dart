@@ -59,7 +59,7 @@ class ProductsTextField extends StatelessWidget {
                           // cursorHeight: 20,
                           decoration: InputDecoration.collapsed(
                               hintText: title,
-                              hintStyle: TextStyle(fontSize: 20)),
+                              hintStyle: const TextStyle(fontSize: 20)),
                         ),
                       ),
                     ),

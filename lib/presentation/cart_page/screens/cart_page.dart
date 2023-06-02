@@ -104,10 +104,10 @@ class _CartPageState extends State<CartPage> {
 
                               //to get product price based on product id
 
-                              List<dynamic> productPrice = cartSnapshot
-                                  .data!.docs
-                                  .map((doc) => doc.get('totalPrice'))
-                                  .toList();
+                              // List<dynamic> productPrice = cartSnapshot
+                              //     .data!.docs
+                              //     .map((doc) => doc.get('totalPrice'))
+                              //     .toList();
 
                               return product.isNotEmpty
                                   ? ListView.builder(

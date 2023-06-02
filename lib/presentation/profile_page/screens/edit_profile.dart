@@ -39,9 +39,9 @@ class EditProfile extends StatelessWidget {
                 EditScreenTextField(
                     hinttext: 'Name', controller: namecontroller),
                 sbox,
-                EditScreenTextField(hinttext: 'Phone Number'),
+                const EditScreenTextField(hinttext: 'Phone Number'),
                 sbox,
-                EditScreenTextField(hinttext: 'Email'),
+                const EditScreenTextField(hinttext: 'Email'),
                 sbox,
               ],
             ),

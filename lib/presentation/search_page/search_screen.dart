@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
 import 'package:shoe_rack_ecommerce/core/icons/custom_icon_icons.dart';
 import 'package:shoe_rack_ecommerce/core/model/product.dart';
@@ -51,7 +50,7 @@ class SearchScreen extends StatelessWidget {
                   builder: (context, setState) {
                     return Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.all(9.0),
                           child: Icon(
                             CustomIcon.search_2iconfluttter,
@@ -63,7 +62,7 @@ class SearchScreen extends StatelessWidget {
                           width: 300,
                           child: Center(
                             child: TextField(
-                                decoration: InputDecoration.collapsed(
+                                decoration: const InputDecoration.collapsed(
                                     hintText: 'Search',
                                     hintStyle: TextStyle(fontSize: 19)),
                                 onChanged: (value) {
@@ -203,7 +202,7 @@ class SearchScreen extends StatelessWidget {
                                       ),
                                     )));
                       }
-                      return Text('data');
+                      return const Text('data');
                     });
               },
             ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoe_rack_ecommerce/core/colors/colors.dart';
@@ -37,7 +39,7 @@ class SignUpScreen extends StatelessWidget {
         currentuser.updateDisplayName(nameController.text);
      
       } on FirebaseAuthException catch (e) {
-        print(e);
+        log(e.toString());
         utils.showSnackbar(e.message);
       }
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
