@@ -12,14 +12,6 @@ class OrdersListScreen extends StatelessWidget {
   OrdersListScreen({super.key, required this.product});
   final List<Product> product;
 
-  List<Product> filterProducts(
-      List<Product> productList, List<dynamic> productIdList) {
-    return productList
-        .where(
-          (product) => productIdList.contains(product.id),
-        )
-        .toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +34,7 @@ class OrdersListScreen extends StatelessWidget {
                     );
                   } else if (productSnapshot.hasError) {}
                   if (productSnapshot.hasData) {
-                    // List<Product> product = productSnapshot.data!.docs
-                    //     .map((doc) =>
-                    //         Product.fromJson(doc.data() as Map<String, dynamic>))
-                    //     .where((product) => productIdList.contains(product.id))
-                    //     .toList();
-                    // log(product[0].name);
-                    // List<Product> orderProduct =
-                    //     filterProducts(product, productIdList);
-                    // if (orderProduct.isNotEmpty) {
-                    //   log(orderProduct[0].name);
-                    // }
+                   
                     return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: product.length,

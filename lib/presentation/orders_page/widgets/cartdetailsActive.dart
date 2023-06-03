@@ -31,7 +31,7 @@ class OrderDetailsActive extends StatelessWidget {
                 return Text('Error: ${orderSnapshot.error}');
               }
               if (orderSnapshot.hasData) {
-                final orderAllList = orderSnapshot.data!.docs.toList();
+               
                 final order = orderSnapshot.data!.docs
                     .map(
                       (doc) => OrderModel.fromJason(
